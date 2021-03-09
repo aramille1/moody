@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { Button, View, Text, SafeAreaView } from 'react-native';
 
-const ThirdPage = ({ navigation }) => {
+const EditMood = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 16 }}>
@@ -42,4 +42,4 @@ const ThirdPage = ({ navigation }) => {
   );
 };
 
-export default ThirdPage;
+export default EditMood;

@@ -12,7 +12,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Main from './components/Main';
 import SecondPage from './components/SecondPage';
-import ThirdPage from './components/ThirdPage';
+import EditMood from './components/EditMood';
 
 // Import Custom Sidebar
 import CustomSidebarMenu from './components/CustomSidebarMenu';
@@ -94,14 +94,14 @@ function secondScreenStack({ navigation }) {
   );
 }
 
-function thirdScreenStack({ navigation }) {
+function moodScreenStack({ navigation }) {
   return (
-    <Stack.Navigator initialRouteName="ThirdPage">
+    <Stack.Navigator initialRouteName="EditMood">
       <Stack.Screen
-        name="ThirdPage"
-        component={ThirdPage}
+        name="EditMood"
+        component={EditMood}
         options={{
-          title: 'Third Page', //Set Header Title
+          title: 'Edit Mood', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -138,9 +138,9 @@ function App() {
           component={secondScreenStack}
         />
         <Drawer.Screen
-          name="ThirdPage"
-          options={{ drawerLabel: 'Third page Option' }}
-          component={thirdScreenStack}
+          name="EditMood"
+          options={{ drawerLabel: 'Edit Mood' }}
+          component={moodScreenStack}
         />
       </Drawer.Navigator>
     </NavigationContainer>

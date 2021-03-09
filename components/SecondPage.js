@@ -28,7 +28,7 @@ const SecondPage = ({ navigation }) => {
           />
           <Button
             title="Go to Third Page"
-            onPress={() => navigation.navigate('ThirdPage')}
+            onPress={() => navigation.navigate('EditMood')}
           />
         </View>
         <Text style={{ fontSize: 18, textAlign: 'center', color: 'grey' }}>

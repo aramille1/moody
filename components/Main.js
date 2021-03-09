@@ -200,7 +200,7 @@
                 paddingRight:10,
                 borderRadius:40
               }}
-              onPress={() => navigation.navigate('ThirdPage')}
+              onPress={() => navigation.navigate('EditMood')}
             >+</Text>
          </View>
  
