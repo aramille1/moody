@@ -10,12 +10,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Main from './components/Main';
+import Main from './components/Main/Main';
 import SecondPage from './components/SecondPage';
-import EditMood from './components/EditMood';
+import EditMood from './components/EditMood/EditMood';
 
 // Import Custom Sidebar
-import CustomSidebarMenu from './components/CustomSidebarMenu';
+import CustomSidebarMenu from './components/CustomSidebarMenu/CustomSidebarMenu';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
