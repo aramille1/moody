@@ -3,9 +3,13 @@
 
 import * as React from 'react';
 import { Button, View, Text, SafeAreaView } from 'react-native';
-import MyMoodSettings from '../MyMoodSettings/MyMoodSettings.js'
+import MyMoodSettings from '../MyMoodSettings/MyMoodSettings.js';
+
+// export const MoodContext = React.createContext();
+
 const EditMood = ({ navigation }) => {
   return (
+  
     <SafeAreaView style={{ flex: 1 }}>
       <View >
 
