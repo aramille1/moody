@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
-import AddMessage from '../AddMessage';
+import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../../App';
+import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
 import Modal from 'react-native-modal';
 
 
@@ -28,13 +28,13 @@ export default function AvatarMessageModal({ setMessage, value }) {
 
             {/* little message */}
             <View style={{
-                position: "absolute", top: -135, left: mood.value == 10 ? "90%" :
-                    mood.value == 0 ? "10%" : mood.value == 9 ? "80%" : (mood.value * 10) + "%"
+                position: "absolute", top: -145, left: mood.values == 10 ? "90%" :
+                    mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
             }}>
                 <TouchableHighlight
                     style={styles.openButton}
                     onPress={() => {
-                        mood.setModalVisible(true);
+                        mood.setModalVisible(!mood.modalVisible);
                     }}>
                     <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
                 </TouchableHighlight>

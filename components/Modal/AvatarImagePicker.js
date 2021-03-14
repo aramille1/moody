@@ -4,7 +4,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 // import Video from 'react-native-video';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import { MoodContext } from '../../App';
+import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
 
 
 const styles = StyleSheet.create({
@@ -198,7 +198,7 @@ export default class AvatarImagePicker extends Component {
             <MoodContext.Consumer>
                 {
                     mood => <>
-                        <TouchableOpacity style={styles.uploadImg} onPress={() => mood.setImgPickerModal(true)}>
+                        <TouchableOpacity style={styles.uploadImg} onPress={() => mood.setImgPickerModal(!mood.imgPickerModal)}>
                             <Text style={{ color: "white" }}>upload / edit</Text>
                             <Text style={{ color: "white" }}>profile photo</Text>
                         </TouchableOpacity>

@@ -11,11 +11,11 @@ import {
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import CustomMarker from '../CustomMarker/CustomMarker.js';
-// import SetAvatarMessageModal from '../Modal/SetAvatarMessageModal';
+import SetAvatarMessageModal from '../Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../Modal/LeftSideMessageModal';
 import RightSideMessageModal from '../Modal/RightSideMessageModal';
 // import { MoodContext } from '../App';
-// import AvatarImagePicker from '../components/Modal/AvatarImagePicker'
+import AvatarImagePicker from '../Modal/AvatarImagePicker'
 
 import gradient from '../../assets/gradient.png';
 import bg from '../../assets/css-gradient.png';
@@ -30,21 +30,23 @@ export default class MyMoodSettings extends Component {
       image: null,
       images: null,
       values: 5,
+      message: '',
       leftSideMessage: 'sad',
-      rightSideMessage: 'happy'
+      rightSideMessage: 'happy',
+      imgPickerModal: false,
+      modalVisible: false
     };
   }
-  setleftSideMessage = (text) =>{
-    this.setState({
-        leftSideMessage: text
-    })
-  }
+  setleftSideMessage = (text) =>this.setState({leftSideMessage: text})
 
-  setRightSideMessage = (text) =>{
-    this.setState({
-        rightSideMessage: text
-    })
-  }
+  setRightSideMessage = (text) => this.setState({rightSideMessage: text})
+
+  setMessage = (message) => this.setState({message: message})
+
+  setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
+
+  setModalVisible = (newVal) => this.setState({modalVisible: newVal})
+
   render() {
     return (
       <MoodContext.Provider
@@ -53,7 +55,13 @@ export default class MyMoodSettings extends Component {
           leftSideMessage: this.state.leftSideMessage,
           setleftSideMessage: this.setleftSideMessage,
           rightSideMessage :this.state.rightSideMessage,
-          setRightSideMessage: this.setRightSideMessage
+          setRightSideMessage: this.setRightSideMessage,
+          message: this.state.message,
+          setMessage: this.setMessage,
+          imgPickerModal: this.state.imgPickerModal,
+          setImgPickerModal: this.setImgPickerModal,
+          modalVisible: this.state.modalVisible,
+          setModalVisible: this.setModalVisible
         }}>
         <ImageBackground
           source={bg}
@@ -93,7 +101,7 @@ export default class MyMoodSettings extends Component {
                 }}
                 markerOffsetY={20}
                 markerSize={0}
-                // customLabel={CustomLabel}
+                customLabel={CustomLabel}
                 customMarker={CustomMarker}
                 sliderLength={300}
                 // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
@@ -104,7 +112,7 @@ export default class MyMoodSettings extends Component {
               />
             </ImageBackground>
 
-            {/* <SetAvatarMessageModal setMessage={mood.setMessage} value={mood.value} /> */}
+            <SetAvatarMessageModal setMessage={this.setMessage} value={this.state.values} />
 
             {/* sad and happy indicators */}
             <Text style={{color: 'black'}}>{this.state.values}</Text>
@@ -130,7 +138,7 @@ export default class MyMoodSettings extends Component {
             {/* end */}
           </View>
 
-          {/* <AvatarImagePicker /> */}
+          <AvatarImagePicker />
         </ImageBackground>
       </MoodContext.Provider>
     );
