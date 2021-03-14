@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useContext} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -12,8 +12,8 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import CustomMarker from '../CustomMarker/CustomMarker.js';
 // import SetAvatarMessageModal from '../Modal/SetAvatarMessageModal';
-// import LeftSideMessageModal from '../Modal/LeftSideMessageModal';
-// import RightSideMessageModal from '../Modal/RightSideMessageModal';
+import LeftSideMessageModal from '../Modal/LeftSideMessageModal';
+import RightSideMessageModal from '../Modal/RightSideMessageModal';
 // import { MoodContext } from '../App';
 // import AvatarImagePicker from '../components/Modal/AvatarImagePicker'
 
@@ -30,15 +30,30 @@ export default class MyMoodSettings extends Component {
       image: null,
       images: null,
       values: 5,
+      leftSideMessage: 'sad',
+      rightSideMessage: 'happy'
     };
   }
-  // mood = useContext(MoodContext)
+  setleftSideMessage = (text) =>{
+    this.setState({
+        leftSideMessage: text
+    })
+  }
 
+  setRightSideMessage = (text) =>{
+    this.setState({
+        rightSideMessage: text
+    })
+  }
   render() {
     return (
       <MoodContext.Provider
         value={{
           values: this.state.values,
+          leftSideMessage: this.state.leftSideMessage,
+          setleftSideMessage: this.setleftSideMessage,
+          rightSideMessage :this.state.rightSideMessage,
+          setRightSideMessage: this.setRightSideMessage
         }}>
         <ImageBackground
           source={bg}
@@ -100,7 +115,7 @@ export default class MyMoodSettings extends Component {
                   width: 100,
                   height: '100%',
                 }}>
-                {/* <LeftSideMessageModal /> */}
+                <LeftSideMessageModal />
               </View>
               <View
                 style={{
@@ -109,7 +124,7 @@ export default class MyMoodSettings extends Component {
                   height: '100%',
                   alignItems: 'flex-end',
                 }}>
-                {/* <RightSideMessageModal /> */}
+                <RightSideMessageModal />
               </View>
             </View>
             {/* end */}

@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
-import AddMessage from '../AddMessage';
+import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../../App';
+import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
 import Modal from 'react-native-modal';
 
 
 export default function RightSideMessageModal() {
     const [modalVisible, setModalVisible] = React.useState(false);
-    // const [message, setMessage] = React.useState('happy')
 
     const mood = useContext(MoodContext)
 
@@ -20,7 +19,7 @@ export default function RightSideMessageModal() {
                 { cancelable: true },
             );
         } else {
-            mood.setrightSideMessage(text);
+            mood.setRightSideMessage(text);
         }
     };
     return (
