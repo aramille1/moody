@@ -13,6 +13,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Main from './components/Main/Main';
 import SecondPage from './components/SecondPage';
 import EditMood from './components/EditMood/EditMood';
+import OtherMood from './components/OtherMood/OtherMood';
 
 // Import Custom Sidebar
 import CustomSidebarMenu from './components/CustomSidebarMenu/CustomSidebarMenu';
@@ -118,6 +119,31 @@ function moodScreenStack({ navigation }) {
   );
 }
 
+
+function otherMoodScreenStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="OtherMood">
+      <Stack.Screen
+        name="OtherMood"
+        component={OtherMood}
+        options={{
+          title: 'Other Mood', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerStructure navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: 'brown', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
@@ -141,6 +167,11 @@ function App() {
           name="EditMood"
           options={{ drawerLabel: 'Edit Mood' }}
           component={moodScreenStack}
+        />
+        <Drawer.Screen
+          name="OtherMood"
+          options={{ drawerLabel: 'Other Mood' }}
+          component={otherMoodScreenStack}
         />
       </Drawer.Navigator>
     </NavigationContainer>
