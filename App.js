@@ -10,13 +10,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Main from './components/Main/Main';
-import SecondPage from './components/SecondPage';
-import EditMood from './components/EditMood/EditMood';
-import OtherMood from './components/OtherMood/OtherMood';
+import Main from './src/components/pages/Main/Main';
+import SecondPage from './src/components/SecondPage';
+import MyMoodSettings from './src/components/pages/MyMoodSettings/MyMoodSettings'
+import OtherMood from './src/components/pages/OtherMood/OtherMood';
 
 // Import Custom Sidebar
-import CustomSidebarMenu from './components/CustomSidebarMenu/CustomSidebarMenu';
+import CustomSidebarMenu from './src/components/CustomSidebarMenu/CustomSidebarMenu';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -97,12 +97,12 @@ function secondScreenStack({ navigation }) {
 
 function moodScreenStack({ navigation }) {
   return (
-    <Stack.Navigator initialRouteName="EditMood">
+    <Stack.Navigator initialRouteName="MyMoodSettings">
       <Stack.Screen
-        name="EditMood"
-        component={EditMood}
+        name="MyMoodSettings"
+        component={MyMoodSettings}
         options={{
-          title: 'Edit Mood', //Set Header Title
+          title: 'My Mood Settings', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -165,7 +165,7 @@ function App() {
         />
         <Drawer.Screen
           name="EditMood"
-          options={{ drawerLabel: 'Edit Mood' }}
+          options={{ drawerLabel: 'My Mood Settings' }}
           component={moodScreenStack}
         />
         <Drawer.Screen

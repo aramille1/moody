@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
+import { MoodContext } from '../MyMoodSettings';
 
 export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
     const mood = useContext(MoodContext)

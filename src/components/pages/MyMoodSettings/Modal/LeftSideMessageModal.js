@@ -1,17 +1,15 @@
 import React, { useContext } from 'react'
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
+import { MoodContext } from '../MyMoodSettings';
 import Modal from 'react-native-modal';
 
 
-
-export default function AvatarMessageModal({ setMessage, value }) {
-    // const [modalVisible, setModalVisible] = React.useState(false);
+export default function LeftSideMessageModal() {
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     const mood = useContext(MoodContext)
-
 
     const addItem = text => {
         if (!text) {
@@ -20,45 +18,34 @@ export default function AvatarMessageModal({ setMessage, value }) {
                 { cancelable: true },
             );
         } else {
-            setMessage(text);
+            mood.setleftSideMessage(text);
         }
     };
     return (
         <>
-
-            {/* little message */}
-            <View style={{
-                position: "absolute", top: -145, left: mood.values == 10 ? "90%" :
-                    mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
-            }}>
-                <TouchableHighlight
-                    style={styles.openButton}
-                    onPress={() => {
-                        mood.setModalVisible(!mood.modalVisible);
-                    }}>
-                    <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
-                </TouchableHighlight>
+            <View>
+                <TouchableOpacity style={styles.message} onPress={() => setModalVisible(true)}>
+                    <Text style={{ color: "white", textTransform: "capitalize" }}>{mood.leftSideMessage}</Text>
+                </TouchableOpacity>
             </View>
 
-
+            {/* MODAL */}
             <View style={styles.centeredView}>
                 <Modal
                     backdropTransitionOutTiming={0}
-                    onBackdropPress={() => mood.setModalVisible(!mood.modalVisible)}
-                    isVisible={mood.modalVisible}
+                    onBackdropPress={() => setModalVisible(!modalVisible)}
+                    isVisible={modalVisible}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <Text>Add your message here</Text>
                             <View style={{ marginTop: 20 }}>
-                                <AddMessage placeHolder="e.g.: Feeling like an Icecream :)" addItem={addItem} setModalVisible={() => mood.setModalVisible(!mood.modalVisible)} />
+                                <AddMessage placeHolder="e.g. Not Ready To Talk.." addItem={addItem} setModalVisible={() => setModalVisible(!modalVisible)} />
                             </View>
 
                             <TouchableHighlight
-                                style={{ ...styles.openButton2, marginTop: 10 }}
-                                onPress={() => {
-                                    mood.setModalVisible(!mood.modalVisible);
-                                }}
+                                style={{ ...styles.openButton, marginTop: 10 }}
+                                onPress={() => setModalVisible(!modalVisible)}
                             >
                                 <Icon name="close-outline" size={30} color="#373737" />
                             </TouchableHighlight>
@@ -70,14 +57,26 @@ export default function AvatarMessageModal({ setMessage, value }) {
     )
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
+    message: {
+        // flex: 1,
+        width: 100,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "white",
+        justifyContent: "flex-end",
+        padding: 5,
+        paddingRight: 0,
+        position: "absolute",
+        top: 20,
+
+    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
-        marginHorizontal: 22,
+        marginTop: 22
     },
     modalView: {
         margin: 20,
@@ -94,18 +93,12 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
-    openButton2: {
+    openButton: {
         position: "absolute",
         top: 0,
         right: 10
     },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
-        marginTop: 10,
-        padding: 10
-    },
+
     modalText: {
         marginBottom: 15,
         textAlign: "center"

@@ -14,9 +14,9 @@
  } from "react-native";
  import Contacts from "react-native-contacts";
  
- import ListItem from "../ListItem";
- import Avatar from "../Avatar";
- import SearchBar from "../SearchBar";
+ import ListItem from "./ListItem";
+//  import Avatar from "../MyMoodSettings/Avatar";
+ import SearchBar from "./SearchBar";
  
  export default class Main extends Component {
    constructor(props) {

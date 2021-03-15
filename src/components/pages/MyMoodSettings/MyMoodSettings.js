@@ -10,17 +10,17 @@ import {
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import CustomMarker from '../CustomMarker/CustomMarker.js';
-import SetAvatarMessageModal from '../Modal/SetAvatarMessageModal';
-import LeftSideMessageModal from '../Modal/LeftSideMessageModal';
-import RightSideMessageModal from '../Modal/RightSideMessageModal';
+import CustomMarker from './CustomMarker/CustomMarker.js';
+import SetAvatarMessageModal from './Modal/SetAvatarMessageModal';
+import LeftSideMessageModal from './Modal/LeftSideMessageModal';
+import RightSideMessageModal from './Modal/RightSideMessageModal';
 // import { MoodContext } from '../App';
-import AvatarImagePicker from '../Modal/AvatarImagePicker'
+import AvatarImagePicker from './Modal/AvatarImagePicker'
 
-import gradient from '../../assets/gradient.png';
-import bg from '../../assets/css-gradient.png';
+import gradient from '../../../assets/images/gradient.png';
+import bg from '../../../assets/images/css-gradient.png';
 
-import CustomLabel from '../CustomLabel/CustomLabel';
+import CustomLabel from './CustomLabel/CustomLabel';
 export const MoodContext = React.createContext();
 
 export default class MyMoodSettings extends Component {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
+import { MoodContext } from '../MyMoodSettings';
 import Modal from 'react-native-modal';
 
 
