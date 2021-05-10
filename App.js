@@ -17,7 +17,8 @@ import OtherMood from './src/components/pages/OtherMood/OtherMood';
 
 // Import Custom Sidebar
 import CustomSidebarMenu from './src/components/CustomSidebarMenu/CustomSidebarMenu';
-
+import { Component } from 'react';
+export const MoodContext = React.createContext();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -144,8 +145,54 @@ function otherMoodScreenStack({ navigation }) {
   );
 }
 
-function App() {
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      image: null,
+      images: null,
+      values: 5,
+      message: '',
+      leftSideMessage: 'sad',
+      rightSideMessage: 'happy',
+      imgPickerModal: false,
+      modalVisible: false,
+      showAvatarMessageModal: false
+    };
+  }
+
+  setValues = (value) => this.setState({values: value})
+
+  setleftSideMessage = (text) =>this.setState({leftSideMessage: text})
+
+  setRightSideMessage = (text) => this.setState({rightSideMessage: text})
+
+  setMessage = (message) => this.setState({message: message})
+
+  setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
+
+  setModalVisible = (newVal) => this.setState({modalVisible: newVal})
+
+  setShowAvatarMessageModal = (newVal) => this.setState({showAvatarMessageModal: newVal})
+
+render(){
   return (
+    <MoodContext.Provider
+        value={{
+          values: this.state.values,
+          setValues: this.setValues,
+          leftSideMessage: this.state.leftSideMessage,
+          setleftSideMessage: this.setleftSideMessage,
+          rightSideMessage :this.state.rightSideMessage,
+          setRightSideMessage: this.setRightSideMessage,
+          message: this.state.message,
+          setMessage: this.setMessage,
+          imgPickerModal: this.state.imgPickerModal,
+          setImgPickerModal: this.setImgPickerModal,
+          modalVisible: this.state.modalVisible,
+          setModalVisible: this.setModalVisible,
+          setShowAvatarMessageModal: this.setShowAvatarMessageModal
+        }}>
     <NavigationContainer>
       <Drawer.Navigator
         drawerContentOptions={{
@@ -175,7 +222,8 @@ function App() {
         />
       </Drawer.Navigator>
     </NavigationContainer>
+    </MoodContext.Provider>
   );
 }
+}
 
-export default App;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Image } from 'react-native';
-import { MoodContext } from '../MyMoodSettings';
+import { MoodContext } from '../../../../../App';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { AnimatedEmoji } from 'react-native-animated-emoji';
 import Emoji from '../../../../../node_modules/react-native-emoji';

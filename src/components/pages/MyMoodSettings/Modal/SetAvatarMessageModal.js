@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../MyMoodSettings';
+import { MoodContext } from '../../../../../App';
 import Modal from 'react-native-modal';
 
 
@@ -51,6 +51,7 @@ export default function AvatarMessageModal({ setMessage, value }) {
                         <View style={styles.modalView}>
                             <Text>Add your message here</Text>
                             <View style={{ marginTop: 20 }}>
+                                {/* add button */}
                                 <AddMessage placeHolder="e.g.: Feeling like an Icecream :)" addItem={addItem} setModalVisible={() => mood.setModalVisible(!mood.modalVisible)} />
                             </View>
 

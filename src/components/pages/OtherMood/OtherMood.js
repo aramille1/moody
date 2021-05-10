@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { ImageBackground, StyleSheet, View, Text } from 'react-native';
 
 import CustomMarker from '../MyMoodSettings/CustomMarker/CustomMarker';
-import { MoodContext } from '../MyMoodSettings/MyMoodSettings.js';
+import { MoodContext } from '../../../../App';
 
 import gradient from '../../../assets/images/gradient.png';
 import bg from '../../../assets/images/css-gradient.png';
-import ShowAvatarMessageModal from '../MyMoodSettings/Modal/ShowAvatarMessageModal.js';
+import ShowAvatarMessageModal from '../MyMoodSettings/Modal/ShowAvatarMessageModal';
 
 
 export default function OtherMood() {

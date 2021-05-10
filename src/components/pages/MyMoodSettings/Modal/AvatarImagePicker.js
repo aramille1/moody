@@ -4,7 +4,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 // import Video from 'react-native-video';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import { MoodContext } from '../MyMoodSettings';
+import { MoodContext } from '../../../../../App';
 
 
 const styles = StyleSheet.create({

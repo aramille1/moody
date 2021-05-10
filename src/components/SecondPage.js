@@ -22,7 +22,7 @@
  const WINDOW_HEIGHT = Dimensions.get('window').height;
  const EMOJI_AMOUNT = 20;
  
- export default class SecondPage extends Component<{}> {
+ export default class SecondPage extends Component {
  
    constructor(props) {
      super(props);
