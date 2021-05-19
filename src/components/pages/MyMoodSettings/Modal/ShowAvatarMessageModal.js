@@ -13,15 +13,16 @@ export default function ShowAvatarMessageModal() {
         <>
             <View>
                 <TouchableHighlight
-                    onPress={() => mood.setShowAvatarMessageModal(!mood.modalVisible)}>
+                    onPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}>
                     <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
                 </TouchableHighlight>
             </View >
 
             <Modal
                 backdropTransitionOutTiming={0}
+                onBackdropPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}
                 isVisible={mood.showAvatarMessageModal}
-                onBackdropPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}>
+                >
                 <View style={{ padding: 50, backgroundColor: "white", borderRadius: 20 }}>
                     <Text>{mood.message}!</Text>
 

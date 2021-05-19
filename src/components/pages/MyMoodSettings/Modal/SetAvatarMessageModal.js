@@ -7,7 +7,7 @@ import Modal from 'react-native-modal';
 
 
 
-export default function AvatarMessageModal({ setMessage, value }) {
+export default function AvatarMessageModal() {
     // const [modalVisible, setModalVisible] = React.useState(false);
 
     const mood = useContext(MoodContext)
@@ -20,7 +20,7 @@ export default function AvatarMessageModal({ setMessage, value }) {
                 { cancelable: true },
             );
         } else {
-            setMessage(text);
+            mood.setMessage(text);
         }
     };
     return (

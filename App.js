@@ -177,21 +177,28 @@ export default class App extends Component {
 
 render(){
   return (
-    <MoodContext.Provider
+    <MoodContext.Provider 
         value={{
           values: this.state.values,
           setValues: this.setValues,
+
           leftSideMessage: this.state.leftSideMessage,
           setleftSideMessage: this.setleftSideMessage,
+
           rightSideMessage :this.state.rightSideMessage,
           setRightSideMessage: this.setRightSideMessage,
+
           message: this.state.message,
           setMessage: this.setMessage,
+
           imgPickerModal: this.state.imgPickerModal,
           setImgPickerModal: this.setImgPickerModal,
+
           modalVisible: this.state.modalVisible,
           setModalVisible: this.setModalVisible,
-          setShowAvatarMessageModal: this.setShowAvatarMessageModal
+
+          showAvatarMessageModal:this.state.showAvatarMessageModal,
+          setShowAvatarMessageModal: this.setShowAvatarMessageModal,
         }}>
     <NavigationContainer>
       <Drawer.Navigator

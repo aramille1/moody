@@ -31,7 +31,9 @@ export default function MyMoodSettings() {
             height: '100%',
           }}>
           <Text style={styles.titleText}>My Mood Settings</Text>
+
           <View style={styles.container}>
+            {/* mood slider */}
             <ImageBackground source={gradient} style={styles.trackBgImage}>
               <MultiSlider
                 selectedStyle={{
@@ -71,8 +73,9 @@ export default function MyMoodSettings() {
                 }
               />
             </ImageBackground>
+            {/* end of mood slider*/}
 
-            <SetAvatarMessageModal setMessage={mood.setMessage} value={mood.values} />
+            <SetAvatarMessageModal />
 
             {/* sad and happy indicators */}
             <Text style={{color: 'black'}}>{mood.values}</Text>
@@ -95,9 +98,11 @@ export default function MyMoodSettings() {
                 <RightSideMessageModal />
               </View>
             </View>
-            {/* end */}
-          </View>
+            {/* end of sad and happy indicators */}
 
+          </View>
+          {/* end of mood slider */}
+          
           <AvatarImagePicker />
         </ImageBackground>
 </>
