@@ -31,7 +31,7 @@ export default function OtherMood() {
 
 
                     </ImageBackground>
-                    <View style={{ position: "absolute", top: 120, left: mood.values == 10 ? "80%" : mood.values == 0 ? "10%" : (mood.values * 10) + "%" }}>
+                    <View style={{ position: "absolute", top: 140, left: mood.values == 10 ? "80%" : mood.values == 0 ? "10%" : (mood.values * 10) + "%" }}>
                         <ShowAvatarMessageModal />
                     </View>
 
@@ -61,8 +61,6 @@ export default function OtherMood() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        borderColor: "black",
-        borderWidth: 3,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, TouchableHighlight } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 // import Video from 'react-native-video';
@@ -43,16 +43,13 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class AvatarImagePicker extends Component {
-    constructor() {
-        super();
-        this.state = {
-            image: null,
-            images: null,
-        };
-    }
+export default function AvatarImagePicker() {
+    const [image, setImage] = React.useState(null);
+    const [images, setImages] = React.useState(null);
+    const mood = useContext(MoodContext)
 
-    pickSingleWithCamera(cropping, mediaType = 'photo') {
+
+    const pickSingleWithCamera = (cropping, mediaType = 'photo') => {
         ImagePicker.openCamera({
             cropping: cropping,
             width: 500,
@@ -62,22 +59,21 @@ export default class AvatarImagePicker extends Component {
         })
             .then((image) => {
                 console.log('received image', image);
-                this.setState({
-                    image: {
-                        uri: image.path,
-                        width: image.width,
-                        height: image.height,
-                        mime: image.mime,
-                    },
-                    images: null,
-                });
+                setImage({
+                    uri: image.path,
+                    width: image.width,
+                    height: image.height,
+                    mime: image.mime,
+                })
+                setImages(null)
+                
             })
             .catch((e) => alert(e));
     }
 
 
 
-    cleanupImages() {
+    const cleanupImages = () =>{
         ImagePicker.clean()
             .then(() => {
                 console.log('removed tmp images from tmp directory');
@@ -87,11 +83,11 @@ export default class AvatarImagePicker extends Component {
             });
     }
 
-    cleanupSingleImage() {
+   const cleanupSingleImage = () =>{
         let image =
-            this.state.image ||
-            (this.state.images && this.state.images.length
-                ? this.state.images[0]
+            image ||
+            (images && images.length
+                ? images[0]
                 : null);
         console.log('will cleanup image', image);
 
@@ -104,8 +100,8 @@ export default class AvatarImagePicker extends Component {
             });
     }
 
-    cropLast() {
-        if (!this.state.image) {
+    const cropLast=()=> {
+        if (!image) {
             return Alert.alert(
                 'No image',
                 'Before open cropping only, please select image'
@@ -113,21 +109,19 @@ export default class AvatarImagePicker extends Component {
         }
 
         ImagePicker.openCropper({
-            path: this.state.image.uri,
+            path: image.uri,
             width: 200,
             height: 200,
         })
             .then((image) => {
                 console.log('received cropped image', image);
-                this.setState({
-                    image: {
-                        uri: image.path,
-                        width: image.width,
-                        height: image.height,
-                        mime: image.mime,
-                    },
-                    images: null,
-                });
+                setImage({
+                    uri: image.path,
+                    width: image.width,
+                    height: image.height,
+                    mime: image.mime,
+                })
+                setImages(null)
             })
             .catch((e) => {
                 console.log(e);
@@ -135,7 +129,7 @@ export default class AvatarImagePicker extends Component {
             });
     }
 
-    pickSingle(cropit, circular = false, mediaType) {
+    const pickSingle = (cropit, circular = false, mediaType) => {
         ImagePicker.openPicker({
             width: 500,
             height: 500,
@@ -154,15 +148,13 @@ export default class AvatarImagePicker extends Component {
         })
             .then((image) => {
                 console.log('received image', image);
-                this.setState({
-                    image: {
-                        uri: image.path,
-                        width: image.width,
-                        height: image.height,
-                        mime: image.mime,
-                    },
-                    images: null,
-                });
+                setImage({
+                    uri: image.path,
+                    width: image.width,
+                    height: image.height,
+                    mime: image.mime,
+                })
+                setImages(null)
             })
             .catch((e) => {
                 console.log(e);
@@ -171,12 +163,12 @@ export default class AvatarImagePicker extends Component {
     }
 
 
-    scaledHeight(oldW, oldH, newW) {
+    const scaledHeight = (oldW, oldH, newW) => {
         return (oldH / oldW) * newW;
     }
 
 
-    renderImage(image) {
+    const renderImage = (image) =>{
         return (
             <Image
                 style={{ width: 100, height: 100, resizeMode: 'contain' }}
@@ -185,19 +177,17 @@ export default class AvatarImagePicker extends Component {
         );
     }
 
-    renderAsset(image) {
+    const renderAsset = (image) =>{
         if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
-            return this.renderVideo(image);
+            return renderVideo(image);
         }
 
-        return this.renderImage(image);
+        return renderImage(image);
     }
 
-    render() {
+
         return (
-            <MoodContext.Consumer>
-                {
-                    mood => <>
+                    <>
                         <TouchableOpacity style={styles.uploadImg} onPress={() => mood.setImgPickerModal(!mood.imgPickerModal)}>
                             <Text style={{ color: "white" }}>upload / edit</Text>
                             <Text style={{ color: "white" }}>profile photo</Text>
@@ -208,10 +198,10 @@ export default class AvatarImagePicker extends Component {
                             onBackdropPress={() => mood.setImgPickerModal(!mood.imgPickerModal)}
                             style={styles.modal}>
                             <ScrollView style={{ borderWidth: 1, borderColor: "black", width: "100%" }}>
-                                {this.state.image ? this.renderAsset(this.state.image) : null}
-                                {this.state.images
-                                    ? this.state.images.map((i) => (
-                                        <View key={i.uri}>{this.renderAsset(i)}</View>
+                                {image ? renderAsset(image) : null}
+                                {images
+                                    ? images.map((i) => (
+                                        <View key={i.uri}>{renderAsset(i)}</View>
                                     ))
                                     : null}
                             </ScrollView>
@@ -219,7 +209,7 @@ export default class AvatarImagePicker extends Component {
                             <View style={{ flex: 1, flexDirection: "row" }}>
                                 <TouchableOpacity
                                     style={{ padding: 5 }}
-                                    onPress={() => this.pickSingleWithCamera(true)}
+                                    onPress={() => pickSingleWithCamera(true)}
                                 // style={styles.button}
                                 >
                                     <Icon name="camera-outline" size={30} />
@@ -227,26 +217,26 @@ export default class AvatarImagePicker extends Component {
 
                                 <TouchableOpacity
                                     style={{ padding: 5 }}
-                                    onPress={() => this.cropLast()}>
+                                    onPress={() => cropLast()}>
                                     <Icon name="crop-outline" size={30} />
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
                                     style={{ padding: 5 }}
-                                    onPress={() => this.pickSingle(true)}
+                                    onPress={() => pickSingle(true)}
                                 >
                                     <Icon name="cloud-upload-outline" size={30} />
                                 </TouchableOpacity>
 
                                 {/* <TouchableOpacity
-                    onPress={this.cleanupImages.bind(this)}
+                    onPress={cleanupImages.bind(this)}
                     style={styles.button}
                 >
                     <Text style={styles.text}>Cleanup All Images</Text>
                 </TouchableOpacity> */}
                                 <TouchableOpacity
                                     style={{ padding: 5 }}
-                                    onPress={this.cleanupSingleImage.bind(this)}
+                                    onPress={cleanupSingleImage.bind(this)}
                                 >
                                     <Icon name="trash-outline" size={30} />
                                 </TouchableOpacity>
@@ -267,9 +257,5 @@ export default class AvatarImagePicker extends Component {
 
                         </Modal>
                     </>
-
-                }
-            </MoodContext.Consumer>
         );
-    }
 }

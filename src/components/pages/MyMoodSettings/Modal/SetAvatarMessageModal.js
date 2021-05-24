@@ -27,10 +27,7 @@ export default function AvatarMessageModal() {
         <>
 
             {/* little message */}
-            <View style={{
-                position: "absolute", top: -145, left: mood.values == 10 ? "90%" :
-                    mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
-            }}>
+
                 <TouchableHighlight
                     style={styles.openButton}
                     onPress={() => {
@@ -38,7 +35,6 @@ export default function AvatarMessageModal() {
                     }}>
                     <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
                 </TouchableHighlight>
-            </View>
 
 
             <View style={styles.centeredView}>

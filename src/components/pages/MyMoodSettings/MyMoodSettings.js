@@ -74,8 +74,13 @@ export default function MyMoodSettings() {
               />
             </ImageBackground>
             {/* end of mood slider*/}
-
+            <View style={{
+                position: "absolute", top: -155, left: mood.values == 10 ? "90%" :
+                    mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
+            }}>
+              
             <SetAvatarMessageModal />
+            </View>
 
             {/* sad and happy indicators */}
             <Text style={{color: 'black'}}>{mood.values}</Text>
