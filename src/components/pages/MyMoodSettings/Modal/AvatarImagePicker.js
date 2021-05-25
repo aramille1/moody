@@ -1,79 +1,21 @@
 import React, { Component, useContext } from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, TouchableHighlight } from 'react-native';
+import { Alert, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, Button, View, TouchableHighlight } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 // import Video from 'react-native-video';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import { MoodContext } from '../../../../../App';
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
 
-
-const styles = StyleSheet.create({
-
-    button: {
-        backgroundColor: 'blue',
-        marginBottom: 10,
-    },
-    text: {
-        color: 'white',
-        fontSize: 20,
-        textAlign: 'center',
-    },
-    modal: {
-        // width: 500,
-        // height: 500,
-        backgroundColor: "white",
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    uploadImg: {
-        borderColor: "white",
-        borderWidth: 1,
-        width: 100,
-        // flex: 1,
-        padding: 5,
-        alignItems: "center",
-        alignSelf: "center",
-        marginBottom: 20
-    },
-    openButton2: {
-        position: "absolute",
-        top: 0,
-        right: 10
-    },
-});
 
 export default function AvatarImagePicker() {
-    const [image, setImage] = React.useState(null);
+    const [image, setImage] = React.useState();
     const [images, setImages] = React.useState(null);
     const mood = useContext(MoodContext)
 
 
-    const pickSingleWithCamera = (cropping, mediaType = 'photo') => {
-        ImagePicker.openCamera({
-            cropping: cropping,
-            width: 500,
-            height: 500,
-            includeExif: true,
-            mediaType,
-        })
-            .then((image) => {
-                console.log('received image', image);
-                setImage({
-                    uri: image.path,
-                    width: image.width,
-                    height: image.height,
-                    mime: image.mime,
-                })
-                setImages(null)
-                
-            })
-            .catch((e) => alert(e));
-    }
-
-
-
-    const cleanupImages = () =>{
+    const cleanupImages = () => {
         ImagePicker.clean()
             .then(() => {
                 console.log('removed tmp images from tmp directory');
@@ -83,14 +25,7 @@ export default function AvatarImagePicker() {
             });
     }
 
-   const cleanupSingleImage = () =>{
-        let image =
-            image ||
-            (images && images.length
-                ? images[0]
-                : null);
-        console.log('will cleanup image', image);
-
+    const deleteImage = () => {
         ImagePicker.cleanSingle(image ? image.uri : null)
             .then(() => {
                 console.log(`removed tmp image ${image.uri} from tmp directory`);
@@ -100,162 +35,212 @@ export default function AvatarImagePicker() {
             });
     }
 
-    const cropLast=()=> {
-        if (!image) {
-            return Alert.alert(
-                'No image',
-                'Before open cropping only, please select image'
-            );
-        }
-
-        ImagePicker.openCropper({
-            path: image.uri,
-            width: 200,
-            height: 200,
-        })
-            .then((image) => {
-                console.log('received cropped image', image);
-                setImage({
-                    uri: image.path,
-                    width: image.width,
-                    height: image.height,
-                    mime: image.mime,
-                })
-                setImages(null)
-            })
-            .catch((e) => {
-                console.log(e);
-                Alert.alert(e.message ? e.message : e);
-            });
+    const takePhotoFromCamera = () => {
+        ImagePicker.openCamera({
+            compressImageMaxWidth: 300,
+            compressImageMaxHeight: 300,
+            cropping: true,
+            compressImageQuality: 0.7
+        }).then(image => {
+            console.log(image);
+            setImage(image.path);
+            sheetRef.current.snapTo(1);
+        });
     }
 
-    const pickSingle = (cropit, circular = false, mediaType) => {
+    const choosePhotoFromLibrary = () => {
         ImagePicker.openPicker({
-            width: 500,
-            height: 500,
-            cropping: cropit,
-            cropperCircleOverlay: circular,
-            sortOrder: 'none',
-            compressImageMaxWidth: 1000,
-            compressImageMaxHeight: 1000,
-            compressImageQuality: 1,
-            compressVideoPreset: 'MediumQuality',
-            includeExif: true,
-            cropperStatusBarColor: 'white',
-            cropperToolbarColor: 'white',
-            cropperActiveWidgetColor: 'white',
-            cropperToolbarWidgetColor: '#3498DB',
-        })
-            .then((image) => {
-                console.log('received image', image);
-                setImage({
-                    uri: image.path,
-                    width: image.width,
-                    height: image.height,
-                    mime: image.mime,
-                })
-                setImages(null)
-            })
-            .catch((e) => {
-                console.log(e);
-                Alert.alert(e.message ? e.message : e);
-            });
+            width: 300,
+            height: 300,
+            cropping: true,
+            compressImageQuality: 0.7
+        }).then(image => {
+            console.log(image);
+            setImage(image.path);
+            sheetRef.current.snapTo(1);
+        });
     }
 
 
-    const scaledHeight = (oldW, oldH, newW) => {
-        return (oldH / oldW) * newW;
-    }
+    const renderInner = () => (
+        <View style={styles.panel}>
+            <View style={{ alignItems: 'center' }}>
+                <Text style={styles.panelTitle}>Upload Photo</Text>
+                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+            </View>
+            <TouchableOpacity style={styles.panelButton} onPress={takePhotoFromCamera}>
+                <Text style={styles.panelButtonTitle}>Take Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.panelButton} onPress={choosePhotoFromLibrary}>
+                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.panelButton}
+                onPress={() => sheetRef.current.snapTo(1)}>
+                <Text style={styles.panelButtonTitle}>Cancel</Text>
+            </TouchableOpacity>
+        </View>
+    );
 
+    const renderHeader = () => (
+        <View style={styles.header}>
+            <View style={styles.panelHeader}>
+                <View style={styles.panelHandle} />
+            </View>
+        </View>
+    );
+    const sheetRef = React.useRef();
+    const fall = new Animated.Value(1);
 
-    const renderImage = (image) =>{
-        return (
-            <Image
-                style={{ width: 100, height: 100, resizeMode: 'contain' }}
-                source={image}
+    return (
+        <View style={styles.container}>
+            <BottomSheet
+                ref={sheetRef}
+                snapPoints={[330, 0]}
+                renderContent={renderInner}
+                renderHeader={renderHeader}
+                callbackNode={fall}
+                initialSnap={1}
+                enabledGestureInteraction={true}
             />
-        );
-    }
-
-    const renderAsset = (image) =>{
-        if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
-            return renderVideo(image);
-        }
-
-        return renderImage(image);
-    }
-
-
-        return (
-                    <>
-                        <TouchableOpacity style={styles.uploadImg} onPress={() => mood.setImgPickerModal(!mood.imgPickerModal)}>
-                            <Text style={{ color: "white" }}>upload / edit</Text>
-                            <Text style={{ color: "white" }}>profile photo</Text>
-                        </TouchableOpacity>
-                        <Modal
-                            backdropTransitionOutTiming={0}
-                            isVisible={mood.imgPickerModal}
-                            onBackdropPress={() => mood.setImgPickerModal(!mood.imgPickerModal)}
-                            style={styles.modal}>
-                            <ScrollView style={{ borderWidth: 1, borderColor: "black", width: "100%" }}>
-                                {image ? renderAsset(image) : null}
-                                {images
-                                    ? images.map((i) => (
-                                        <View key={i.uri}>{renderAsset(i)}</View>
-                                    ))
-                                    : null}
-                            </ScrollView>
-
-                            <View style={{ flex: 1, flexDirection: "row" }}>
-                                <TouchableOpacity
-                                    style={{ padding: 5 }}
-                                    onPress={() => pickSingleWithCamera(true)}
-                                // style={styles.button}
-                                >
-                                    <Icon name="camera-outline" size={30} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    style={{ padding: 5 }}
-                                    onPress={() => cropLast()}>
-                                    <Icon name="crop-outline" size={30} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    style={{ padding: 5 }}
-                                    onPress={() => pickSingle(true)}
-                                >
-                                    <Icon name="cloud-upload-outline" size={30} />
-                                </TouchableOpacity>
-
-                                {/* <TouchableOpacity
-                    onPress={cleanupImages.bind(this)}
-                    style={styles.button}
-                >
-                    <Text style={styles.text}>Cleanup All Images</Text>
-                </TouchableOpacity> */}
-                                <TouchableOpacity
-                                    style={{ padding: 5 }}
-                                    onPress={cleanupSingleImage.bind(this)}
-                                >
-                                    <Icon name="trash-outline" size={30} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{ padding: 5, borderWidth: 1, borderColor: "black", height: 40 }}
-                                >
-                                    <Text>Upload!</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <TouchableHighlight
-                                style={{ ...styles.openButton2, marginTop: 10 }}
-                                onPress={() => {
-                                    mood.setImgPickerModal(!mood.imgPickerModal);
+            <Animated.View style={{
+                margin: 20,
+                opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+            }}>
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
+                        <View
+                            style={{
+                                height: 100,
+                                width: 100,
+                                borderRadius: 15,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <ImageBackground
+                                source={{
+                                    uri: image,
                                 }}
-                            >
-                                <Icon name="close-outline" size={30} color="#373737" />
-                            </TouchableHighlight>
-
-                        </Modal>
-                    </>
-        );
+                                style={{ height: 100, width: 100 }}
+                                imageStyle={{ borderRadius: 15 }}>
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                    {!image ? <Icon
+                                        name="camera"
+                                        size={35}
+                                        color="#fff"
+                                        style={{
+                                            opacity: 0.7,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderWidth: 1,
+                                            borderColor: '#fff',
+                                            borderRadius: 10,
+                                        }}
+                                    /> : null}
+                                </View>
+                            </ImageBackground>
+                        </View>
+                    </TouchableOpacity>
+                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
+                        John Doe
+                    </Text>
+                </View>
+            </Animated.View>
+        </View>
+    );
 }
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    commandButton: {
+        padding: 15,
+        borderRadius: 10,
+        backgroundColor: '#FF6347',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    panel: {
+        padding: 20,
+        backgroundColor: '#FFFFFF',
+        paddingTop: 20,
+        // borderTopLeftRadius: 20,
+        // borderTopRightRadius: 20,
+        // shadowColor: '#000000',
+        // shadowOffset: {width: 0, height: 0},
+        // shadowRadius: 5,
+        // shadowOpacity: 0.4,
+    },
+    header: {
+        backgroundColor: '#FFFFFF',
+        shadowColor: '#333333',
+        shadowOffset: { width: -1, height: -3 },
+        shadowRadius: 2,
+        shadowOpacity: 0.4,
+        // elevation: 5,
+        paddingTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+    },
+    panelHeader: {
+        alignItems: 'center',
+    },
+    panelHandle: {
+        width: 40,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#00000040',
+        marginBottom: 10,
+    },
+    panelTitle: {
+        fontSize: 27,
+        height: 35,
+    },
+    panelSubtitle: {
+        fontSize: 14,
+        color: 'gray',
+        height: 30,
+        marginBottom: 10,
+    },
+    panelButton: {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#FF6347',
+        alignItems: 'center',
+        marginVertical: 7,
+    },
+    panelButtonTitle: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+    action: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+    },
+    actionError: {
+        flexDirection: 'row',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#FF0000',
+        paddingBottom: 5,
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 10,
+        color: '#05375a',
+    },
+});

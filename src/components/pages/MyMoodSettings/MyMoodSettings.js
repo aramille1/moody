@@ -30,7 +30,8 @@ export default function MyMoodSettings() {
             justifyContent: 'center',
             height: '100%',
           }}>
-          <Text style={styles.titleText}>My Mood Settings</Text>
+          {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
+          
 
           <View style={styles.container}>
             {/* mood slider */}
@@ -74,11 +75,11 @@ export default function MyMoodSettings() {
               />
             </ImageBackground>
             {/* end of mood slider*/}
+            
             <View style={{
                 position: "absolute", top: -155, left: mood.values == 10 ? "90%" :
                     mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
             }}>
-              
             <SetAvatarMessageModal />
             </View>
 
@@ -107,7 +108,6 @@ export default function MyMoodSettings() {
 
           </View>
           {/* end of mood slider */}
-          
           <AvatarImagePicker />
         </ImageBackground>
 </>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: 200,
   },
   leftAndRightContainer: {
     marginBottom: 320,
