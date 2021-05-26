@@ -93,10 +93,10 @@ export default function AvatarImagePicker() {
     const fall = new Animated.Value(1);
 
     return (
-        <View style={styles.container}>
+            <>
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={[330, 0]}
+                snapPoints={[410, 0]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 callbackNode={fall}
@@ -151,7 +151,7 @@ export default function AvatarImagePicker() {
                     </Text>
                 </View>
             </Animated.View>
-        </View>
+            </>
     );
 }
 

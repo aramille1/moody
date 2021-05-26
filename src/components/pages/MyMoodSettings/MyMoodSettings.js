@@ -31,6 +31,7 @@ export default function MyMoodSettings() {
             height: '100%',
           }}>
           {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
+          <AvatarImagePicker />
           
 
           <View style={styles.container}>
@@ -108,7 +109,6 @@ export default function MyMoodSettings() {
 
           </View>
           {/* end of mood slider */}
-          <AvatarImagePicker />
         </ImageBackground>
 </>
     )
