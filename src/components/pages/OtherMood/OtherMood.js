@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ImageBackground, StyleSheet, View, Text } from 'react-native';
+import { ImageBackground, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 
 import CustomMarker from '../MyMoodSettings/CustomMarker/CustomMarker';
 import { MoodContext } from '../../../../App';
@@ -7,11 +7,13 @@ import { MoodContext } from '../../../../App';
 import gradient from '../../../assets/images/gradient.png';
 import bg from '../../../assets/images/css-gradient.png';
 import ShowAvatarMessageModal from '../MyMoodSettings/Modal/ShowAvatarMessageModal';
+import Animated from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 export default function OtherMood() {
     const mood = useContext(MoodContext)
-
+    const fall = new Animated.Value(1);
     // console.log(" in other Mood: "+ mood.value);
     return (
         <>
@@ -21,7 +23,52 @@ export default function OtherMood() {
                 height: "100%",
             }}>
                 <View style={styles.container}>
-                    <Text style={styles.titleText}>Other Mood</Text>
+                <Animated.View style={{
+                margin: 20,
+                opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+            }}>
+                <View style={{ alignItems: 'center' }}>
+                        <View
+                            style={{
+                                height: 100,
+                                width: 100,
+                                borderRadius: 15,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <ImageBackground
+                                source={{
+                                    uri: mood.image,
+                                }}
+                                style={{ height: 100, width: 100 }}
+                                imageStyle={{ borderRadius: 15 }}>
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                    {!mood.image ? <Icon
+                                        name="camera"
+                                        size={35}
+                                        color="#fff"
+                                        style={{
+                                            opacity: 0.7,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderWidth: 1,
+                                            borderColor: '#fff',
+                                            borderRadius: 10,
+                                        }}
+                                    /> : null}
+                                </View>
+                            </ImageBackground>
+                        </View>
+                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
+                        John Doe
+                    </Text>
+                </View>
+            </Animated.View>
                     <ImageBackground source={gradient} style={styles.trackBgImage}>
                         <View style={{
                             position: "absolute", left: mood.values == 10 ? "80%" : (mood.values * 10 - 10) + "%"
@@ -31,7 +78,7 @@ export default function OtherMood() {
 
 
                     </ImageBackground>
-                    <View style={{ position: "absolute", top: 140, left: mood.values == 10 ? "80%" : mood.values == 0 ? "10%" : (mood.values * 10) + "%" }}>
+                    <View style={{ position: "absolute", top: 180, left: mood.values == 10 ? "80%" : mood.values == 0 ? "10%" : (mood.values * 10) + "%" }}>
                         <ShowAvatarMessageModal />
                     </View>
 

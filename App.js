@@ -161,6 +161,8 @@ export default class App extends Component {
     };
   }
 
+  setImage = (value) => this.setState({image: value})
+
   setValues = (value) => this.setState({values: value})
 
   setleftSideMessage = (text) =>this.setState({leftSideMessage: text})
@@ -179,6 +181,10 @@ render(){
   return (
     <MoodContext.Provider 
         value={{
+
+          image: this.state.image,
+          setImage: this.setImage,
+
           values: this.state.values,
           setValues: this.setValues,
 

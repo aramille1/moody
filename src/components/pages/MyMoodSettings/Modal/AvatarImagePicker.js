@@ -10,7 +10,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 
 
 export default function AvatarImagePicker() {
-    const [image, setImage] = React.useState();
+
     const [images, setImages] = React.useState(null);
     const mood = useContext(MoodContext)
 
@@ -43,7 +43,7 @@ export default function AvatarImagePicker() {
             compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
-            setImage(image.path);
+            mood.setImage(image.path);
             sheetRef.current.snapTo(1);
         });
     }
@@ -56,7 +56,7 @@ export default function AvatarImagePicker() {
             compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
-            setImage(image.path);
+            mood.setImage(image.path);
             sheetRef.current.snapTo(1);
         });
     }
@@ -119,7 +119,7 @@ export default function AvatarImagePicker() {
                             }}>
                             <ImageBackground
                                 source={{
-                                    uri: image,
+                                    uri: mood.image,
                                 }}
                                 style={{ height: 100, width: 100 }}
                                 imageStyle={{ borderRadius: 15 }}>
@@ -129,7 +129,7 @@ export default function AvatarImagePicker() {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
-                                    {!image ? <Icon
+                                    {!mood.image ? <Icon
                                         name="camera"
                                         size={35}
                                         color="#fff"
@@ -146,7 +146,7 @@ export default function AvatarImagePicker() {
                             </ImageBackground>
                         </View>
                     </TouchableOpacity>
-                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
+                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
                         John Doe
                     </Text>
                 </View>
