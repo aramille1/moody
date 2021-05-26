@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
@@ -15,6 +16,7 @@ import { MoodContext } from '../../../../App';
 import AvatarImagePicker from './Modal/AvatarImagePicker'
 import gradient from '../../../assets/images/gradient.png';
 import bg from '../../../assets/images/css-gradient.png';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import CustomLabel from './CustomLabel/CustomLabel';
 
@@ -104,8 +106,20 @@ export default function MyMoodSettings() {
               }}>
               <RightSideMessageModal />
             </View>
+
           </View>
           {/* end of sad and happy indicators */}
+          
+          
+              <View style={{ position: 'absolute', borderWidth: 1, borderColor: '#fff'}}>
+              <TouchableOpacity style={{paddingHorizontal:15, paddingVertical:5}}
+              onPress={() => {
+                  console.warn('works')
+              }}
+          >
+              <Text style={{fontSize:20, color:'#fff', }}>Send</Text>
+          </TouchableOpacity>
+              </View>
 
         </View>
         {/* end of mood slider */}

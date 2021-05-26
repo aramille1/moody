@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TouchableHighlight, View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { MoodContext } from '../../../../../App';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
@@ -12,10 +12,10 @@ export default function ShowAvatarMessageModal() {
     return (
         <>
             <View>
-                <TouchableHighlight
+                <TouchableOpacity
                     onPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}>
                     <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View >
 
             <Modal
@@ -26,12 +26,12 @@ export default function ShowAvatarMessageModal() {
                 <View style={{ padding: 50, backgroundColor: "white", borderRadius: 20 }}>
                     <Text style={{textAlign:'center', fontSize: 22}}>{mood.message}</Text>
 
-                    <TouchableHighlight
+                    <TouchableOpacity
                         style={{ ...styles.openButton2, marginTop: 10 }}
                         onPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}
                     >
                         <Icon name="close-outline" size={30} color="#373737" />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </Modal>
         </>

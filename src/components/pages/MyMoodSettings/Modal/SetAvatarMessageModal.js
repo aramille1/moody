@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MoodContext } from '../../../../../App';
@@ -28,13 +28,13 @@ export default function AvatarMessageModal() {
 
             {/* little message */}
 
-                <TouchableHighlight
+                <TouchableOpacity
                     style={styles.openButton}
                     onPress={() => {
                         mood.setModalVisible(!mood.modalVisible);
                     }}>
                     <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
-                </TouchableHighlight>
+                </TouchableOpacity>
 
 
             <View style={styles.centeredView}>
@@ -51,14 +51,14 @@ export default function AvatarMessageModal() {
                                 <AddMessage placeHolder="e.g.: Feeling like an Icecream :)" addItem={addItem} setModalVisible={() => mood.setModalVisible(!mood.modalVisible)} />
                             </View>
 
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 style={{ ...styles.openButton2, marginTop: 10 }}
                                 onPress={() => {
                                     mood.setModalVisible(!mood.modalVisible);
                                 }}
                             >
                                 <Icon name="close-outline" size={30} color="#373737" />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>

@@ -140,6 +140,7 @@ export default function AvatarImagePicker() {
                                             borderWidth: 1,
                                             borderColor: '#fff',
                                             borderRadius: 10,
+                                            padding:30
                                         }}
                                     /> : null}
                                 </View>
