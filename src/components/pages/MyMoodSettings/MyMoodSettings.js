@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-
+import Emoji from '../../../../node_modules/react-native-emoji';
 import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from './Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from './Modal/LeftSideMessageModal';
@@ -21,7 +21,39 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CustomLabel from './CustomLabel/CustomLabel';
 
 export default function MyMoodSettings() {
+  const [image, setImage] = React.useState()
+  const [message, setMessage] = React.useState()
+  const [sliderValues, setSliderValues] = React.useState(5)
+  const [leftSideMessage, setleftSideMessage] = React.useState('sad')
+  const [rightSideMessage, setrightSideMessage] = React.useState('happy')
+
   const mood = useContext(MoodContext)
+  
+  const sumbit = () =>{
+    let obj = {
+      image: image,
+      message: message,
+      sliderValues: sliderValues,
+      leftSideMessage: leftSideMessage,
+      rightSideMessage: rightSideMessage
+    }
+    mood.setMoodObj(obj)
+  }
+
+  const customMarker = () => {
+    return sliderValues == 0 ? <Emoji name="rage" style={{fontSize: 40}} />
+    : sliderValues == 1 ? <Emoji name="cry" style={{fontSize: 40}} />
+        : sliderValues == 2 ? <Emoji name="disappointed" style={{fontSize: 40}} />
+            : sliderValues == 3 ? <Emoji name="worried" style={{fontSize: 40}} />
+                : sliderValues == 4 ? <Emoji name="unamused" style={{fontSize: 40}} />
+                    : sliderValues == 5 ? <Emoji name="neutral_face" style={{fontSize: 40}} />
+                        : sliderValues == 6 ? <Emoji name="slightly_smiling_face" style={{fontSize: 40}} />
+                            : sliderValues == 7 ? <Emoji name="smiley" style={{fontSize: 40}} />
+                                : sliderValues == 8 ? <Emoji name="blush" style={{fontSize: 40}} />
+                                    : sliderValues == 9 ? <Emoji name="heart_eyes" style={{fontSize: 40}} />
+                                        : sliderValues == 10 ? <Emoji name="star-struck" style={{fontSize: 40}} />
+                                            : <Emoji name="smiley" style={{fontSize: 40}} />
+  }
 
   return (
     <>
@@ -33,8 +65,7 @@ export default function MyMoodSettings() {
           height: '100%',
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
-        <AvatarImagePicker />
-
+        <AvatarImagePicker setImageProp={(image)=>setImage(image)}/>
 
         <View style={styles.container}>
           {/* mood slider */}
@@ -68,26 +99,27 @@ export default function MyMoodSettings() {
               markerOffsetY={20}
               markerSize={0}
               customLabel={CustomLabel}
-              customMarker={CustomMarker}
+              customMarker={customMarker}
               sliderLength={300}
               // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
               markerStyle={{ height: 50, width: 50 }}
               onValuesChangeFinish={(values) =>
-                mood.setValues(values)
+                // mood.setValues(values)
+                setSliderValues(values)
               }
             />
           </ImageBackground>
           {/* end of mood slider*/}
 
           <View style={{
-            position: "absolute", top: -175, left: mood.values == 10 ? "90%" :
-              mood.values == 0 ? "10%" : mood.values == 9 ? "80%" : (mood.values * 10) + "%"
+            position: "absolute", top: -175, left: sliderValues == 10 ? "90%" :
+              sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
           }}>
-            <SetAvatarMessageModal />
+            <SetAvatarMessageModal setMessage={(message)=>setMessage(message)}/>
           </View>
 
           {/* sad and happy indicators */}
-          <Text style={{ color: 'black' }}>{mood.values}</Text>
+          <Text style={{ color: 'black' }}>{sliderValues}</Text>
           <View style={styles.leftAndRightContainer}>
             <View
               style={{
@@ -95,7 +127,7 @@ export default function MyMoodSettings() {
                 width: 100,
                 height: '100%',
               }}>
-              <LeftSideMessageModal />
+              <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value)=>setleftSideMessage(value)}/>
             </View>
             <View
               style={{
@@ -104,7 +136,7 @@ export default function MyMoodSettings() {
                 height: '100%',
                 alignItems: 'flex-end',
               }}>
-              <RightSideMessageModal />
+              <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value)=>setrightSideMessage(value)}/>
             </View>
 
           </View>
@@ -113,9 +145,7 @@ export default function MyMoodSettings() {
           
               <View style={{ position: 'absolute', borderWidth: 1, borderColor: '#fff'}}>
               <TouchableOpacity style={{paddingHorizontal:15, paddingVertical:5}}
-              onPress={() => {
-                  console.warn('works')
-              }}
+              onPress={sumbit}
           >
               <Text style={{fontSize:20, color:'#fff', }}>Send</Text>
           </TouchableOpacity>
@@ -155,4 +185,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: 30,
   },
+  image: {
+    height: 120,
+    width: 80,
+    borderRadius: 50,
+},
 });

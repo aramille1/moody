@@ -14,7 +14,7 @@ import Main from './src/components/pages/Main/Main';
 import SecondPage from './src/components/SecondPage';
 import MyMoodSettings from './src/components/pages/MyMoodSettings/MyMoodSettings'
 import OtherMood from './src/components/pages/OtherMood/OtherMood';
-
+import user from './src/assets/images/user.png'
 // Import Custom Sidebar
 import CustomSidebarMenu from './src/components/CustomSidebarMenu/CustomSidebarMenu';
 import { Component } from 'react';
@@ -157,7 +157,14 @@ export default class App extends Component {
       rightSideMessage: 'happy',
       imgPickerModal: false,
       modalVisible: false,
-      showAvatarMessageModal: false
+      showAvatarMessageModal: false,
+      moodObj:{
+        image: 'https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-512.png',
+        message: '',
+        sliderValues: 5,
+        leftSideMessage: 'sad',
+        rightSideMessage: 'happy'
+      }
     };
   }
 
@@ -176,6 +183,10 @@ export default class App extends Component {
   setModalVisible = (newVal) => this.setState({modalVisible: newVal})
 
   setShowAvatarMessageModal = (newVal) => this.setState({showAvatarMessageModal: newVal})
+
+  setMoodObj = (obj) => {
+    this.setState({moodObj: obj}) 
+  }
 
 render(){
   return (
@@ -205,6 +216,10 @@ render(){
 
           showAvatarMessageModal:this.state.showAvatarMessageModal,
           setShowAvatarMessageModal: this.setShowAvatarMessageModal,
+
+          moodObj: this.state.moodObj,
+          setMoodObj: this.setMoodObj
+          
         }}>
     <NavigationContainer>
       <Drawer.Navigator

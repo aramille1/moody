@@ -6,8 +6,9 @@ import { MoodContext } from '../../../../../App';
 import Modal from 'react-native-modal';
 
 
-export default function RightSideMessageModal() {
+export default function RightSideMessageModal({rightSideMessage, setRightsideMessageProp}) {
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [text, setText] = React.useState('happy')
 
     const mood = useContext(MoodContext)
 
@@ -19,14 +20,16 @@ export default function RightSideMessageModal() {
                 { cancelable: true },
             );
         } else {
-            mood.setRightSideMessage(text);
+            // mood.setRightSideMessage(text);
+            setText(text)
+            setRightsideMessageProp(text)
         }
     };
     return (
         <>
             <View style={styles.message}>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
-                    <Text style={{ color: "white", textTransform: "capitalize" }}>{mood.rightSideMessage}</Text>
+                    <Text style={{ color: "white", textTransform: "capitalize" }}>{text}</Text>
                 </TouchableOpacity>
             </View>
 

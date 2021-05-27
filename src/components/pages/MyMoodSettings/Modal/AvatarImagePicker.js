@@ -9,9 +9,9 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 
-export default function AvatarImagePicker() {
-
-    const [images, setImages] = React.useState(null);
+export default function AvatarImagePicker({setImageProp}) {
+    
+    const [image, setImage] = React.useState('https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-512.png');
     const mood = useContext(MoodContext)
 
 
@@ -43,7 +43,9 @@ export default function AvatarImagePicker() {
             compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
-            mood.setImage(image.path);
+            // mood.setImage(image.path);
+            setImage(image.path)
+            setImageProp(image.path)
             sheetRef.current.snapTo(1);
         });
     }
@@ -56,7 +58,9 @@ export default function AvatarImagePicker() {
             compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
-            mood.setImage(image.path);
+            // mood.setImage(image.path);
+            setImage(image.path)
+            setImageProp(image.path)
             sheetRef.current.snapTo(1);
         });
     }
@@ -103,6 +107,7 @@ export default function AvatarImagePicker() {
                 initialSnap={1}
                 enabledGestureInteraction={true}
             />
+                            <View style={styles.container}>
             <Animated.View style={{
                 margin: 20,
                 opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
@@ -119,7 +124,7 @@ export default function AvatarImagePicker() {
                             }}>
                             <ImageBackground
                                 source={{
-                                    uri: mood.image,
+                                    uri: image,
                                 }}
                                 style={{ height: 100, width: 100 }}
                                 imageStyle={{ borderRadius: 15 }}>
@@ -129,7 +134,7 @@ export default function AvatarImagePicker() {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
-                                    {!mood.image ? <Icon
+                                    {!mood.moodObj.image ? <Icon
                                         name="camera"
                                         size={35}
                                         color="#fff"
@@ -152,6 +157,7 @@ export default function AvatarImagePicker() {
                     </Text>
                 </View>
             </Animated.View>
+            </View>
             </>
     );
 }
@@ -161,6 +167,7 @@ export default function AvatarImagePicker() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+
     },
     commandButton: {
         padding: 15,

@@ -24,7 +24,7 @@ export default function ShowAvatarMessageModal() {
                 isVisible={mood.showAvatarMessageModal}
                 >
                 <View style={{ padding: 50, backgroundColor: "white", borderRadius: 20 }}>
-                    <Text style={{textAlign:'center', fontSize: 22}}>{mood.message}</Text>
+                    <Text style={{textAlign:'center', fontSize: 22}}>{mood.moodObj.message}</Text>
 
                     <TouchableOpacity
                         style={{ ...styles.openButton2, marginTop: 10 }}

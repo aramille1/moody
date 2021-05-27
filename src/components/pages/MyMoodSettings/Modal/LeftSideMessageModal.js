@@ -6,9 +6,9 @@ import { MoodContext } from '../../../../../App';
 import Modal from 'react-native-modal';
 
 
-export default function LeftSideMessageModal() {
+export default function LeftSideMessageModal({setLeftsideMessageProp, leftSideMessage}) {
     const [modalVisible, setModalVisible] = React.useState(false);
-
+    const [text, setText] = React.useState('sad')
     const mood = useContext(MoodContext)
 
     const addItem = text => {
@@ -18,14 +18,16 @@ export default function LeftSideMessageModal() {
                 { cancelable: true },
             );
         } else {
-            mood.setleftSideMessage(text);
+            // mood.setleftSideMessage(text);
+            setText(text)
+            setLeftsideMessageProp(text)
         }
     };
     return (
         <>
             <View>
                 <TouchableOpacity style={styles.message} onPress={() => setModalVisible(true)}>
-                    <Text style={{ color: "white", textTransform: "capitalize" }}>{mood.leftSideMessage}</Text>
+                    <Text style={{ color: "white", textTransform: "capitalize" }}>{text}</Text>
                 </TouchableOpacity>
             </View>
 
