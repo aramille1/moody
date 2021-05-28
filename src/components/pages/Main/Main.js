@@ -3,18 +3,14 @@
    PermissionsAndroid,
    Platform,
    SafeAreaView,
-   ScrollView,
    StyleSheet,
    Text,
    View,
-   Image,
    TextInput,
-   ActivityIndicator,
    Button
  } from "react-native";
  import Contacts from "react-native-contacts";
  
- import ListItem from "./ListItem";
 //  import Avatar from "../MyMoodSettings/Avatar";
  import SearchBar from "./SearchBar";
  

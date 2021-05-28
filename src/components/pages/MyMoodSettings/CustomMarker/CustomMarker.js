@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { MoodContext } from '../../../../../App';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { AnimatedEmoji } from 'react-native-animated-emoji';
 import Emoji from '../../../../../node_modules/react-native-emoji';
 
 
 const CustomMarker = () => {
     const mood = useContext(MoodContext)
-    // console.log(mood.value + " in customMaker");
     return (
 
                 mood.moodObj.sliderValues == 0 ? <Emoji name="rage" style={{fontSize: 40}} />

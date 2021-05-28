@@ -4,7 +4,6 @@ import {
   TouchableHighlight,
   Text,
   StyleSheet,
-  Platform,
   Animated
 } from "react-native";
 import PropTypes from "prop-types";

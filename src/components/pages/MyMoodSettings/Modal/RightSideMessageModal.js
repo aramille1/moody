@@ -1,17 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MoodContext } from '../../../../../App';
 import Modal from 'react-native-modal';
 
 
 export default function RightSideMessageModal({rightSideMessage, setRightsideMessageProp}) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [text, setText] = React.useState('happy')
-
-    const mood = useContext(MoodContext)
-
 
     const addItem = text => {
         if (!text) {

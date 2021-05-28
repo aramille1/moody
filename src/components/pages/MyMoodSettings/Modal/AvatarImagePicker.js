@@ -1,8 +1,8 @@
-import React, { Component, useContext } from 'react';
-import { Alert, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, Button, View, TouchableHighlight } from 'react-native';
+import React, { useContext } from 'react';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modal';
+// import Modal from 'react-native-modal';
 import { MoodContext } from '../../../../../App';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -14,25 +14,25 @@ export default function AvatarImagePicker({ setImageProp }) {
     const mood = useContext(MoodContext)
 
 
-    const cleanupImages = () => {
-        ImagePicker.clean()
-            .then(() => {
-                console.log('removed tmp images from tmp directory');
-            })
-            .catch((e) => {
-                alert(e);
-            });
-    }
+    // const cleanupImages = () => {
+    //     ImagePicker.clean()
+    //         .then(() => {
+    //             console.log('removed tmp images from tmp directory');
+    //         })
+    //         .catch((e) => {
+    //             alert(e);
+    //         });
+    // }
 
-    const deleteImage = () => {
-        ImagePicker.cleanSingle(image ? image.uri : null)
-            .then(() => {
-                console.log(`removed tmp image ${image.uri} from tmp directory`);
-            })
-            .catch((e) => {
-                alert(e);
-            });
-    }
+    // const deleteImage = () => {
+    //     ImagePicker.cleanSingle(image ? image.uri : null)
+    //         .then(() => {
+    //             console.log(`removed tmp image ${image.uri} from tmp directory`);
+    //         })
+    //         .catch((e) => {
+    //             alert(e);
+    //         });
+    // }
 
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({

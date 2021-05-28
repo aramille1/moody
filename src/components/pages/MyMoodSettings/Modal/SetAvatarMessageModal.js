@@ -8,10 +8,7 @@ import Modal from 'react-native-modal';
 
 
 export default function AvatarMessageModal({setMessage}) {
-    // const [modalVisible, setModalVisible] = React.useState(false);
-
     const mood = useContext(MoodContext)
-
 
     const addItem = text => {
         if (!text) {

@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { MoodContext } from '../../../../../App';
 
 export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
-    const mood = useContext(MoodContext)
 
     const [textValue, setTextValue] = React.useState('')
     const onChange = textValue => setTextValue(textValue);

@@ -4,11 +4,8 @@
 import React from 'react';
 import {
   SafeAreaView,
-  View,
   StyleSheet,
   Image,
-  Text,
-  Linking,
 } from 'react-native';
 
 import {

@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from '../../../../node_modules/react-native-emoji';
-import CustomMarker from './CustomMarker/CustomMarker.js';
+// import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from './Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from './Modal/LeftSideMessageModal';
 import RightSideMessageModal from './Modal/RightSideMessageModal';
@@ -16,8 +16,8 @@ import { MoodContext } from '../../../../App';
 import AvatarImagePicker from './Modal/AvatarImagePicker'
 import gradient from '../../../assets/images/gradient.png';
 import bg from '../../../assets/images/css-gradient.png';
-import Icon from 'react-native-vector-icons/Ionicons';
-import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
+// import Icon from 'react-native-vector-icons/Ionicons';
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 
 import CustomLabel from './CustomLabel/CustomLabel';

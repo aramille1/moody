@@ -8,19 +8,19 @@ import { View, TouchableOpacity, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import RootStackScreen from './src/components/pages/Screens/RootStackScreen';
 import Main from './src/components/pages/Main/Main';
 import SecondPage from './src/components/SecondPage';
 import MyMoodSettings from './src/components/pages/MyMoodSettings/MyMoodSettings'
 import OtherMood from './src/components/pages/OtherMood/OtherMood';
-import user from './src/assets/images/user.png'
 // Import Custom Sidebar
-import CustomSidebarMenu from './src/components/CustomSidebarMenu/CustomSidebarMenu';
+// import CustomSidebarMenu from './src/components/CustomSidebarMenu/CustomSidebarMenu';
 import { Component } from 'react';
 export const MoodContext = React.createContext();
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
 //Structure for the navigatin Drawer
 const NavigationDrawerStructure = (props) => {
@@ -161,6 +161,7 @@ export default class App extends Component {
       }
     };
   }
+  
 
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
@@ -172,52 +173,56 @@ export default class App extends Component {
 
 render(){
   return (
-    <MoodContext.Provider 
-        value={{
-
-          imgPickerModal: this.state.imgPickerModal,
-          setImgPickerModal: this.setImgPickerModal,
-
-          modalVisible: this.state.modalVisible,
-          setModalVisible: this.setModalVisible,
-
-          showAvatarMessageModal:this.state.showAvatarMessageModal,
-          setShowAvatarMessageModal: this.setShowAvatarMessageModal,
-
-          moodObj: this.state.moodObj,
-          setMoodObj: this.setMoodObj
-          
-        }}>
     <NavigationContainer>
-      <Drawer.Navigator
-        drawerContentOptions={{
-          activeTintColor: '#e91e63',
-          itemStyle: { marginVertical: 5 }, //item style in the drawer
-        }}
-        drawerContent={(props) => <CustomSidebarMenu {...props} />}>
-        <Drawer.Screen
-          name="main"
-          options={{ drawerLabel: 'Main' }}
-          component={mainScreenStack}
-        />
-        <Drawer.Screen
-          name="SecondPage"
-          options={{ drawerLabel: 'Second page Option' }}
-          component={secondScreenStack}
-        />
-        <Drawer.Screen
-          name="EditMood"
-          options={{ drawerLabel: 'My Mood Settings' }}
-          component={moodScreenStack}
-        />
-        <Drawer.Screen
-          name="OtherMood"
-          options={{ drawerLabel: 'Other Mood' }}
-          component={otherMoodScreenStack}
-        />
-      </Drawer.Navigator>
+
+      <RootStackScreen/>
     </NavigationContainer>
-    </MoodContext.Provider>
+    // <MoodContext.Provider 
+    //     value={{
+
+    //       imgPickerModal: this.state.imgPickerModal,
+    //       setImgPickerModal: this.setImgPickerModal,
+
+    //       modalVisible: this.state.modalVisible,
+    //       setModalVisible: this.setModalVisible,
+
+    //       showAvatarMessageModal:this.state.showAvatarMessageModal,
+    //       setShowAvatarMessageModal: this.setShowAvatarMessageModal,
+
+    //       moodObj: this.state.moodObj,
+    //       setMoodObj: this.setMoodObj
+          
+    //     }}>
+    // <NavigationContainer>
+    //   <Drawer.Navigator
+    //     drawerContentOptions={{
+    //       activeTintColor: '#e91e63',
+    //       itemStyle: { marginVertical: 5 }, //item style in the drawer
+    //     }}
+    //     drawerContent={(props) => <CustomSidebarMenu {...props} />}>
+    //     <Drawer.Screen
+    //       name="main"
+    //       options={{ drawerLabel: 'Main' }}
+    //       component={mainScreenStack}
+    //     />
+    //     <Drawer.Screen
+    //       name="SecondPage"
+    //       options={{ drawerLabel: 'Second page Option' }}
+    //       component={secondScreenStack}
+    //     />
+    //     <Drawer.Screen
+    //       name="EditMood"
+    //       options={{ drawerLabel: 'My Mood Settings' }}
+    //       component={moodScreenStack}
+    //     />
+    //     <Drawer.Screen
+    //       name="OtherMood"
+    //       options={{ drawerLabel: 'Other Mood' }}
+    //       component={otherMoodScreenStack}
+    //     />
+    //   </Drawer.Navigator>
+    // </NavigationContainer>
+    // </MoodContext.Provider>
   );
 }
 }

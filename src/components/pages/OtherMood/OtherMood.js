@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ImageBackground, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text } from 'react-native';
 
 import CustomMarker from '../MyMoodSettings/CustomMarker/CustomMarker';
 import { MoodContext } from '../../../../App';
@@ -15,7 +15,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 export default function OtherMood() {
     const mood = useContext(MoodContext)
-    const fall = new Animated.Value(1);
+    // const fall = new Animated.Value(1);
     // console.log(" in other Mood: "+ mood.value);
     return (
         <>

@@ -3,13 +3,13 @@ import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 're
 import AddMessage from '../AddMessage/AddMessage.js';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MoodContext } from '../../../../../App';
-import Modal from 'react-native-modal';
+// import Modal from 'react-native-modal';
 
 
 export default function LeftSideMessageModal({setLeftsideMessageProp, leftSideMessage}) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [text, setText] = React.useState('sad')
-    const mood = useContext(MoodContext)
+    // const mood = useContext(MoodContext)
 
     const addItem = text => {
         if (!text) {
