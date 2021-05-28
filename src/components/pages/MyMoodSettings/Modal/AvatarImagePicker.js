@@ -1,7 +1,6 @@
 import React, { Component, useContext } from 'react';
 import { Alert, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, Button, View, TouchableHighlight } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-// import Video from 'react-native-video';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import { MoodContext } from '../../../../../App';

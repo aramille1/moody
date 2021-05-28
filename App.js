@@ -149,17 +149,11 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      image: null,
-      images: null,
-      values: 5,
-      message: '',
-      leftSideMessage: 'sad',
-      rightSideMessage: 'happy',
       imgPickerModal: false,
       modalVisible: false,
       showAvatarMessageModal: false,
       moodObj:{
-        image: 'https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-512.png',
+        image: '',
         message: '',
         sliderValues: 5,
         leftSideMessage: 'sad',
@@ -168,45 +162,18 @@ export default class App extends Component {
     };
   }
 
-  setImage = (value) => this.setState({image: value})
-
-  setValues = (value) => this.setState({values: value})
-
-  setleftSideMessage = (text) =>this.setState({leftSideMessage: text})
-
-  setRightSideMessage = (text) => this.setState({rightSideMessage: text})
-
-  setMessage = (message) => this.setState({message: message})
-
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
   setModalVisible = (newVal) => this.setState({modalVisible: newVal})
 
   setShowAvatarMessageModal = (newVal) => this.setState({showAvatarMessageModal: newVal})
 
-  setMoodObj = (obj) => {
-    this.setState({moodObj: obj}) 
-  }
+  setMoodObj = (obj) => this.setState({moodObj: obj}) 
 
 render(){
   return (
     <MoodContext.Provider 
         value={{
-
-          image: this.state.image,
-          setImage: this.setImage,
-
-          values: this.state.values,
-          setValues: this.setValues,
-
-          leftSideMessage: this.state.leftSideMessage,
-          setleftSideMessage: this.setleftSideMessage,
-
-          rightSideMessage :this.state.rightSideMessage,
-          setRightSideMessage: this.setRightSideMessage,
-
-          message: this.state.message,
-          setMessage: this.setMessage,
 
           imgPickerModal: this.state.imgPickerModal,
           setImgPickerModal: this.setImgPickerModal,
