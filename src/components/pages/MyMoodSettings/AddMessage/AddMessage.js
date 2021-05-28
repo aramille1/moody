@@ -18,19 +18,20 @@ export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
         }
     }
     return (
-
         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-            <TextInput
-                style={styles.textInput}
-                placeholder={placeHolder}
-                onChangeText={onChange}
-                value={textValue}
-            />
+                    <View>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={placeHolder}
+                            onChangeText={onChange}
+                            value={textValue}
+                        />  
+                    </View>
 
-            < TouchableOpacity style={styles.btn} onPress={onAddingMessage}>
-                <Text>add</Text>
-            </TouchableOpacity>
-        </View>
+                < TouchableOpacity style={styles.btn} onPress={onAddingMessage}>
+                    <Text>add</Text>
+                </TouchableOpacity>
+            </View>
     )
 }
 

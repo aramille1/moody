@@ -9,8 +9,8 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 
-export default function AvatarImagePicker({setImageProp}) {
-    
+export default function AvatarImagePicker({ setImageProp }) {
+
     const [image, setImage] = React.useState('https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-512.png');
     const mood = useContext(MoodContext)
 
@@ -97,78 +97,78 @@ export default function AvatarImagePicker({setImageProp}) {
     const fall = new Animated.Value(1);
 
     return (
-            <>
+        <>
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={[410, 0]}
+                snapPoints={[410, -200]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 callbackNode={fall}
                 initialSnap={1}
                 enabledGestureInteraction={true}
             />
-                            <View style={styles.container}>
-            <Animated.View style={{
-                margin: 20,
-                opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-            }}>
-                <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
-                        <View
-                            style={{
-                                height: 100,
-                                width: 100,
-                                borderRadius: 15,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                            <ImageBackground
-                                source={{
-                                    uri: image,
-                                }}
-                                style={{ height: 100, width: 100 }}
-                                imageStyle={{ borderRadius: 15 }}>
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}>
-                                    {!mood.moodObj.image ? <Icon
-                                        name="camera"
-                                        size={35}
-                                        color="#fff"
+            <View style={styles.container}>
+                <Animated.View style={{
+                    margin: 20,
+                    opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+                }}>
+                    <View style={{ alignItems: 'center' }}>
+                        <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
+                            <View
+                                style={{
+                                    height: 100,
+                                    width: 100,
+                                    borderRadius: 15,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <ImageBackground
+                                    source={{
+                                        uri: image,
+                                    }}
+                                    style={{ height: 100, width: 100 }}
+                                    imageStyle={{ borderRadius: 15 }}>
+                                    <View
                                         style={{
-                                            opacity: 0.7,
-                                            alignItems: 'center',
+                                            flex: 1,
                                             justifyContent: 'center',
-                                            borderWidth: 1,
-                                            borderColor: '#fff',
-                                            borderRadius: 10,
-                                            padding:30
-                                        }}
-                                    /> : null}
-                                </View>
-                            </ImageBackground>
-                        </View>
-                    </TouchableOpacity>
-                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
-                        John Doe
-                    </Text>
-                </View>
-            </Animated.View>
+                                            alignItems: 'center',
+                                        }}>
+                                        {!mood.moodObj.image ? <Icon
+                                            name="camera"
+                                            size={35}
+                                            color="#fff"
+                                            style={{
+                                                opacity: 0.7,
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: '#fff',
+                                                borderRadius: 10,
+                                                padding: 30
+                                            }}
+                                        /> : null}
+                                    </View>
+                                </ImageBackground>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
+                            John Doe
+                        </Text>
+                    </View>
+                </Animated.View>
             </View>
-            </>
+        </>
     );
 }
 
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    // container: {
+    //     flex: 1,
 
-    },
+    // },
     commandButton: {
         padding: 15,
         borderRadius: 10,
