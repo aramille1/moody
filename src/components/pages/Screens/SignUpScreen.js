@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-const SignInScreen = ({navigation}) => {
+const SignUnScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
         username: '',
@@ -107,7 +107,7 @@ const SignInScreen = ({navigation}) => {
             </View>
 
             <Text style={[styles.text_footer, {
-                marginTop: 35
+                marginTop: 25
             }]}>Password</Text>
             <View style={styles.action}>
                 <Feather 
@@ -142,7 +142,7 @@ const SignInScreen = ({navigation}) => {
             </View>
 
             <Text style={[styles.text_footer, {
-                marginTop: 35
+                marginTop: 25
             }]}>Confirm Password</Text>
             <View style={styles.action}>
                 <Feather 
@@ -217,7 +217,7 @@ const SignInScreen = ({navigation}) => {
     );
 };
 
-export default SignInScreen;
+export default SignUnScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -228,10 +228,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
-        paddingBottom: 50
+        paddingBottom: 20
     },
     footer: {
-        flex: Platform.OS === 'ios' ? 3 : 5,
+        flex: Platform.OS === 'ios' ? 3 : 9,
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 50
+        marginTop: 20
     },
     signIn: {
         width: '100%',
