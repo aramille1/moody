@@ -11,7 +11,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 
 export default function AvatarImagePicker({ setImageProp }) {
 
-    const [image, setImage] = React.useState('https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-512.png');
+    const [image, setImage] = React.useState();
     const mood = useContext(MoodContext)
 
 
