@@ -15,7 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const SplashScreen = ({navigation}) => {
+const PhoneNumScreen = ({navigation}) => {
     const { colors } = useTheme();
     const [phoneNumber, addPhoneNumber] = React.useState('+1012345678');
 
@@ -80,6 +80,15 @@ const SplashScreen = ({navigation}) => {
                 </LinearGradient>
             </TouchableOpacity>
 
+            <View style={styles.textPrivate}>
+                <Text style={styles.color_textPrivate}>
+                    By signing up you agree to our
+                </Text>
+                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Terms of service</Text>
+                <Text style={styles.color_textPrivate}>{" "}and</Text>
+                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Privacy policy</Text>
+            </View>
+
             </View>
                     {/* <View style={styles.container}>
 
@@ -95,7 +104,7 @@ const SplashScreen = ({navigation}) => {
     );
 };
 
-export default SplashScreen;
+export default PhoneNumScreen;
 
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.28;
@@ -176,6 +185,14 @@ btnText: {
     paddingLeft: 20,
     color: '#05375a',
     fontSize: 30,
+},
+textPrivate: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 20
+},
+color_textPrivate: {
+    color: 'grey'
 },
 moodyTitle:{
     color:"#fff",

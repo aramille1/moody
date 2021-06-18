@@ -13,73 +13,49 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import AvatarImagePicker from '../MyMoodSettings/Modal/AvatarImagePicker';
 
 const SignUnScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
         username: '',
-        password: '',
-        confirm_password: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-        confirm_secureTextEntry: true,
     });
+
+    const [image, setImage] = React.useState('')
 
     const textInputChange = (val) => {
         if( val.length !== 0 ) {
             setData({
                 ...data,
                 username: val,
-                check_textInputChange: true
             });
         } else {
             setData({
                 ...data,
                 username: val,
-                check_textInputChange: false
             });
         }
     }
 
-    const handlePasswordChange = (val) => {
-        setData({
-            ...data,
-            password: val
-        });
+    const onSignIn = () =>{
+        console.log(data,', welcome!')
+        navigation.navigate('main');
+
     }
 
-    const handleConfirmPasswordChange = (val) => {
-        setData({
-            ...data,
-            confirm_password: val
-        });
-    }
-
-    const updateSecureTextEntry = () => {
-        setData({
-            ...data,
-            secureTextEntry: !data.secureTextEntry
-        });
-    }
-
-    const updateConfirmSecureTextEntry = () => {
-        setData({
-            ...data,
-            confirm_secureTextEntry: !data.confirm_secureTextEntry
-        });
-    }
 
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <View style={styles.header}>
-            <Text style={styles.text_header}>Register Now!</Text>
+            <Text style={styles.text_header}>Personal settings!</Text>
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
             style={styles.footer}
         >
             <ScrollView>
+            {/* <AvatarImagePicker setImageProp={(img) => setImage(img)}/> */}
             <Text style={styles.text_footer}>Username</Text>
             <View style={styles.action}>
                 <FontAwesome 
@@ -93,7 +69,7 @@ const SignUnScreen = ({navigation}) => {
                     autoCapitalize="none"
                     onChangeText={(val) => textInputChange(val)}
                 />
-                {data.check_textInputChange ? 
+                {/* {data.check_textInputChange ? 
                 <Animatable.View
                     animation="bounceIn"
                 >
@@ -103,90 +79,16 @@ const SignUnScreen = ({navigation}) => {
                         size={20}
                     />
                 </Animatable.View>
-                : null}
+                : null} */}
             </View>
 
-            <Text style={[styles.text_footer, {
-                marginTop: 25
-            }]}>Password</Text>
-            <View style={styles.action}>
-                <Feather 
-                    name="lock"
-                    color="#05375a"
-                    size={20}
-                />
-                <TextInput 
-                    placeholder="Your Password"
-                    secureTextEntry={data.secureTextEntry ? true : false}
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
-                />
-                <TouchableOpacity
-                    onPress={updateSecureTextEntry}
-                >
-                    {data.secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={20}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={20}
-                    />
-                    }
-                </TouchableOpacity>
-            </View>
 
-            <Text style={[styles.text_footer, {
-                marginTop: 25
-            }]}>Confirm Password</Text>
-            <View style={styles.action}>
-                <Feather 
-                    name="lock"
-                    color="#05375a"
-                    size={20}
-                />
-                <TextInput 
-                    placeholder="Confirm Your Password"
-                    secureTextEntry={data.confirm_secureTextEntry ? true : false}
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    onChangeText={(val) => handleConfirmPasswordChange(val)}
-                />
-                <TouchableOpacity
-                    onPress={updateConfirmSecureTextEntry}
-                >
-                    {data.secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={20}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={20}
-                    />
-                    }
-                </TouchableOpacity>
-            </View>
-            <View style={styles.textPrivate}>
-                <Text style={styles.color_textPrivate}>
-                    By signing up you agree to our
-                </Text>
-                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Terms of service</Text>
-                <Text style={styles.color_textPrivate}>{" "}and</Text>
-                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Privacy policy</Text>
-            </View>
+
+
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {}}
+                    onPress={onSignIn}
                 >
                 <LinearGradient
                     colors={['#08d4c4', '#01ab9d']}
@@ -198,18 +100,7 @@ const SignUnScreen = ({navigation}) => {
                 </LinearGradient>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    style={[styles.signIn, {
-                        borderColor: '#009387',
-                        borderWidth: 1,
-                        marginTop: 15
-                    }]}
-                >
-                    <Text style={[styles.textSign, {
-                        color: '#009387'
-                    }]}>Sign In</Text>
-                </TouchableOpacity>
+
             </View>
             </ScrollView>
         </Animatable.View>
@@ -250,9 +141,9 @@ const styles = StyleSheet.create({
     action: {
         flexDirection: 'row',
         marginTop: 10,
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#f2f2f2',
-        // paddingBottom: 5
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5
     },
     textInput: {
         flex: 1,
@@ -275,12 +166,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold'
     },
-    textPrivate: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: 20
-    },
-    color_textPrivate: {
-        color: 'grey'
-    }
+
   });
