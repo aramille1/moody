@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 
-import { Styles } from './Styles';
+import { Styles } from './styles/Styles';
 import ErrorBoundary from './components/ErrorBoundry';
-import colors from './Colors';
+import colors from './styles/Colors';
 import { isAndroid } from './utils/HelperFunctions';
 import CustomText from './components/CustomText';
 import CustomTextInput from './components/CustomTextInput';

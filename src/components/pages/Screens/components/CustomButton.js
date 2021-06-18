@@ -2,7 +2,7 @@ import {StyleSheet, TouchableOpacity, Text, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import colors from '../Colors';
+import colors from '../styles/Colors';
 
 const CustomButton = function(props) {
   const style = {};

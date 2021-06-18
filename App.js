@@ -43,9 +43,6 @@ export default class App extends Component {
 
 render(){
   return (
-    // <NavigationContainer>
-
-    // </NavigationContainer>
     <MoodContext.Provider 
         value={{
 
