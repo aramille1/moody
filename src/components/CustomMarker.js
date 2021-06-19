@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { MoodContext } from '../../../../../App';
-import Emoji from '../../../../../node_modules/react-native-emoji';
+import { MoodContext } from '../../App';
+import Emoji from '../../node_modules/react-native-emoji';
 
 
 const CustomMarker = () => {

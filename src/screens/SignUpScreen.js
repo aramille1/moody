@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { 
     View, 
     Text, 
@@ -12,35 +12,22 @@ import {
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import AvatarImagePicker from '../MyMoodSettings/Modal/AvatarImagePicker';
+// import Feather from 'react-native-vector-icons/Feather';
+// import AvatarImagePicker from '../MyMoodSettings/Modal/AvatarImagePicker';
+import { MoodContext } from '../../App';
 
 const SignUnScreen = ({navigation}) => {
+    const mood = useContext(MoodContext)
 
-    const [data, setData] = React.useState({
-        username: '',
-    });
+    const [username, setUsername] = React.useState('')
 
     const [image, setImage] = React.useState('')
 
-    const textInputChange = (val) => {
-        if( val.length !== 0 ) {
-            setData({
-                ...data,
-                username: val,
-            });
-        } else {
-            setData({
-                ...data,
-                username: val,
-            });
-        }
-    }
+    const textInputChange = (val) => setUsername(val)
 
     const onSignIn = () =>{
-        console.log(data,', welcome!')
+        mood.setUsername(username)
         navigation.navigate('main');
-
     }
 
 

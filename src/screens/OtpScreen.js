@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
-
-import { Styles } from './styles/Styles';
-import ErrorBoundary from './components/ErrorBoundry';
-import colors from './styles/Colors';
-import { isAndroid } from './utils/HelperFunctions';
-import CustomText from './components/CustomText';
-import CustomTextInput from './components/CustomTextInput';
-import FullButtonComponent from './components/FullButtonComponent';
 import auth from '@react-native-firebase/auth'; 
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { Styles } from '../styles/Styles';
+import ErrorBoundary from '../components/ErrorBoundry';
+import colors from '../styles/Colors';
+import { isAndroid } from '../components/HelperFunctions';
+import CustomText from '../components/CustomText';
+import CustomTextInput from '../components/CustomTextInput';
+import FullButtonComponent from '../components/FullButtonComponent';
 
 const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) {
   const [otpArray, setOtpArray] = useState(['', '', '', '']);
@@ -51,7 +51,8 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
       navigation.navigate('SignUpScreen');
     }
     } catch(e){
-      alert(JSON.stringify(e));
+      // alert(JSON.stringify(e));
+      alert('code is wrong!')
     }
   }
   const onOtpChange = index => {

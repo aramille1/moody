@@ -3,9 +3,9 @@ import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 // import Modal from 'react-native-modal';
-import { MoodContext } from '../../../../../App';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { MoodContext } from '../../../App';
 
 
 export default function AvatarImagePicker({ setImageProp }) {
@@ -152,7 +152,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                             </View>
                         </TouchableOpacity>
                         <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
-                            John Doe
+                        {mood.moodObj.username}
                         </Text>
                     </View>
                 </Animated.View>

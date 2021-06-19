@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
 import { ImageBackground, StyleSheet, View, Text } from 'react-native';
-
-import CustomMarker from '../MyMoodSettings/CustomMarker/CustomMarker';
-import { MoodContext } from '../../../../App';
-
-import gradient from '../../../assets/images/gradient.png';
-import bg from '../../../assets/images/css-gradient.png';
-import ShowAvatarMessageModal from '../MyMoodSettings/Modal/ShowAvatarMessageModal';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CustomLabel from '../../../components/pages/MyMoodSettings/CustomLabel/CustomLabel';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+
+import { MoodContext } from '../../App';
+import CustomMarker from '../components/CustomMarker';
+import gradient from '../assets/images/gradient.png';
+import bg from '../assets/images/css-gradient.png';
+import ShowAvatarMessageModal from '../components/Modal/ShowAvatarMessageModal';
+import CustomLabel from '../components/CustomLabel';
 
 
 export default function OtherMood() {
@@ -74,7 +73,7 @@ export default function OtherMood() {
                                 </ImageBackground>
                             </View>
                             <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
-                                John Doe
+                                {mood.moodObj.username}
                             </Text>
                         </View>
                 </View>

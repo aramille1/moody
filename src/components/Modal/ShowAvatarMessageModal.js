@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import { MoodContext } from '../../../../../App';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 
+import { MoodContext } from '../../../App';
 
 export default function ShowAvatarMessageModal() {
     const mood = useContext(MoodContext)

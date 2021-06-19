@@ -12,7 +12,7 @@
  import Contacts from "react-native-contacts";
  
 //  import Avatar from "../MyMoodSettings/Avatar";
- import SearchBar from "./SearchBar";
+ import SearchBar from '../components/SearchBar/index';
  
  export default class Main extends Component {
    constructor(props) {

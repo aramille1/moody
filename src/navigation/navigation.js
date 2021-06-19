@@ -5,16 +5,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-// import RootStackScreen from './src/components/pages/Screens/RootStackScreen';
-import Main from './pages/Main/Main';
-import MyMoodSettings from './pages/MyMoodSettings/MyMoodSettings'
-import OtherMood from './pages/OtherMood/OtherMood';
-import CustomSidebarMenu from './CustomSidebarMenu/CustomSidebarMenu';
+import Main from '../screens/Main';
+import MyMoodSettings from '../screens/MyMoodSettings'
+import OtherMood from '../screens/OtherMood';
+import CustomSidebarMenu from '../components/CustomSidebarMenu';
 
-import PhoneNumScreen from './pages/Screens/PhoneNumScreen';
-import SignInScreen from './pages/Screens/SignInScreen';
-import SignUpScreen from './pages/Screens/SignUpScreen';
-import OTPScreen from './pages/Screens/OtpScreen';
+import PhoneNumScreen from '../screens/PhoneNumScreen';
+import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+import OTPScreen from '../screens/OtpScreen';
 
 const RootStack = createStackNavigator();
 const RootStackScreen = ({navigation}) => (

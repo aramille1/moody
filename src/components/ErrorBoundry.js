@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 
-import {logErrorWithMessage} from '../utils/HelperFunctions';
+import {logErrorWithMessage} from '../components/HelperFunctions';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

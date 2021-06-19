@@ -7,20 +7,21 @@ import {
   TouchableOpacity
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import Emoji from '../../../../node_modules/react-native-emoji';
-// import CustomMarker from './CustomMarker/CustomMarker.js';
-import SetAvatarMessageModal from './Modal/SetAvatarMessageModal';
-import LeftSideMessageModal from './Modal/LeftSideMessageModal';
-import RightSideMessageModal from './Modal/RightSideMessageModal';
-import { MoodContext } from '../../../../App';
-import AvatarImagePicker from './Modal/AvatarImagePicker'
-import gradient from '../../../assets/images/gradient.png';
-import bg from '../../../assets/images/css-gradient.png';
-// import Icon from 'react-native-vector-icons/Ionicons';
+import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
 
+// import CustomMarker from './CustomMarker/CustomMarker.js';
+import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
+import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
+import RightSideMessageModal from '../components/Modal/RightSideMessageModal';
+import { MoodContext } from '../../App';
+import AvatarImagePicker from '../components/Modal/AvatarImagePicker'
+import gradient from '../assets/images/gradient.png';
+import bg from '../assets/images/css-gradient.png';
+// import Icon from 'react-native-vector-icons/Ionicons';
 
-import CustomLabel from './CustomLabel/CustomLabel';
+
+import CustomLabel from '../components/CustomLabel';
 
 export default function MyMoodSettings() {
   const [image, setImage] = React.useState()
@@ -37,7 +38,8 @@ export default function MyMoodSettings() {
       message: message,
       sliderValues: sliderValues,
       leftSideMessage: leftSideMessage,
-      rightSideMessage: rightSideMessage
+      rightSideMessage: rightSideMessage,
+      username: mood.moodObj.username
     }
     mood.setMoodObj(obj)
     showMessage({
@@ -72,7 +74,6 @@ export default function MyMoodSettings() {
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
-
         <View style={styles.container}>
           {/* mood slider */}
           <ImageBackground source={gradient} style={styles.trackBgImage}>
