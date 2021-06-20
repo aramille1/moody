@@ -136,13 +136,13 @@ export default function AvatarImagePicker({ setImageProp }) {
                                         {!mood.moodObj.image ? <Icon
                                             name="camera"
                                             size={35}
-                                            color="#fff"
+                                            color="#4f6367"
                                             style={{
                                                 opacity: 0.7,
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 borderWidth: 1,
-                                                borderColor: '#fff',
+                                                borderColor: '#4f6367',
                                                 borderRadius: 10,
                                                 padding: 30
                                             }}
@@ -151,7 +151,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                                 </ImageBackground>
                             </View>
                         </TouchableOpacity>
-                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
+                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367" }}>
                         {mood.moodObj.username}
                         </Text>
                     </View>
@@ -179,6 +179,11 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
+        borderRightWidth: 1,
+        borderLeftWidth:1,
+        borderRightColor: 'black',
+        borderLeftColor: 'black'
+
         // borderTopLeftRadius: 20,
         // borderTopRightRadius: 20,
         // shadowColor: '#000000',
@@ -196,6 +201,9 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderBottomWidth: 0
     },
     panelHeader: {
         alignItems: 'center',

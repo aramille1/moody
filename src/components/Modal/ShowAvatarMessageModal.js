@@ -14,7 +14,7 @@ export default function ShowAvatarMessageModal() {
             <View>
                 <TouchableOpacity
                     onPress={() => mood.setShowAvatarMessageModal(!mood.showAvatarMessageModal)}>
-                    <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
+                    <Icon name="chatbubble-ellipses-outline" size={30} color="#4f6367" />
                 </TouchableOpacity>
             </View >
 

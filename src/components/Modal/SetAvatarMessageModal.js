@@ -32,7 +32,7 @@ export default function AvatarMessageModal({setMessage}) {
                     onPress={() => {
                         mood.setModalVisible(!mood.modalVisible);
                     }}>
-                    <Icon name="chatbubble-ellipses-outline" size={30} color="white" />
+                    <Icon name="chatbubble-ellipses-outline" size={30} color="#4f6367" />
                 </TouchableOpacity>
 
 
@@ -44,7 +44,7 @@ export default function AvatarMessageModal({setMessage}) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text>Add your message here</Text>
+                            <Text style={{color: '#4f6367'}}>Add your message here</Text>
                             <View style={{ marginTop: 20 }}>
                                 {/* add button */}
                                 <AddMessage placeHolder="e.g.: Feeling like an Icecream :)" addItem={addItem} setModalVisible={() => mood.setModalVisible(!mood.modalVisible)} />

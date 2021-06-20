@@ -27,7 +27,7 @@ export default function LeftSideMessageModal({setLeftsideMessageProp, leftSideMe
         <>
             <View>
                 <TouchableOpacity style={styles.message} onPress={() => setModalVisible(true)}>
-                    <Text style={{ color: "white", textTransform: "capitalize" }}>{text}</Text>
+                    <Text style={{ color: "#4f6367", textTransform: "capitalize" }}>{text}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
         width: 100,
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "white",
+        borderRadius: 10,
+        borderColor: "#4f6367",
         justifyContent: "flex-end",
-        padding: 5,
-        paddingRight: 0,
+        padding: 10,
+        paddingRight: 10,
         position: "absolute",
         top: 20,
 

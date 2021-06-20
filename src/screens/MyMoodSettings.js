@@ -4,12 +4,13 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
-
+import AnimatedLinearGradient, {presetColors} from 'react-native-animated-linear-gradient'
 // import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
@@ -66,13 +67,16 @@ export default function MyMoodSettings() {
   return (
     <>
       <ImageBackground
-        source={bg}
+        // source={bg}
         style={{
+          backgroundColor:'#fff',
+          // backgroundColor:'#4f6367',
           resizeMode: 'cover',
           justifyContent: 'center',
           height: '100%',
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
+        <StatusBar backgroundColor='#fff' barStyle="dark-content"/>
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
         <View style={styles.container}>
           {/* mood slider */}
@@ -90,7 +94,7 @@ export default function MyMoodSettings() {
               step={1}
               containerStyle={{
                 height: 30,
-                borderColor: 'white',
+                borderColor: 'black',
                 borderWidth: 1,
               }}
               trackStyle={{
@@ -126,7 +130,7 @@ export default function MyMoodSettings() {
           </View>
 
           {/* sad and happy indicators */}
-          <Text style={{ color: 'black' }}>{sliderValues}</Text>
+          {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
           <View style={styles.leftAndRightContainer}>
             <View
               style={{
@@ -150,11 +154,11 @@ export default function MyMoodSettings() {
           {/* end of sad and happy indicators */}
 
 
-          <View style={{ position: 'absolute', borderWidth: 1, borderColor: '#fff' }}>
-            <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 5 }}
+          <View style={{ position: 'absolute', borderWidth: 1, borderRadius: 10, borderColor: '#4f6367', }}>
+            <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 15 }}
               onPress={submit}
             >
-              <Text style={{ fontSize: 20, color: '#fff', }}>Save</Text>
+              <Text style={{ fontSize: 20, color: '#4f6367', }}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>

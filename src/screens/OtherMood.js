@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ImageBackground, StyleSheet, View, Text } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text,StatusBar } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,12 +19,14 @@ export default function OtherMood() {
     return (
         <>
             <ImageBackground 
-                source={bg} 
+                // source={bg} 
                 style={{
                 resizeMode: "cover",
                 justifyContent: "center",
                 height: "100%",
+                color: "#fff"
             }}>
+                        <StatusBar backgroundColor='#fff' barStyle="dark-content"/>
                 <View style={{
                             flex: 1,
                             flexDirection: 'column',
@@ -58,13 +60,13 @@ export default function OtherMood() {
                                         {!mood.moodObj.image ? <Icon
                                             name="camera"
                                             size={35}
-                                            color="#fff"
+                                            color="#4f6367"
                                             style={{
                                                 opacity: 0.7,
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 borderWidth: 1,
-                                                borderColor: '#fff',
+                                                borderColor: '#4f6367',
                                                 borderRadius: 10,
                                                 padding: 30
                                             }}
@@ -72,7 +74,7 @@ export default function OtherMood() {
                                     </View>
                                 </ImageBackground>
                             </View>
-                            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#fff" }}>
+                            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367" }}>
                                 {mood.moodObj.username}
                             </Text>
                         </View>
@@ -104,7 +106,7 @@ export default function OtherMood() {
                                 step={1}
                                 containerStyle={{
                                     height: 30,
-                                    borderColor: 'white',
+                                    borderColor: '#4f6367',
                                     borderWidth: 1,
                                 }}
                                 trackStyle={{
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
         marginBottom: 320,
         flexDirection: "row",
         height: 80,
-        paddingHorizontal: 30
+        paddingHorizontal: 30,
     },
     trackBgImage: {
         resizeMode: 'cover',
@@ -190,18 +192,19 @@ const styles = StyleSheet.create({
     titleText: {
         textAlign: "center",
         fontSize: 30,
-        color: "white",
+        color: "#4f6367",
         paddingVertical: 10,
         marginBottom: 30
     },
     indicatorsMessage: {
         width: 100,
-        color: "white",
-        borderColor: "white",
+        color: "#4f6367",
+        borderColor: "#4f6367",
         borderWidth: 1,
         marginTop: 50,
         padding: 10,
-        textAlign: "center"
+        textAlign: "center",
+        borderRadius: 10
     }
 
 });

@@ -4,6 +4,8 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 import Main from '../screens/Main';
 import MyMoodSettings from '../screens/MyMoodSettings'
@@ -35,16 +37,18 @@ const NavigationDrawerStructure = (props) => {
   };
 
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', marginLeft: 5 }}>
       <TouchableOpacity onPress={toggleDrawer}>
         {/*Donute Button Image */}
-        <Image
+        {/* <Image
           source={{
             uri:
               'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
           }}
           style={{ width: 25, height: 25, marginLeft: 5 }}
-        />
+        /> */}
+      <Icon name="menu-outline" size={30} color="#373737"  />
+
       </TouchableOpacity>
     </View>
   );
@@ -57,16 +61,18 @@ const mainScreenStack = ({ navigation }) =>(
     name="main"
     component={Main}
     options={{
-      title: 'Main', 
+      title: '', 
       headerLeft: () => (
         <NavigationDrawerStructure navigationProps={navigation} />
       ),
       headerStyle: {
-        backgroundColor: 'green', //Set Header color
+        backgroundColor: '#fff',//Set Header color
+        height: 30
       },
       headerTintColor: '#fff', //Set Header text color
       headerTitleStyle: {
         fontWeight: 'bold', //Set Header text style
+        fontSize: 12
       },
     }}
   />
@@ -76,22 +82,26 @@ const mainScreenStack = ({ navigation }) =>(
 
 const MyMoodStack = createStackNavigator();
 const moodScreenStack = ({ navigation }) =>(
-  <MyMoodStack.Navigator initialRouteName="MyMoodSettings">
+  <MyMoodStack.Navigator initialRouteName="MyMoodSettings" >
   <MyMoodStack.Screen
     name="MyMoodSettings"
     component={MyMoodSettings}
     options={{
-      title: 'My Mood Settings', //Set Header Title
+      title: '', //Set Header Title
+      // headerShown: false,
       headerLeft: () => (
         <NavigationDrawerStructure navigationProps={navigation} />
       ),
       headerStyle: {
-        backgroundColor: 'brown', //Set Header color
+        backgroundColor: '#fff',//Set Header color
+        height: 30,
       },
       headerTintColor: '#fff', //Set Header text color
       headerTitleStyle: {
         fontWeight: 'bold', //Set Header text style
+        fontSize: 12
       },
+      // headerShown: false 
     }}
   />
 </MyMoodStack.Navigator>
@@ -104,12 +114,12 @@ const otherMoodScreenStack = ({ navigation }) => (
         name="OtherMood"
         component={OtherMood}
         options={{
-          title: 'Other Mood', //Set Header Title
+          title: '', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: 'brown', //Set Header color
+            backgroundColor: '#fff', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -135,7 +145,7 @@ const AppDrawerScreen = () => (
     />
     <AppDrawer.Screen
       name="EditMood"
-      options={{ drawerLabel: 'My Mood Settings' }}
+      options={{ drawerLabel: 'My Mood Settings', }}
       component={moodScreenStack}
     />
     <AppDrawer.Screen
@@ -150,7 +160,8 @@ export default () => {
   const [isLoggedIn, setLog] = React.useState(true)
     return (
             <NavigationContainer>
-                {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>}
+              <AppDrawerScreen/>
+                {/* {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>} */}
             </NavigationContainer>
     )
 }

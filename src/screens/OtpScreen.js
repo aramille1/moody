@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   otpText: {
-    color: colors.BLUE,
+    color: '#3543bf',
     fontSize: 18,
     width: '100%',
   },

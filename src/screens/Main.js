@@ -13,7 +13,7 @@
  
 //  import Avatar from "../MyMoodSettings/Avatar";
  import SearchBar from '../components/SearchBar/index';
- 
+ import Icon from 'react-native-vector-icons/Ionicons';
  export default class Main extends Component {
    constructor(props) {
      super(props);
@@ -186,18 +186,7 @@
                   marginBottom: 50, 
                   marginRight: 30
                   }}>
-          <Text 
-            style={{fontSize:30, borderColor:'black', 
-                borderWidth:1, 
-                width:40,
-                justifyContent:'center', 
-                alignItems:'center', 
-                paddingLeft: 10, 
-                paddingRight:10,
-                borderRadius:40
-              }}
-              onPress={() => navigation.navigate('EditMood')}
-            >+</Text>
+         <Icon onPress={() => navigation.navigate('EditMood')} name="add-circle-outline" size={50} color="#373737"  />
          </View>
  
        </SafeAreaView>

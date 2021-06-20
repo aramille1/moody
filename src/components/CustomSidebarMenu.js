@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Image,
+  Text
 } from 'react-native';
 
 import {
@@ -22,10 +23,11 @@ const CustomSidebarMenu = (props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/*Top Large Image */}
-      <Image
+      {/* <Image
         source={{ uri: BASE_PATH + proileImage }}
         style={styles.sideMenuProfileIcon}
-      />
+      /> */}
+      <Text style={{alignSelf:"center", marginVertical: 50}}>Moody</Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>

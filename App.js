@@ -17,7 +17,7 @@ export default class App extends Component {
         sliderValues: 5,
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
-        username: ''
+        username: 'username'
       }
     };
   }

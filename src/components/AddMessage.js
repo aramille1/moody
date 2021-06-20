@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     btn: {
         padding: 15,
         borderWidth: 1,
-        borderColor: "black",
+        borderRadius: 10,
+        borderColor: "#4f6367",
         marginLeft: 10,
         height: 60
     },
@@ -45,7 +46,8 @@ const styles = StyleSheet.create({
         width: 190,
         height: 60,
         borderWidth: 1,
-        borderColor: 'black',
+        borderRadius: 10,
+        borderColor: '#4f6367',
         backgroundColor: "transparent",
         paddingHorizontal: 10
     }
