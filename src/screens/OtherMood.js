@@ -142,12 +142,17 @@ export default function OtherMood() {
 
                     {/* sad and happy indicators */}
                     <View style={styles.leftAndRightContainer}>
-                        <View >
+                        <View style={{
+                            position:'absolute',
+                            top:-22,
+                            left: 5
+                        }}>
                             <Text style={styles.indicatorsMessage}>{mood.moodObj.leftSideMessage}</Text>
                         </View>
                         <View style={{
-                            flex: 1,
-                            alignItems: "flex-end",
+                            position:'absolute',
+                            top:-20,
+                            right: 5
                         }}>
                             <Text style={styles.indicatorsMessage}>{mood.moodObj.rightSideMessage}</Text>
                         </View>
@@ -199,12 +204,12 @@ const styles = StyleSheet.create({
     indicatorsMessage: {
         width: 100,
         color: "#4f6367",
-        borderColor: "#4f6367",
-        borderWidth: 1,
+        // borderColor: "#4f6367",
+        // borderWidth: 1,
         marginTop: 50,
         padding: 10,
         textAlign: "center",
-        borderRadius: 10
+        // borderRadius: 10
     }
 
 });

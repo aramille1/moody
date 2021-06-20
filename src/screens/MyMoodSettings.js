@@ -154,11 +154,11 @@ export default function MyMoodSettings() {
           {/* end of sad and happy indicators */}
 
 
-          <View style={{ position: 'absolute', borderWidth: 1, borderRadius: 10, borderColor: '#4f6367', }}>
-            <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 15 }}
+          <View style={{ position: 'absolute', top:130, borderRadius: 10,backgroundColor: '#56a1a8' }}>
+            <TouchableOpacity style={{ paddingHorizontal: 150, paddingVertical: 15 }}
               onPress={submit}
             >
-              <Text style={{ fontSize: 20, color: '#4f6367', }}>Save</Text>
+              <Text style={{ fontSize: 20, color: '#fff', }}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>

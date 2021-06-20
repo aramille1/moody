@@ -66,13 +66,14 @@ const styles = StyleSheet.create({
         width: 100,
         // height: "100%",
         alignItems: "center",
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: "#4f6367",
-        justifyContent: "flex-end",
-        padding: 10,
+        // borderWidth: 1,
+        // borderRadius: 10,
+        // borderColor: "#4f6367",
+        // justifyContent: "flex-end",
+        // padding: 10,
         position: "absolute",
-        top: 20
+        top: 20,
+        right: -30
     },
     centeredView: {
         flex: 1,

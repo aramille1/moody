@@ -7,7 +7,8 @@
    Text,
    View,
    TextInput,
-   Button
+   Button,
+   StatusBar
  } from "react-native";
  import Contacts from "react-native-contacts";
  
@@ -113,6 +114,8 @@
     const { navigation } = this.props;
      return (
        <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor='#fff' barStyle="dark-content"/>
+
          <View
            style={{
              paddingLeft: 100,

@@ -133,7 +133,8 @@ const AppDrawer = createDrawerNavigator();
 const AppDrawerScreen = () => (
     <AppDrawer.Navigator
     drawerContentOptions={{
-      activeTintColor: '#e91e63',
+      activeTintColor: '#2596BE',
+      inactiveTintColor: 'black',
       itemStyle: { marginVertical: 5 }, //item style in the drawer
     }}
     drawerContent={(props) => <CustomSidebarMenu {...props} />}>
@@ -160,8 +161,8 @@ export default () => {
   const [isLoggedIn, setLog] = React.useState(true)
     return (
             <NavigationContainer>
-              <AppDrawerScreen/>
-                {/* {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>} */}
+              {/* <AppDrawerScreen/> */}
+                {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>}
             </NavigationContainer>
     )
 }

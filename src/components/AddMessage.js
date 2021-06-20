@@ -27,7 +27,7 @@ export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
                     </View>
 
                 < TouchableOpacity style={styles.btn} onPress={onAddingMessage}>
-                    <Text>add</Text>
+                    <Text style={{color: '#fff'}}>add</Text>
                 </TouchableOpacity>
             </View>
     )
@@ -36,11 +36,12 @@ export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
 const styles = StyleSheet.create({
     btn: {
         padding: 15,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderRadius: 10,
-        borderColor: "#4f6367",
+        // borderColor: "#4f6367",
         marginLeft: 10,
-        height: 60
+        height: 60,
+        backgroundColor: '#56a1a8'
     },
     textInput: {
         width: 190,
