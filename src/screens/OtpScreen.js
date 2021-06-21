@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import auth from '@react-native-firebase/auth'; 
-import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { Styles } from '../styles/Styles';

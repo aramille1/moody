@@ -161,8 +161,8 @@ export default () => {
   const [isLoggedIn, setLog] = React.useState(true)
     return (
             <NavigationContainer>
-              <AppDrawerScreen/>
-                {/* {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>} */}
+              {/* <AppDrawerScreen/> */}
+                {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>}
             </NavigationContainer>
     )
 }

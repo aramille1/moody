@@ -12,7 +12,6 @@ import * as Animatable from 'react-native-animatable';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
-import AnimatedLinearGradient, { presetColors } from 'react-native-animated-linear-gradient'
 // import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
