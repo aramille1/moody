@@ -12,6 +12,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 // import Feather from 'react-native-vector-icons/Feather';
 // import AvatarImagePicker from '../MyMoodSettings/Modal/AvatarImagePicker';
 import { MoodContext } from '../../App';
@@ -34,11 +36,11 @@ const SignUnScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
             <Text style={styles.text_header}>Personal settings!</Text>
-        </View>
+        </View> */}
         <Animatable.View 
-            animation="fadeInUpBig"
+            animation="fadeInUp"
             style={styles.footer}
         >
             <ScrollView>
@@ -70,27 +72,26 @@ const SignUnScreen = ({navigation}) => {
             </View>
 
 
+            
 
 
-            <View style={styles.button}>
-                <TouchableOpacity
-                    style={styles.signIn}
-                    onPress={onSignIn}
-                >
-                <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
-                    style={styles.signIn}
-                >
-                    <Text style={[styles.textSign, {
-                        color:'#fff'
-                    }]}>Sign Up</Text>
-                </LinearGradient>
-                </TouchableOpacity>
-
-
-            </View>
             </ScrollView>
         </Animatable.View>
+        <Animatable.View 
+                    animation="fadeInUp"
+                >
+            <View style={styles.button}>
+            <TouchableOpacity style={styles.btn} onPress={onSignIn}>
+ 
+            <Text style={styles.textSign}>Save</Text>
+            <MaterialIcons
+                name="navigate-next"
+                color="#4f6367"
+                size={20}
+            />
+            </TouchableOpacity>
+            </View>
+            </Animatable.View>
       </View>
     );
 };
@@ -100,7 +101,8 @@ export default SignUnScreen;
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#009387'
+      backgroundColor: '#009387',
+      justifyContent: 'center'
     },
     header: {
         flex: 1,
@@ -109,12 +111,12 @@ const styles = StyleSheet.create({
         paddingBottom: 20
     },
     footer: {
-        flex: Platform.OS === 'ios' ? 3 : 9,
+        // flex: Platform.OS === 'ios' ? 3 : 9,
         backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
+        borderRadius: 10,
         paddingHorizontal: 20,
-        paddingVertical: 30
+        paddingVertical: 30,
+        marginHorizontal: 15
     },
     text_header: {
         color: '#fff',
@@ -149,9 +151,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10
     },
-    textSign: {
-        fontSize: 18,
+    btn:{
+        backgroundColor: '#fff',
+        paddingHorizontal: 140,
+        paddingVertical: 15,
+        // flex:1,
+        alignItems: 'center',
+        // marginTop: 0,
+        // marginHorizontal: 0,
+        justifyContent:'center',
+        flexDirection: 'row',
+        borderRadius: 10
+      },
+      textSign: {
+        color: '#4f6367',
         fontWeight: 'bold'
-    },
+      },
 
   });
