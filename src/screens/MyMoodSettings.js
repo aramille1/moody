@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   StatusBar
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
@@ -84,6 +86,7 @@ export default function MyMoodSettings() {
 
         {/* mood slider */}
         <View style={styles.container}>
+        <Animatable.View animation="fadeIn">
           <ImageBackground source={gradient} style={styles.trackBgImage}>
             <MultiSlider
               selectedStyle={{
@@ -131,7 +134,6 @@ export default function MyMoodSettings() {
           }}>
             <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
           </View>
-
           {/* sad and happy indicators */}
           {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
           <View style={styles.leftAndRightContainer}>
@@ -157,10 +159,10 @@ export default function MyMoodSettings() {
             </View>
           </View>
           {/* end of sad and happy indicators */}
-
+          </Animatable.View>
         </View>
         {/* end of mood slider */}
-
+        <Animatable.View animation="fadeIn">
         <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
           <TouchableOpacity style={{ paddingHorizontal: 140, paddingVertical: 15 }}
             onPress={submit}
@@ -170,6 +172,8 @@ export default function MyMoodSettings() {
         </View>
 
         <FlashMessage position="top" floating />
+        </Animatable.View>
+        
       </View>
     </>
   )

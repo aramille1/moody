@@ -41,7 +41,6 @@ const PhoneNumScreen = ({ navigation }) => {
             </View>
             <Animatable.View
                 style={[styles.footer, {
-                    // backgroundColor: colors.background
                 }]}
                 animation="fadeInUp"
             >
@@ -83,15 +82,7 @@ const PhoneNumScreen = ({ navigation }) => {
 
 
                 </View>
-                {/* <View style={styles.container}>
 
-            <Pressable onPress={GetOTP}
-                style={({ pressed }) => ({ ...styles.btnContainer, backgroundColor: pressed ? 'white' : 'blue' })}>
-                <Text style={styles.btnText}>
-                    
-                </Text>
-            </Pressable>
-        </View> */}
             </Animatable.View>
 
 
@@ -118,39 +109,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#009387',
         justifyContent: 'space-around'
     },
-    otpContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    btnContainer: {
-        padding: 20,
-        borderRadius: 10,
-        marginTop: 30,
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
     header: {
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     footer: {
-        // flex: 2,
-        // backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        // paddingVertical: 50,
-        // paddingHorizontal: 30,
     },
     action: {
         flexDirection: 'row',
-        // marginBottom: 10,
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#f2f2f2',
         paddingTop: 10,
         paddingLeft: 20,
         backgroundColor: '#fff',
@@ -176,25 +144,12 @@ const styles = StyleSheet.create({
     title: {
         color: '#fff',
         fontSize: 20,
-        // fontWeight: 'bold'
         textAlign: 'center',
         marginBottom: 10
-    },
-    text: {
-        color: 'grey',
-        marginTop: 5
     },
     button: {
         alignItems: 'center',
         marginTop: 10
-    },
-    signIn: {
-        width: 150,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        borderRadius: 50,
-        flexDirection: 'row'
     },
     textSign: {
         color: '#4f6367',

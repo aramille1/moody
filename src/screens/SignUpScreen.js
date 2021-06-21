@@ -144,21 +144,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20
     },
-    signIn: {
-        width: '100%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10
-    },
     btn:{
         backgroundColor: '#fff',
         paddingHorizontal: 140,
         paddingVertical: 15,
-        // flex:1,
         alignItems: 'center',
-        // marginTop: 0,
-        // marginHorizontal: 0,
         justifyContent:'center',
         flexDirection: 'row',
         borderRadius: 10
