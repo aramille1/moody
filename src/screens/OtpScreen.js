@@ -105,8 +105,9 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
 
   return (
     <ErrorBoundary screenName={'OTPScreen'}>
+      <View style={{backgroundColor:'#009387', flex:1}}>
       <View style={styles.container}>
-        <Text style={{fontSize:22, textAlign: 'center', }}>
+        <Text style={{fontSize:18, textAlign: 'center', color: '#fff'}}>
           Enter SMS sent to your number: {' ' + phoneNumber}
         </Text>
         <View style={[Styles.row, Styles.mt12]}>
@@ -152,18 +153,16 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
           disabled={submittingOtp}
         /> */}
 
-            <TouchableOpacity style={{marginTop: 70}} disabled={submittingOtp} onPress={() => confirmCode()}>
-                <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
-                    style={styles.signIn}
-                >
-                    <Text style={styles.textSign}>Submit</Text>
-                    <MaterialIcons 
-                        name="navigate-next"
-                        color="#fff"
-                        size={20}
-                    />
-                </LinearGradient>
+
+      </View>
+            <TouchableOpacity style={styles.btn} disabled={submittingOtp} onPress={() => confirmCode()}>
+ 
+            <Text style={styles.textSign}>Submit</Text>
+            <MaterialIcons
+                name="navigate-next"
+                color="#4f6367"
+                size={20}
+            />
             </TouchableOpacity>
       </View>
     </ErrorBoundary>
@@ -172,16 +171,23 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 0,
+    // flex: 1,
     alignItems: 'center',
-    paddingTop: 130,
+    justifyContent: 'center',
+    marginTop: 150,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    // marginBottom: 0,
+    backgroundColor: '#009387'
+    // paddingTop: 130,
   },
   submitButtonText: {
     color: colors.WHITE,
   },
   otpText: {
-    color: '#3543bf',
+    color: '#fff',
     fontSize: 18,
     width: '100%',
   },
@@ -193,9 +199,21 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flexDirection: 'row'
 },
+btn:{
+  backgroundColor: '#fff',
+  paddingHorizontal: 120,
+  paddingVertical: 20,
+  // flex:1,
+  alignItems: 'center',
+  marginTop: 40,
+  marginHorizontal: 20,
+  justifyContent:'center',
+  flexDirection: 'row',
+  borderRadius: 10
+},
 textSign: {
-    color: 'white',
-    fontWeight: 'bold'
+  color: '#4f6367',
+  fontWeight: 'bold'
 },
 });
 

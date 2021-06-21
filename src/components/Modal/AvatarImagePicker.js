@@ -99,7 +99,7 @@ export default function AvatarImagePicker({ setImageProp }) {
         <>
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={[410, -200]}
+                snapPoints={[430, -200]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 callbackNode={fall}
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     panelButton: {
         padding: 13,
         borderRadius: 10,
-        backgroundColor: '#FF6347',
+        backgroundColor: '#009387',
         alignItems: 'center',
         marginVertical: 7,
     },

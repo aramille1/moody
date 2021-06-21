@@ -30,7 +30,7 @@ const PhoneNumScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='transparent' barStyle="dark-content" />
+            <StatusBar backgroundColor='#009387' barStyle="dark-content" />
             <View style={styles.header}>
                 <Animatable.View
                     animation="fadeInUp"
