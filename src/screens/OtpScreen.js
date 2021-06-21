@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import auth from '@react-native-firebase/auth'; 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as Animatable from 'react-native-animatable';
 
 import { Styles } from '../styles/Styles';
 import ErrorBoundary from '../components/ErrorBoundry';
@@ -104,8 +105,11 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
 
   return (
     <ErrorBoundary screenName={'OTPScreen'}>
+
       <View style={{backgroundColor:'#009387', flex:1}}>
       <View style={styles.container}>
+      <Animatable.View animation="fadeInUp">
+
         <Text style={{fontSize:18, textAlign: 'center', color: '#fff'}}>
           Enter SMS sent to your number: {' ' + phoneNumber}
         </Text>
@@ -152,8 +156,11 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
           disabled={submittingOtp}
         /> */}
 
+      </Animatable.View>
 
       </View>
+      <Animatable.View animation="fadeInUp">
+
             <TouchableOpacity style={styles.btn} disabled={submittingOtp} onPress={() => confirmCode()}>
  
             <Text style={styles.textSign}>Submit</Text>
@@ -163,6 +170,8 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
                 size={20}
             />
             </TouchableOpacity>
+      </Animatable.View>
+
       </View>
     </ErrorBoundary>
   );
