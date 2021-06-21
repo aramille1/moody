@@ -10,7 +10,7 @@ import {
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
-import AnimatedLinearGradient, {presetColors} from 'react-native-animated-linear-gradient'
+import AnimatedLinearGradient, { presetColors } from 'react-native-animated-linear-gradient'
 // import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
@@ -66,20 +66,24 @@ export default function MyMoodSettings() {
 
   return (
     <>
-      <ImageBackground
+      <View
         // source={bg}
         style={{
-          backgroundColor:'#fff',
+          backgroundColor: '#fff',
           // backgroundColor:'#4f6367',
-          resizeMode: 'cover',
-          justifyContent: 'center',
-          height: '100%',
+          flexDirection: 'column',
+          flex: 1,
+          // resizeMode: 'cover',
+          justifyContent: 'space-around',
+          alignItems: 'center'
+          // height: '100%',
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
-        <StatusBar backgroundColor='#fff' barStyle="dark-content"/>
+        <StatusBar backgroundColor='#fff' barStyle="dark-content" />
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
+
+        {/* mood slider */}
         <View style={styles.container}>
-          {/* mood slider */}
           <ImageBackground source={gradient} style={styles.trackBgImage}>
             <MultiSlider
               selectedStyle={{
@@ -120,10 +124,9 @@ export default function MyMoodSettings() {
               }
             />
           </ImageBackground>
-          {/* end of mood slider*/}
 
           <View style={{
-            position: "absolute", top: -175, left: sliderValues == 10 ? "90%" :
+            position: "absolute", top: -50, left: sliderValues == 10 ? "80%" :
               sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
           }}>
             <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
@@ -137,6 +140,8 @@ export default function MyMoodSettings() {
                 flex: 1,
                 width: 100,
                 height: '100%',
+                alignItems:'flex-start',
+                marginLeft:10
               }}>
               <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => setleftSideMessage(value)} />
             </View>
@@ -146,42 +151,43 @@ export default function MyMoodSettings() {
                 width: 100,
                 height: '100%',
                 alignItems: 'flex-end',
+                marginRight: 10
               }}>
               <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value) => setrightSideMessage(value)} />
             </View>
-
           </View>
           {/* end of sad and happy indicators */}
 
-
-          <View style={{ position: 'absolute', top:130, borderRadius: 10,backgroundColor: '#009387' }}>
-            <TouchableOpacity style={{ paddingHorizontal: 140, paddingVertical: 15 }}
-              onPress={submit}
-            >
-              <Text style={{ fontSize: 18, color: '#fff', }}>Save</Text>
-            </TouchableOpacity>
-          </View>
         </View>
         {/* end of mood slider */}
-        <FlashMessage position="top" floating/>
-      </ImageBackground>
+
+        <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
+          <TouchableOpacity style={{ paddingHorizontal: 140, paddingVertical: 15 }}
+            onPress={submit}
+          >
+            <Text style={{ fontSize: 18, color: '#fff', }}>Save</Text>
+          </TouchableOpacity>
+        </View>
+
+        <FlashMessage position="top" floating />
+      </View>
     </>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 200,
+    // flex: 1,
+    // flexDirection: 'column',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // marginTop: 200,
   },
   leftAndRightContainer: {
-    marginBottom: 320,
+    // marginBottom: 320,
     flexDirection: 'row',
     height: 80,
-    paddingHorizontal: 30,
+    // paddingHorizontal: 30,
   },
   trackBgImage: {
     resizeMode: 'cover',
