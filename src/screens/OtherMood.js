@@ -120,7 +120,7 @@ export default function OtherMood() {
 
                     {/* Users Message */}
                     <View style={{
-                        position: "absolute", top: 0, left: mood.moodObj.sliderValues == 10 ? "90%" :
+                        position: "absolute", top: 0, left: mood.moodObj.sliderValues == 10 ? "80%" :
                             mood.moodObj.sliderValues == 0 ? "10%" : mood.moodObj.sliderValues == 9 ? "80%" : (mood.moodObj.sliderValues * 10) + "%"
                     }}>
                         <ShowAvatarMessageModal />

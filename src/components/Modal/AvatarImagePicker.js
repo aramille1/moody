@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { MoodContext } from '../../../App';
+import { Camera, CameraType } from 'react-native-camera-kit';
+
 
 
 export default function AvatarImagePicker({ setImageProp }) {
@@ -36,17 +38,19 @@ export default function AvatarImagePicker({ setImageProp }) {
 
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
-            compressImageMaxWidth: 300,
-            compressImageMaxHeight: 300,
+            // compressImageMaxWidth: 300,
+            // compressImageMaxHeight: 300,
             cropping: true,
-            compressImageQuality: 0.7
+            // compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
             // mood.setImage(image.path);
             setImage(image.path)
             setImageProp(image.path)
             sheetRef.current.snapTo(1);
-        });
+        }).catch(error=>{
+            alert('you cancelled your image selection')
+        })
     }
 
     const choosePhotoFromLibrary = () => {
@@ -97,15 +101,20 @@ export default function AvatarImagePicker({ setImageProp }) {
 
     return (
         <>
-            <BottomSheet
+            {/* <BottomSheet
                 ref={sheetRef}
-                snapPoints={[430, -200]}
+                snapPoints={[420, -200]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 callbackNode={fall}
                 initialSnap={1}
                 enabledGestureInteraction={true}
-            />
+            /> */}
+
+<Camera
+  ref={(ref) => (this.camera = ref)}
+  cameraType={CameraType.Back} // front/back(default)
+/>
             <View style={styles.container}>
                 <Animated.View style={{
                     margin: 20,

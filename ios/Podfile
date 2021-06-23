@@ -10,6 +10,12 @@ target 'moodyapp' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
+  pod 'ReactNativeCameraKit', :path => '../node_modules/react-native-camera-kit'
+
   target 'moodyappTests' do
     inherit! :complete
     # Pods for testing

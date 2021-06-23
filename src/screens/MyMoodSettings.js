@@ -22,6 +22,7 @@ import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 // import Icon from 'react-native-vector-icons/Ionicons';
 
+import { Camera, CameraType } from 'react-native-camera-kit';
 
 import CustomLabel from '../components/CustomLabel';
 
@@ -81,7 +82,10 @@ export default function MyMoodSettings() {
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <StatusBar backgroundColor='#fff' barStyle="dark-content" />
-        <AvatarImagePicker setImageProp={(image) => setImage(image)} />
+        {/* <AvatarImagePicker /> */}<Camera
+  ref={(ref) => (this.camera = ref)}
+  cameraType={CameraType.Back} // front/back(default)
+/>
 
         {/* mood slider */}
         <View style={styles.container}>
@@ -127,12 +131,7 @@ export default function MyMoodSettings() {
             />
           </ImageBackground>
 
-          <View style={{
-            position: "absolute", top: -50, left: sliderValues == 10 ? "80%" :
-              sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
-          }}>
-            <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
-          </View>
+
           {/* sad and happy indicators */}
           {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
           <View style={styles.leftAndRightContainer}>
@@ -172,7 +171,12 @@ export default function MyMoodSettings() {
 
         <FlashMessage position="top" floating />
         </Animatable.View>
-        
+        <View style={{
+            position: "absolute", top: 240, left: sliderValues == 10 ? "80%" :
+              sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
+          }}>
+            <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
+          </View>
       </View>
     </>
   )
