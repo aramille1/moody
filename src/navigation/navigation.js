@@ -16,7 +16,7 @@ import PhoneNumScreen from '../screens/PhoneNumScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import OTPScreen from '../screens/OtpScreen';
-
+import { MoodContext } from '../../App';
 const RootStack = createStackNavigator();
 const RootStackScreen = ({navigation}) => (
     <RootStack.Navigator headerMode='none'>
@@ -158,11 +158,13 @@ const AppDrawerScreen = () => (
 )
 
 export default () => {
+  const mood = React.useContext(MoodContext)
+
   const [isLoggedIn, setLog] = React.useState(true)
     return (
             <NavigationContainer>
-              <AppDrawerScreen/>
-                {/* {isLoggedIn ? <RootStackScreen/> :  <AppDrawerScreen/>} */}
+              {/* <AppDrawerScreen/> */}
+                {mood.otpConfirmed ? <AppDrawerScreen/> : <RootStackScreen/>} 
             </NavigationContainer>
     )
 }

@@ -35,18 +35,18 @@
      Contacts.iosEnableNotesUsage(false);
    }
  
-   async componentDidMount() {
-     if (Platform.OS === "android") {
-       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-         title: "Contacts",
-         message: "This app would like to view your contacts."
-       }).then(() => {
-         this.loadContacts();
-       });
-     } else {
-       this.loadContacts();
-     }
-   }
+  //  async componentDidMount() {
+  //    if (Platform.OS === "android") {
+  //      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+  //        title: "Contacts",
+  //        message: "This app would like to view your contacts."
+  //      }).then(() => {
+  //        this.loadContacts();
+  //      });
+  //    } else {
+  //      this.loadContacts();
+  //    }
+  //  }
  
    loadContacts() {
      Contacts.getAll()

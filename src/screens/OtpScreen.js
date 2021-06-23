@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import auth from '@react-native-firebase/auth'; 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -11,8 +11,11 @@ import { isAndroid } from '../components/HelperFunctions';
 import CustomText from '../components/CustomText';
 import CustomTextInput from '../components/CustomTextInput';
 import FullButtonComponent from '../components/FullButtonComponent';
+import { MoodContext } from '../../App';
 
 const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) {
+const mood = useContext(MoodContext)
+
   const [otpArray, setOtpArray] = useState(['', '', '', '']);
   const [submittingOtp, setSubmittingOtp] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -49,6 +52,7 @@ const OTPScreen = function ({ route: { params: { phoneNumber } }, navigation }) 
     const response = await confirm.confirm(code);
     if(response){
       navigation.navigate('SignUpScreen');
+      mood.setOtpConfirmation(true)
     }
     } catch(e){
       // alert(JSON.stringify(e));

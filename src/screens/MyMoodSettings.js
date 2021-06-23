@@ -22,7 +22,6 @@ import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 // import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Camera, CameraType } from 'react-native-camera-kit';
 
 import CustomLabel from '../components/CustomLabel';
 
@@ -82,10 +81,7 @@ export default function MyMoodSettings() {
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <StatusBar backgroundColor='#fff' barStyle="dark-content" />
-        {/* <AvatarImagePicker /> */}<Camera
-  ref={(ref) => (this.camera = ref)}
-  cameraType={CameraType.Back} // front/back(default)
-/>
+        <AvatarImagePicker setImageProp={(image) => setImage(image)} />
 
         {/* mood slider */}
         <View style={styles.container}>

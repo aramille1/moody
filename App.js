@@ -11,6 +11,7 @@ export default class App extends Component {
       imgPickerModal: false,
       modalVisible: false,
       showAvatarMessageModal: false,
+      otpConfirmed: false,
       moodObj:{
         image: '',
         message: '',
@@ -37,6 +38,15 @@ export default class App extends Component {
     }
   }))
 
+  setImg = (newVal) => this.setState(prevState =>({
+    moodObj:{
+      ...prevState.moodObj,
+      image: newVal
+    }
+  }))
+
+  setOtpConfirmed = (newVal) => this.setState({otpConfirmed: newVal})
+
 render(){
   return (
     <MoodContext.Provider 
@@ -55,8 +65,12 @@ render(){
           setMoodObj: this.setMoodObj,
 
           username: this.state.username,
-          setUsername: this.setUsername
+          setUsername: this.setUsername,
+
+          setImg: this.setImg,
           
+          otpConfirmed: this.state.otpConfirmed,
+          setOtpConfirmation: this.setOtpConfirmed
         }}>
           <Navigation/>
     </MoodContext.Provider>
