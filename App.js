@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import 'react-native-gesture-handler';
 import Navigation from './src/navigation/navigation'
+import auth from '@react-native-firebase/auth';
 
 export const MoodContext = React.createContext();
 export default class App extends Component {
@@ -19,9 +20,14 @@ export default class App extends Component {
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
         username: 'username'
-      }
+      },
+      initializing: true,
+      user:{}
     };
   }
+  
+
+
   
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
@@ -47,6 +53,12 @@ export default class App extends Component {
 
   setOtpConfirmed = (newVal) => this.setState({otpConfirmed: newVal})
 
+  setUser = (newVal) => {
+    // console.log(newVal.phoneNumber)
+    this.setState({user:newVal})
+    console.log(this.state.user)
+  }
+
 render(){
   return (
     <MoodContext.Provider 
@@ -70,7 +82,10 @@ render(){
           setImg: this.setImg,
           
           otpConfirmed: this.state.otpConfirmed,
-          setOtpConfirmation: this.setOtpConfirmed
+          setOtpConfirmation: this.setOtpConfirmed,
+
+          user: this.state.user,
+          setUser: this.setUser
         }}>
           <Navigation/>
     </MoodContext.Provider>

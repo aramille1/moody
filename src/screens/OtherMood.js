@@ -70,7 +70,7 @@ export default function OtherMood() {
                             </View>
                         </ImageBackground>
                         <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367" }}>
-                            {mood.moodObj.username}
+                            {mood.user.phoneNumber}
                         </Text>
                     </View>
                     {/* end of User image */}

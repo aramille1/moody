@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, TouchableOpacity, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import auth from '@react-native-firebase/auth';
 
 import Main from '../screens/Main';
 import MyMoodSettings from '../screens/MyMoodSettings'
@@ -18,15 +18,17 @@ import SignUpScreen from '../screens/SignUpScreen';
 import OTPScreen from '../screens/OtpScreen';
 import { MoodContext } from '../../App';
 const RootStack = createStackNavigator();
-const RootStackScreen = ({navigation}) => (
-    <RootStack.Navigator headerMode='none'>
-        <RootStack.Screen name="PhoneNumScreen" component={PhoneNumScreen}/>
-        <RootStack.Screen name="OtpScreen" component={OTPScreen}/>
-        <RootStack.Screen name="SignInScreen" component={SignInScreen}/>
-        <RootStack.Screen name="SignUpScreen" component={SignUpScreen}/>
-        <RootStack.Screen name="main" component={AppDrawerScreen}/>
 
-    </RootStack.Navigator>
+
+const RootStackScreen = ({ navigation }) => (
+  <RootStack.Navigator headerMode='none'>
+    <RootStack.Screen name="PhoneNumScreen" component={PhoneNumScreen} />
+    <RootStack.Screen name="OtpScreen" component={OTPScreen} />
+    <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+    <RootStack.Screen name="main" component={AppDrawerScreen} />
+    {/* <RootStack.Screen name="SignInScreen" component={SignInScreen}/> */}
+
+  </RootStack.Navigator>
 );
 
 //Structure for the navigatin Drawer
@@ -47,7 +49,7 @@ const NavigationDrawerStructure = (props) => {
           }}
           style={{ width: 25, height: 25, marginLeft: 5 }}
         /> */}
-      <Icon name="menu-outline" size={30} color="#373737"  />
+        <Icon name="menu-outline" size={30} color="#373737" />
 
       </TouchableOpacity>
     </View>
@@ -55,83 +57,84 @@ const NavigationDrawerStructure = (props) => {
 };
 
 const MainStack = createStackNavigator();
-const mainScreenStack = ({ navigation }) =>(
+const mainScreenStack = ({ navigation }) => (
   <MainStack.Navigator initialRouteName="main">
-  <MainStack.Screen
-    name="main"
-    component={Main}
-    options={{
-      title: '', 
-      headerLeft: () => (
-        <NavigationDrawerStructure navigationProps={navigation} />
-      ),
-      headerStyle: {
-        backgroundColor: '#fff',//Set Header color
-        height: 30
-      },
-      headerTintColor: '#fff', //Set Header text color
-      headerTitleStyle: {
-        fontWeight: 'bold', //Set Header text style
-        fontSize: 12
-      },
-    }}
-  />
-</MainStack.Navigator>
+    <MainStack.Screen
+      name="main"
+      component={Main}
+      options={{
+        title: '',
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#fff',//Set Header color
+          height: 30
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+          fontSize: 12
+        },
+      }}
+    />
+  </MainStack.Navigator>
 )
 
 
 const MyMoodStack = createStackNavigator();
-const moodScreenStack = ({ navigation }) =>(
+const moodScreenStack = ({ navigation }) => (
   <MyMoodStack.Navigator initialRouteName="MyMoodSettings" >
-  <MyMoodStack.Screen
-    name="MyMoodSettings"
-    component={MyMoodSettings}
-    options={{
-      title: '', //Set Header Title
-      // headerShown: false,
-      headerLeft: () => (
-        <NavigationDrawerStructure navigationProps={navigation} />
-      ),
-      headerStyle: {
-        backgroundColor: '#fff',//Set Header color
-        height: 30,
-      },
-      headerTintColor: '#fff', //Set Header text color
-      headerTitleStyle: {
-        fontWeight: 'bold', //Set Header text style
-        fontSize: 12
-      },
-      // headerShown: false 
-    }}
-  />
-</MyMoodStack.Navigator>
+    <MyMoodStack.Screen
+      name="MyMoodSettings"
+      component={MyMoodSettings}
+      options={{
+        title: '', //Set Header Title
+        // headerShown: false,
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#fff',//Set Header color
+          height: 30,
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+          fontSize: 12
+        },
+        // headerShown: false 
+      }}
+    />
+  </MyMoodStack.Navigator>
 )
 
 const otherScreenStack = createStackNavigator();
 const otherMoodScreenStack = ({ navigation }) => (
   <otherScreenStack.Navigator initialRouteName="OtherMood">
-      <otherScreenStack.Screen
-        name="OtherMood"
-        component={OtherMood}
-        options={{
-          title: '', //Set Header Title
-          headerLeft: () => (
-            <NavigationDrawerStructure navigationProps={navigation} />
-          ),
-          headerStyle: {
-            backgroundColor: '#fff', //Set Header color
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-        }}
-      />
-    </otherScreenStack.Navigator>
+    <otherScreenStack.Screen
+      name="OtherMood"
+      component={OtherMood}
+      options={{
+        title: '', //Set Header Title
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#fff', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}
+    />
+  </otherScreenStack.Navigator>
 )
 const AppDrawer = createDrawerNavigator();
+
 const AppDrawerScreen = () => (
-    <AppDrawer.Navigator
+  <AppDrawer.Navigator
     drawerContentOptions={{
       activeTintColor: '#2596BE',
       inactiveTintColor: 'black',
@@ -158,13 +161,28 @@ const AppDrawerScreen = () => (
 )
 
 export default () => {
+  const [initializing, setInitializing] = React.useState(true);
+  const [user, setUser] = React.useState();
   const mood = React.useContext(MoodContext)
 
-  const [isLoggedIn, setLog] = React.useState(true)
-    return (
-            <NavigationContainer>
-              {/* <AppDrawerScreen/> */}
-                {mood.otpConfirmed ? <AppDrawerScreen/> : <RootStackScreen/>} 
-            </NavigationContainer>
-    )
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    console.log(user)
+    setUser(user);
+    mood.setUser(user)
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+
+  return (
+    <NavigationContainer>
+      {/* <AppDrawerScreen/> */}
+      {user ? <AppDrawerScreen /> : <RootStackScreen />}
+    </NavigationContainer>
+  )
 }

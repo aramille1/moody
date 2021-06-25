@@ -8,7 +8,7 @@ import {
   StatusBar
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-
+import auth from '@react-native-firebase/auth';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, { showMessage } from "react-native-flash-message";
@@ -33,7 +33,11 @@ export default function MyMoodSettings() {
   const [rightSideMessage, setrightSideMessage] = React.useState('happy')
 
   const mood = useContext(MoodContext)
-
+  const logout = () =>{
+      auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  }
   const submit = () => {
     let obj = {
       image: image,
@@ -81,7 +85,11 @@ export default function MyMoodSettings() {
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <StatusBar backgroundColor='#fff' barStyle="dark-content" />
+        <TouchableOpacity style={{position: 'absolute',top:20,}} onPress={logout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
+
 
         {/* mood slider */}
         <View style={styles.container}>
