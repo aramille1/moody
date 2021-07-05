@@ -141,17 +141,16 @@ export default function Main({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#fff' barStyle="dark-content" />
 
-
+        
         <Modal
           backdropTransitionOutTiming={0}
           onBackdropPress={() => setVisible(false)}
           isVisible={visible}
-        style={{ backgroundColor: "white",  borderRadius: 20, position:'absolute',top: '30%' }}>
+          style={{ backgroundColor: "white",  borderRadius: 20, position:'absolute',top: '25%' }}>
 
           <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30,  }}>What's your name?</Text></View>
           {/* <ProfileImagePicker setImageProp={(img) => setImage(img)} /> */}
-          <Animatable.View
-            animation="fadeInUp"
+          <View
             style={styles.footer}
           >
             <ScrollView>
@@ -169,10 +168,8 @@ export default function Main({ navigation }) {
                 />
               </View>
             </ScrollView>
-          </Animatable.View>
-          <Animatable.View
-            animation="fadeInUp"
-          >
+          </View>
+
             <View style={styles.buttonSave}>
               <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
 
@@ -197,7 +194,7 @@ export default function Main({ navigation }) {
 
               </TouchableOpacity>
             </View>
-          </Animatable.View>
+
         </Modal>
 
 

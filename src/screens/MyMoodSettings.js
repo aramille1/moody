@@ -33,8 +33,8 @@ export default function MyMoodSettings() {
   const [rightSideMessage, setrightSideMessage] = React.useState('happy')
 
   const mood = useContext(MoodContext)
-  const logout = () =>{
-      auth()
+  const logout = () => {
+    auth()
       .signOut()
       .then(() => console.log('User signed out!'));
   }
@@ -85,7 +85,7 @@ export default function MyMoodSettings() {
         }}>
         {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <StatusBar backgroundColor='#fff' barStyle="dark-content" />
-        <TouchableOpacity style={{position: 'absolute',top:20,}} onPress={logout}>
+        <TouchableOpacity style={{ position: 'absolute', top: 20, }} onPress={logout}>
           <Text>Logout</Text>
         </TouchableOpacity>
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
@@ -93,94 +93,96 @@ export default function MyMoodSettings() {
 
         {/* mood slider */}
         <View style={styles.container}>
-        <Animatable.View animation="fadeIn">
-          <ImageBackground source={gradient} style={styles.trackBgImage}>
-            <MultiSlider
-              selectedStyle={{
-                backgroundColor: 'transparent',
-              }}
-              unselectedStyle={{
-                backgroundColor: 'transparent',
-              }}
-              values={[5]}
-              min={0}
-              max={10}
-              step={1}
-              containerStyle={{
-                height: 30,
-                borderColor: 'black',
-                borderWidth: 1,
-              }}
-              trackStyle={{
-                height: 50,
-                backgroundColor: 'red',
-              }}
-              touchDimensions={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                slipDisplacement: 200,
-              }}
-              markerOffsetY={20}
-              markerSize={0}
-              customLabel={CustomLabel}
-              customMarker={customMarker}
-              sliderLength={300}
-              // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
-              markerStyle={{ height: 50, width: 50 }}
-              onValuesChangeFinish={(values) =>
-                // mood.setValues(values)
-                setSliderValues(values)
-              }
-            />
-          </ImageBackground>
+          <Animatable.View animation="fadeIn">
+            <ImageBackground source={gradient} style={styles.trackBgImage}>
+              <MultiSlider
+                selectedStyle={{
+                  backgroundColor: 'transparent',
+                }}
+                unselectedStyle={{
+                  backgroundColor: 'transparent',
+                }}
+                values={[5]}
+                min={0}
+                max={10}
+                step={1}
+                containerStyle={{
+                  height: 30,
+                  borderColor: 'black',
+                  borderWidth: 1,
+                }}
+                trackStyle={{
+                  height: 50,
+                  backgroundColor: 'red',
+                }}
+                touchDimensions={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 20,
+                  slipDisplacement: 200,
+                }}
+                markerOffsetY={20}
+                markerSize={0}
+                customLabel={CustomLabel}
+                customMarker={customMarker}
+                sliderLength={300}
+                // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
+                markerStyle={{ height: 50, width: 50 }}
+                onValuesChangeFinish={(values) =>
+                  // mood.setValues(values)
+                  setSliderValues(values)
+                }
+              />
+            </ImageBackground>
 
 
-          {/* sad and happy indicators */}
-          {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
-          <View style={styles.leftAndRightContainer}>
-            <View
-              style={{
-                flex: 1,
-                width: 100,
-                height: '100%',
-                alignItems:'flex-start',
-                marginLeft:10
-              }}>
-              <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => setleftSideMessage(value)} />
+            {/* sad and happy indicators */}
+            {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
+            <View style={styles.leftAndRightContainer}>
+              <View
+                style={{
+                  flex: 1,
+                  width: 100,
+                  height: '100%',
+                  alignItems: 'flex-start',
+                  marginLeft: 10
+                }}>
+                <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => setleftSideMessage(value)} />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  width: 100,
+                  height: '100%',
+                  alignItems: 'flex-end',
+                  marginRight: 10
+                }}>
+                <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value) => setrightSideMessage(value)} />
+              </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                width: 100,
-                height: '100%',
-                alignItems: 'flex-end',
-                marginRight: 10
-              }}>
-              <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value) => setrightSideMessage(value)} />
-            </View>
-          </View>
-          {/* end of sad and happy indicators */}
+            {/* end of sad and happy indicators */}
           </Animatable.View>
         </View>
         {/* end of mood slider */}
-        <Animatable.View animation="fadeIn">
-        <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
-          <TouchableOpacity style={{ paddingHorizontal: 140, paddingVertical: 15 }}
-            onPress={submit}
-          >
-            <Text style={{ fontSize: 18, color: '#fff', }}>Save</Text>
-          </TouchableOpacity>
-        </View>
-
         <FlashMessage position="top" floating />
+
+        <Animatable.View animation="fadeIn">
+
+          <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
+            <TouchableOpacity style={{ paddingHorizontal: 140, paddingVertical: 15 }}
+              onPress={submit}
+            >
+              <Text style={{ fontSize: 18, color: '#fff', }}>Save</Text>
+            </TouchableOpacity>
+          </View>
+
         </Animatable.View>
         <View style={{
-            position: "absolute", top: 240, left: sliderValues == 10 ? "80%" :
-              sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
-          }}>
-            <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
-          </View>
+          position: "absolute", top: 240, left: sliderValues == 10 ? "80%" :
+            sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
+        }}>
+          <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
+        </View>
       </View>
     </>
   )

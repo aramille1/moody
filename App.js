@@ -14,7 +14,7 @@ export default class App extends Component {
       showAvatarMessageModal: false,
       otpConfirmed: false,
       moodObj:{
-        image: '',
+        image: null,
         message: '',
         sliderValues: 5,
         leftSideMessage: 'sad',
