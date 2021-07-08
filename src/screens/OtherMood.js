@@ -10,6 +10,7 @@ import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 import ShowAvatarMessageModal from '../components/Modal/ShowAvatarMessageModal';
 import CustomLabel from '../components/CustomLabel';
+import { TouchableOpacity } from 'react-native';
 
 
 export default function OtherMood() {
@@ -143,6 +144,7 @@ export default function OtherMood() {
                             right: -150
                         }}>
                             <Text style={styles.indicatorsMessage}>{mood.moodObj.rightSideMessage}</Text>
+                            <TouchableOpacity onPress={()=>console.log(mood.moodObj)}><Text>someting</Text></TouchableOpacity>
                         </View>
                     </View>
                     {/* end */}

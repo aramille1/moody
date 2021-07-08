@@ -19,10 +19,11 @@ export default class App extends Component {
         sliderValues: 5,
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
-        username: 'username'
+        username: 'username',
+        user:{}
       },
       initializing: true,
-      user:{}
+      
     };
   }
   
@@ -35,8 +36,18 @@ export default class App extends Component {
 
   setShowAvatarMessageModal = (newVal) => this.setState({showAvatarMessageModal: newVal})
 
-  setMoodObj = (obj) => this.setState({moodObj: obj}) 
-
+  setMoodObj = (obj) => this.setState(prevState =>({
+    moodObj:{
+      ...prevState.moodObj,
+      image: obj.image,
+      message: obj.message,
+      sliderValues: obj.sliderValues,
+      leftSideMessage: obj.leftSideMessage,
+      rightSideMessage: obj.rightSideMessage,
+      username: obj.username,
+    }
+  }))
+  
   setUsername = (newVal) => this.setState(prevState =>({
     moodObj:{
       ...prevState.moodObj,
@@ -55,8 +66,13 @@ export default class App extends Component {
 
   setUser = (newVal) => {
     // console.log(newVal.phoneNumber)
-    this.setState({user:newVal})
-    console.log(this.state.user)
+    this.setState(prevState =>({
+      moodObj:{
+        ...prevState.moodObj,
+        user: newVal
+      }
+    }))
+    console.log(this.state.moodObj.user)
   }
 
 render(){
@@ -84,7 +100,7 @@ render(){
           otpConfirmed: this.state.otpConfirmed,
           setOtpConfirmation: this.setOtpConfirmed,
 
-          user: this.state.user,
+          user: this.state.moodObj.user,
           setUser: this.setUser
         }}>
           <Navigation/>

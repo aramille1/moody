@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   PermissionsAndroid,
   Platform,
@@ -25,6 +25,8 @@ import ProfileImagePicker from '../components/Modal/ProfileImagePicker'
 
 export default function Main({ navigation }) {
   mood = React.useContext(MoodContext)
+
+
 
   const [profileImg, setProfileImg] = React.useState()
   const [contacts, setContacts] = React.useState([])
@@ -129,8 +131,8 @@ export default function Main({ navigation }) {
 
   const onSignIn = () => {
     mood.setUsername(username)
-    mood.setImg(profileImg)
-    console.log(1)
+    // mood.setImg(profileImg)
+    console.log(mood.moodObj, "moodObj")
     setVisible(false)
 
   }

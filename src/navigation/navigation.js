@@ -182,7 +182,7 @@ export default () => {
   return (
     <NavigationContainer>
       {/* <AppDrawerScreen/> */}
-      {user ? <AppDrawerScreen /> : <RootStackScreen />}
+      {mood.user ? <AppDrawerScreen /> : <RootStackScreen />}
     </NavigationContainer>
   )
 }

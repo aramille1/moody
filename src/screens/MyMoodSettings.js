@@ -52,6 +52,8 @@ export default function MyMoodSettings() {
       message: "Saved!",
       type: "success",
     });
+
+    console.log(mood.moodObj, "oooooooooooo")
   }
 
   const customMarker = () => {
