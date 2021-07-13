@@ -3,7 +3,7 @@ import { Component } from 'react';
 import 'react-native-gesture-handler';
 import Navigation from './src/navigation/navigation'
 import auth from '@react-native-firebase/auth';
-
+import userImg from './src/assets/images/user.png'
 export const MoodContext = React.createContext();
 export default class App extends Component {
   constructor() {
@@ -14,7 +14,7 @@ export default class App extends Component {
       showAvatarMessageModal: false,
       otpConfirmed: false,
       moodObj:{
-        image: null,
+        image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
         message: 'message is empty',
         sliderValues: 5,
         leftSideMessage: 'sad',

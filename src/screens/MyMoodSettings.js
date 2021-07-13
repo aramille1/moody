@@ -22,12 +22,12 @@ import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 // import Icon from 'react-native-vector-icons/Ionicons';
 import firestore from '@react-native-firebase/firestore'
-
+import userImg from '../assets/images/user.png'
 
 import CustomLabel from '../components/CustomLabel';
 
 export default function MyMoodSettings() {
-  const [image, setImage] = React.useState()
+  const [image, setImage] = React.useState(userImg)
   const [message, setMessage] = React.useState()
   const [sliderValues, setSliderValues] = React.useState(5)
   const [leftSideMessage, setleftSideMessage] = React.useState('sad')
@@ -60,7 +60,7 @@ export default function MyMoodSettings() {
   const addUser = async () => {
     firestore().collection('users').add({
       username: mood.moodObj.username,
-      // image: image,
+      image: image,
       phoneNumber: mood.moodObj.user.phoneNumber,
       message: message,
       sliderValues: sliderValues,

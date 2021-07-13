@@ -135,7 +135,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                                 }}>
                                 <ImageBackground
                                     source={{
-                                        uri: image,
+                                        uri: mood.moodObj.image,
                                     }}
                                     style={{ height: 100, width: 100 }}
                                     imageStyle={{ borderRadius: 15 }}>
@@ -145,20 +145,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                         }}>
-                                        {!mood.moodObj.image ? <Icon
-                                            name="camera"
-                                            size={35}
-                                            color="#4f6367"
-                                            style={{
-                                                opacity: 0.7,
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: '#4f6367',
-                                                borderRadius: 10,
-                                                padding: 30
-                                            }}
-                                        /> : null}
+                                        
                                     </View>
                                 </ImageBackground>
                             </View>
