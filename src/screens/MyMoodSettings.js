@@ -21,6 +21,7 @@ import AvatarImagePicker from '../components/Modal/AvatarImagePicker'
 import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 // import Icon from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore'
 
 
 import CustomLabel from '../components/CustomLabel';
@@ -38,7 +39,7 @@ export default function MyMoodSettings() {
       .signOut()
       .then(() => console.log('User signed out!'));
   }
-  const submit = () => {
+  const submit = async() => {
     let obj = {
       image: image,
       message: message,
@@ -53,7 +54,22 @@ export default function MyMoodSettings() {
       type: "success",
     });
 
-    console.log(mood.moodObj, "oooooooooooo")
+    addUser();
+  }
+
+  const addUser = async () => {
+    firestore().collection('users').add({
+      username: mood.moodObj.username,
+      // image: image,
+      phoneNumber: mood.moodObj.user.phoneNumber,
+      message: message,
+      sliderValues: sliderValues,
+      lMessage: leftSideMessage,
+      rMessage: rightSideMessage,
+      uid: mood.moodObj.user.uid
+    }).then(()=>{
+      console.log('User Added')
+    })
   }
 
   const customMarker = () => {

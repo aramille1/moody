@@ -22,11 +22,30 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { MoodContext } from '../../App';
 import ProfileImagePicker from '../components/Modal/ProfileImagePicker'
+import firestore from '@react-native-firebase/firestore'
+import { firebase } from "@react-native-firebase/auth";
 
 export default function Main({ navigation }) {
   mood = React.useContext(MoodContext)
 
+  useEffect(() => {
+    // console.log(mood.moodObj)
+    console.log('yooooolooooo' )
+    const subscriber = async() =>
+       await firestore()
+        .collection('users')
+        .onSnapshot(docs =>{
+          let users = [];
+          docs.forEach(doc =>{
+            users.push(doc.data())
+          })
+          setUsers(users)
+          console.log(users)
+    });
 
+    subscriber();
+
+}, [])
 
   const [profileImg, setProfileImg] = React.useState()
   const [contacts, setContacts] = React.useState([])
@@ -36,7 +55,7 @@ export default function Main({ navigation }) {
   const [visible, setVisible] = React.useState(true)
   const [username, setUsername] = React.useState('username')
 
-
+  const [users, setUsers] = React.useState([])
   // if you want to read/write the contact note field on iOS, this method has to be called
   // WARNING: by enabling notes on iOS, a valid entitlement file containing the note entitlement as well as a separate
   //          permission has to be granted in order to release your app to the AppStore. Please check the README.md
@@ -56,6 +75,21 @@ export default function Main({ navigation }) {
   //      this.loadContacts();
   //    }
   //  }
+
+  const getUser = async () =>{
+    const userDocument = await firestore().collection("users").doc('TpZwxmTlnmbzQSaeRQk3').get()
+    console.log(userDocument)
+  }    
+  const getUsers = async () =>{
+    const users = await firestore()
+    .collection("users")
+    .where('age', '<', 18)
+    .get()
+    console.log(users)
+  }
+
+
+
 
   const loadContacts = () => {
     Contacts.getAll()
@@ -224,7 +258,9 @@ export default function Main({ navigation }) {
               value={typeText}
             />
           </View>
-
+            <View>{users.map((user,index) => 
+              <View key={index}><Text>username: {user.username}, phone number: {user.phoneNumber}</Text></View>
+            )}</View>
           {/* {
            this.state.loading === true ?
              (

@@ -15,7 +15,7 @@ export default class App extends Component {
       otpConfirmed: false,
       moodObj:{
         image: null,
-        message: '',
+        message: 'message is empty',
         sliderValues: 5,
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
