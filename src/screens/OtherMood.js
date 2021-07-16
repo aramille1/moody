@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ImageBackground, StyleSheet, View, Text, StatusBar } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Animated from 'react-native-reanimated';
@@ -13,10 +13,34 @@ import CustomLabel from '../components/CustomLabel';
 import { TouchableOpacity } from 'react-native';
 
 
-export default function OtherMood() {
+export default function OtherMood({route}) {
     const mood = useContext(MoodContext)
+    const [users, setUsers] = React.useState()
+    const [selectedUser, setSelectedUser] = React.useState()
+    const { user } = route.params;
+    const userSliderVal = user.sliderValues[0]
     // const fall = new Animated.Value(1);
     // console.log(" in other Mood: "+ mood.value);
+
+    useEffect(() => {
+        console.log('user', userSliderVal)
+        // setSelectedUser(user)
+        // const subscriber = async() =>
+        //    await firestore()
+        //     .collection('users')
+        //     .onSnapshot(docs =>{
+        //       let users = [];
+        //       docs.forEach(doc =>{
+        //         users.push(doc.data())
+        //       })
+        //       setUsers(users)
+        //       console.log(users)
+        // });
+    
+        // subscriber();
+    
+    }, [])
+
     return (
         <>
             <View
@@ -44,7 +68,7 @@ export default function OtherMood() {
                         }}>
                         <ImageBackground
                             source={{
-                                uri: mood.moodObj.image,
+                                uri: user.image,
                             }}
                             style={{ height: 100, width: 100 }}
                             imageStyle={{ borderRadius: 15 }}>
@@ -54,7 +78,7 @@ export default function OtherMood() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                {!mood.moodObj.image ? <Icon
+                                {/* {!mood.moodObj.image ? <Icon
                                     name="camera"
                                     size={35}
                                     color="#4f6367"
@@ -67,11 +91,11 @@ export default function OtherMood() {
                                         borderRadius: 10,
                                         padding: 30
                                     }}
-                                /> : null}
+                                /> : null} */}
                             </View>
                         </ImageBackground>
-                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367" }}>
-                            {mood.moodObj.username}
+                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367", textAlign: 'center' }}>
+                            {user.username}
                         </Text>
                     </View>
                     {/* end of User image */}
@@ -89,7 +113,7 @@ export default function OtherMood() {
                             unselectedStyle={{
                                 backgroundColor: 'transparent',
                             }}
-                            values={[mood.moodObj.sliderValues]}
+                            values={[user.sliderValues]}
                             min={0}
                             max={10}
                             step={1}
@@ -121,10 +145,10 @@ export default function OtherMood() {
 
                     {/* Users Message */}
                     <View style={{
-                        position: "absolute", top: 0, left: mood.moodObj.sliderValues == 10 ? "80%" :
-                            mood.moodObj.sliderValues == 0 ? "10%" : mood.moodObj.sliderValues == 9 ? "80%" : (mood.moodObj.sliderValues * 10) + "%"
+                        position: "absolute", top: 0, left: user.sliderValues[0] == 10 ? "80%" :
+                            user.sliderValues[0] == 0 ? "10%" : user.sliderValues[0] == 9 ? "80%" : (user.sliderValues[0] * 10) + "%"
                     }}>
-                        <ShowAvatarMessageModal />
+                        <ShowAvatarMessageModal msg={user.message}/>
                     </View>
                     {/* end of Users Message */}
 
@@ -136,15 +160,15 @@ export default function OtherMood() {
                             top: -50,
                             left: -160
                         }}>
-                            <Text style={styles.indicatorsMessage}>{mood.moodObj.leftSideMessage}</Text>
+                            <Text style={styles.indicatorsMessage}>{user.lMessage}</Text>
                         </View>
                         <View style={{
                             position: 'absolute',
                             top: -50,
                             right: -150
                         }}>
-                            <Text style={styles.indicatorsMessage}>{mood.moodObj.rightSideMessage}</Text>
-                            <TouchableOpacity onPress={()=>console.log(mood.moodObj)}><Text>someting</Text></TouchableOpacity>
+                            <Text style={styles.indicatorsMessage}>{user.rMessage}</Text>
+                            {/* <TouchableOpacity onPress={()=>console.log(selectedUser)}><Text>someting</Text></TouchableOpacity> */}
                         </View>
                     </View>
                     {/* end */}

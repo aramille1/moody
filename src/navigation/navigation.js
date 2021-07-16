@@ -110,12 +110,13 @@ const moodScreenStack = ({ navigation }) => (
 )
 
 const otherScreenStack = createStackNavigator();
-const otherMoodScreenStack = ({ navigation }) => (
+const otherMoodScreenStack = ({ route, navigation }) => (
   <otherScreenStack.Navigator initialRouteName="OtherMood">
     <otherScreenStack.Screen
       name="OtherMood"
+      initialParams={{ params: route.params }} 
       component={OtherMood}
-      options={{
+      options={ ({ route }) => ({
         title: '', //Set Header Title
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
@@ -127,13 +128,13 @@ const otherMoodScreenStack = ({ navigation }) => (
         headerTitleStyle: {
           fontWeight: 'bold', //Set Header text style
         },
-      }}
+      })}
     />
   </otherScreenStack.Navigator>
 )
 const AppDrawer = createDrawerNavigator();
 
-const AppDrawerScreen = () => (
+const AppDrawerScreen = ({route, navigation}) => (
   <AppDrawer.Navigator
     drawerContentOptions={{
       activeTintColor: '#2596BE',
@@ -141,16 +142,16 @@ const AppDrawerScreen = () => (
       itemStyle: { marginVertical: 5 }, //item style in the drawer
     }}
     drawerContent={(props) => <CustomSidebarMenu {...props} />}>
+      <AppDrawer.Screen
+        name="EditMood"
+        options={{ drawerLabel: 'My Mood Settings', }}
+        component={moodScreenStack}
+      />
 
     <AppDrawer.Screen
       name="main"
       options={{ drawerLabel: 'Main' }}
       component={mainScreenStack}
-    />
-    <AppDrawer.Screen
-      name="EditMood"
-      options={{ drawerLabel: 'My Mood Settings', }}
-      component={moodScreenStack}
     />
     <AppDrawer.Screen
       name="OtherMood"
@@ -166,10 +167,8 @@ export default () => {
   const mood = React.useContext(MoodContext)
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    console.log(user)
-    setUser(user);
-    mood.setUser(user)
+  function onAuthStateChanged(userData) {
+    mood.setUser(userData)
     if (initializing) setInitializing(false);
   }
 

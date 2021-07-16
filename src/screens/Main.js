@@ -28,31 +28,14 @@ import { firebase } from "@react-native-firebase/auth";
 export default function Main({ navigation }) {
   mood = React.useContext(MoodContext)
 
-  useEffect(() => {
-    // console.log(mood.moodObj)
-    console.log('yooooolooooo' )
-    const subscriber = async() =>
-       await firestore()
-        .collection('users')
-        .onSnapshot(docs =>{
-          let users = [];
-          docs.forEach(doc =>{
-            users.push(doc.data())
-          })
-          setUsers(users)
-          console.log(users)
-    });
 
-    subscriber();
-
-}, [])
 
   const [profileImg, setProfileImg] = React.useState()
   const [contacts, setContacts] = React.useState([])
   const [searchPlaceholder, setSearchPlaceholder] = React.useState('Search')
   const [typeText, setTypeText] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
-  const [visible, setVisible] = React.useState(true)
+  const [visible, setVisible] = React.useState(false)
   const [username, setUsername] = React.useState('username')
 
   const [users, setUsers] = React.useState([])
@@ -75,6 +58,25 @@ export default function Main({ navigation }) {
   //      this.loadContacts();
   //    }
   //  }
+
+  useEffect(() => {
+    // console.log(mood.moodObj)
+    console.log('yooooolooooo' )
+    const subscriber = async() =>
+       await firestore()
+        .collection('users')
+        .onSnapshot(docs =>{
+          let users = [];
+          docs.forEach(doc =>{
+            users.push(doc.data())
+          })
+          setUsers(users)
+          console.log(users)
+    });
+
+    subscriber();
+
+}, [])
 
   const getUser = async () =>{
     const userDocument = await firestore().collection("users").doc('TpZwxmTlnmbzQSaeRQk3').get()
@@ -171,6 +173,11 @@ export default function Main({ navigation }) {
 
   }
 
+  const onUserPress = (user) =>{
+    console.log(user)
+    
+  }
+
 
 
   return (
@@ -259,7 +266,7 @@ export default function Main({ navigation }) {
             />
           </View>
             <View>{users.map((user,index) => 
-              <View key={index}><Text>username: {user.username}, phone number: {user.phoneNumber}</Text></View>
+              <View  key={index}><Text onPress={()=> navigation.navigate('OtherMood', {screen: 'OtherMood', params: {user}})}>username: {user.username}, phone number: {user.phoneNumber}</Text></View>
             )}</View>
           {/* {
            this.state.loading === true ?

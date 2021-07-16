@@ -59,7 +59,6 @@ const mood = useContext(MoodContext)
       // alert(JSON.stringify(e));
       alert('code is wrong!')
     }
-    alert(2)
   }
   const onOtpChange = index => {
     return value => {

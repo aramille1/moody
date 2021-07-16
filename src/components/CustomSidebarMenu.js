@@ -1,7 +1,7 @@
 // Custom Navigation Drawer / Sidebar with Image and Icon in Menu Options
 // https://aboutreact.com/custom-navigation-drawer-sidebar-with-image-and-icon-in-menu-options/
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore'
 
 import {
   DrawerContentScrollView,
@@ -19,10 +20,27 @@ import {
 } from '@react-navigation/drawer';
 import { MoodContext } from '../../App';
 const CustomSidebarMenu = (props) => {
+      useEffect(() => {
+        // setSelectedUser(user)
+        const subscriber = async() =>
+           await firestore()
+            .collection('users')
+            .onSnapshot(docs =>{
+              let users = [];
+              docs.forEach(doc =>{
+                users.push(doc.data())
+              })
+              setUsers(users)
+        });
+    
+        subscriber();
+    
+    }, [])
   const BASE_PATH =
     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
   const proileImage = 'react_logo.png';
   mood = React.useContext(MoodContext)
+  const [users, setUsers] = React.useState()
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/*Top Large Image */}

@@ -5,6 +5,7 @@ import Navigation from './src/navigation/navigation'
 import auth from '@react-native-firebase/auth';
 import userImg from './src/assets/images/user.png'
 export const MoodContext = React.createContext();
+import firestore from '@react-native-firebase/firestore'
 export default class App extends Component {
   constructor() {
     super();
@@ -16,7 +17,7 @@ export default class App extends Component {
       moodObj:{
         image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
         message: 'message is empty',
-        sliderValues: 5,
+        sliderValues: [5],
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
         username: 'username',
@@ -27,9 +28,32 @@ export default class App extends Component {
     };
   }
   
+  componentDidMount(){
+    console.log(this.state)
+    firestore()
+    .collection('users')
+    .onSnapshot(docs =>{
+      docs.forEach(doc =>{
+          this.setState(prevState =>({
+            moodObj:{
+              ...prevState.moodObj,
+              image:doc._data.image,
+              message: doc._data.message,
+              sliderValues: doc._data.sliderValues,
+              leftSideMessage: doc._data.lMessage,
+              rightSideMessage: doc._data.rMessage,
+              username: doc._data.username
+            }
+          }))
+      })
+    });
+    console.log(this.state)
+  }
 
+  componentDidUpdate(){
+    
+  }
 
-  
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
   setModalVisible = (newVal) => this.setState({modalVisible: newVal})
@@ -65,14 +89,12 @@ export default class App extends Component {
   setOtpConfirmed = (newVal) => this.setState({otpConfirmed: newVal})
 
   setUser = (newVal) => {
-    // console.log(newVal.phoneNumber)
     this.setState(prevState =>({
       moodObj:{
         ...prevState.moodObj,
         user: newVal
       }
     }))
-    console.log(this.state.moodObj.user)
   }
 
 render(){

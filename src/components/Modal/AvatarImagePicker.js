@@ -20,9 +20,7 @@ export default function AvatarImagePicker({ setImageProp }) {
 
     const onSignIn = () => {
         mood.setUsername(username)
-        console.log(1)
         setVisible(false)
-    
       }
     // const cleanupImages = () => {
     //     ImagePicker.clean()
@@ -68,7 +66,7 @@ export default function AvatarImagePicker({ setImageProp }) {
             cropping: true,
             compressImageQuality: 0.7
         }).then(image => {
-            console.log(image);
+            // console.log(image);
             // mood.setImage(image.path);
             setImage(image.path)
             setImageProp(image.path)

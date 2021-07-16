@@ -27,7 +27,7 @@ const SignUnScreen = ({navigation}) => {
     const textInputChange = (val) => setUsername(val)
 
     const onSignIn = () =>{
-        mood.setUsername(username)
+        // mood.setUsername(username)
         navigation.navigate('main');
     }
 

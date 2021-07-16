@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -27,50 +27,122 @@ import userImg from '../assets/images/user.png'
 import CustomLabel from '../components/CustomLabel';
 
 export default function MyMoodSettings() {
-  const [image, setImage] = React.useState(userImg)
+  const [image, setImage] = React.useState()
   const [message, setMessage] = React.useState()
   const [sliderValues, setSliderValues] = React.useState(5)
   const [leftSideMessage, setleftSideMessage] = React.useState('sad')
   const [rightSideMessage, setrightSideMessage] = React.useState('happy')
-
+  const [user, setUser] = React.useState([])
+  const [userId, setUserId] = React.useState()
+  const [phoneNum, setPhoneNum] = React.useState()
+  const [phoneUid, setPhoneUid] = React.useState()
   const mood = useContext(MoodContext)
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+
+}, [])
+
+  // Handle user state changes
+  // userData is data from phone OTP registr
+  function onAuthStateChanged(userData) {
+    setPhoneNum(userData.phoneNumber)
+    setPhoneUid(userData.uid)
+    firestore()
+    .collection('users')
+    .onSnapshot(docs =>{
+      let users = [];
+      if(docs){
+        docs.forEach(doc =>{
+          if(doc._data.phoneNumber === userData.phoneNumber){
+            setUserId(doc.id) // recording user's id
+            users.push(doc.data())
+          }
+          else{
+            console.log('there is no match with users phonenumber')
+          }
+        })
+      }
+      setUser(users)
+    });
+    userInit() // initializing empty fields
+  }
+
+  const justChecking = () =>{
+    console.log(mood.moodObj)
+  }
+
+  // const updateMoodState = async() =>{
+  //   console.log(user)
+  //   // let obj = {
+  //   //   image: user[0].image,
+  //   //   message: user[0].message,
+  //   //   sliderValues: user[0].sliderValues,
+  //   //   leftSideMessage: user[0].lMessage,
+  //   //   rightSideMessage: user[0].rMessage,
+  //   //   username: user[0].username
+  //   // }
+  //   // mood.setMoodObj(obj)
+  // }
+  const submit = () =>{
+     firestore()
+    .collection('users')
+    .doc(userId)
+    .update({
+      image: image,
+      message: message,
+      sliderValues: sliderValues,
+      lMessage: leftSideMessage,
+      rMessage: rightSideMessage,
+      username: mood.moodObj.username
+    })
+    .then(() => {
+      mood.setMoodObj({
+        image: image,
+        message: message,
+        sliderValues: sliderValues,
+        leftSideMessage: leftSideMessage,
+        rightSideMessage: rightSideMessage,
+        username: mood.moodObj.username
+    })
+      console.log('User updated!');
+    });
+
+    showMessage({
+      message: "Saved!",
+      type: "success",
+    });
+  }
+
+
   const logout = () => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
   }
-  const submit = async() => {
-    let obj = {
-      image: image,
-      message: message,
-      sliderValues: sliderValues,
-      leftSideMessage: leftSideMessage,
-      rightSideMessage: rightSideMessage,
-      username: mood.moodObj.username
-    }
-    mood.setMoodObj(obj)
-    showMessage({
-      message: "Saved!",
-      type: "success",
-    });
 
-    addUser();
-  }
 
-  const addUser = async () => {
-    firestore().collection('users').add({
-      username: mood.moodObj.username,
-      image: image,
-      phoneNumber: mood.moodObj.user.phoneNumber,
-      message: message,
-      sliderValues: sliderValues,
-      lMessage: leftSideMessage,
-      rMessage: rightSideMessage,
-      uid: mood.moodObj.user.uid
-    }).then(()=>{
-      console.log('User Added')
+  const userInit = async () => {
+    firestore().collection('users').get().then(data=>{
+      if(data._docs.length == 0){
+        firestore().collection('users').add({
+          username: mood.moodObj.username,
+          image: mood.moodObj.image,
+          phoneNumber: phoneNum,
+          message: mood.moodObj.message,
+          sliderValues: mood.moodObj.sliderValues,
+          lMessage: mood.moodObj.leftSideMessage,
+          rMessage: mood.moodObj.rightSideMessage,
+          uid: phoneUid
+        }).then(()=>{
+          console.log('User fields initialized')
+        })
+      }else{
+        console.log('already initialized, no need another one!')
+      }
     })
-  }
+  }  
 
   const customMarker = () => {
     return sliderValues == 0 ? <Emoji name="rage" style={{ fontSize: 40 }} />
@@ -93,7 +165,6 @@ export default function MyMoodSettings() {
         // source={bg}
         style={{
           backgroundColor: '#fff',
-          // backgroundColor:'#4f6367',
           flexDirection: 'column',
           flex: 1,
           // resizeMode: 'cover',
@@ -167,6 +238,7 @@ export default function MyMoodSettings() {
                 }}>
                 <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => setleftSideMessage(value)} />
               </View>
+              <View><Text onPress={justChecking}>something</Text></View>
               <View
                 style={{
                   flex: 1,
@@ -196,8 +268,8 @@ export default function MyMoodSettings() {
 
         </Animatable.View>
         <View style={{
-          position: "absolute", top: 240, left: sliderValues == 10 ? "80%" :
-            sliderValues == 0 ? "10%" : sliderValues == 9 ? "80%" : (sliderValues * 10) + "%"
+          position: "absolute", top: 240, left: mood.moodObj.sliderValues == 10 ? "80%" :
+            mood.moodObj.sliderValues == 0 ? "10%" : mood.moodObj.sliderValues == 9 ? "80%" : (mood.moodObj.sliderValues * 10) + "%"
         }}>
           <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
         </View>

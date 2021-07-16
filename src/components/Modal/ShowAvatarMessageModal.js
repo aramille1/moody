@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 
 import { MoodContext } from '../../../App';
 
-export default function ShowAvatarMessageModal() {
+export default function ShowAvatarMessageModal({msg}) {
     const mood = useContext(MoodContext)
 
     // console.log(mood.value + " mood value")
@@ -24,7 +24,7 @@ export default function ShowAvatarMessageModal() {
                 isVisible={mood.showAvatarMessageModal}
                 >
                 <View style={{ padding: 50, backgroundColor: "white", borderRadius: 20 }}>
-                    <Text style={{textAlign:'center', fontSize: 22}}>{mood.moodObj.message}</Text>
+                    <Text style={{textAlign:'center', fontSize: 22}}>{msg}</Text>
 
                     <TouchableOpacity
                         style={{ ...styles.openButton2, marginTop: 10 }}
