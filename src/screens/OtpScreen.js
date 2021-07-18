@@ -51,7 +51,6 @@ const mood = useContext(MoodContext)
     const code = otpArray.join("");
     const response = await confirm.confirm(code);
     if(response){
-      alert('should be in SignUpScreen next!')
       navigation.navigate('SignUpScreen');
       // mood.setOtpConfirmation(true)
     }

@@ -131,7 +131,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                <ImageBackground
+                                {/* <ImageBackground
                                     source={{
                                         uri: mood.moodObj.image,
                                     }}
@@ -145,11 +145,12 @@ export default function AvatarImagePicker({ setImageProp }) {
                                         }}>
                                         
                                     </View>
-                                </ImageBackground>
+                                </ImageBackground> */}
+                                <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setVisible(true)}>
-                            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#4f6367" }}>
+                            <Text style={{ marginTop: 10, fontSize: 38, fontWeight: 'bold', color: "#4f6367" }}>
                                 {mood.moodObj.username}
                             </Text>
                         </TouchableOpacity>

@@ -5,7 +5,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Image
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import auth from '@react-native-firebase/auth';
@@ -29,7 +30,7 @@ import CustomLabel from '../components/CustomLabel';
 export default function MyMoodSettings() {
   const [image, setImage] = React.useState()
   const [message, setMessage] = React.useState()
-  const [sliderValues, setSliderValues] = React.useState(5)
+  const [tempSliderValues, setTempSliderValues] = React.useState([8])
   const [leftSideMessage, setleftSideMessage] = React.useState('sad')
   const [rightSideMessage, setrightSideMessage] = React.useState('happy')
   const [user, setUser] = React.useState([])
@@ -46,27 +47,29 @@ export default function MyMoodSettings() {
 
   // Handle user state changes
   // userData is data from phone OTP registr
-  function onAuthStateChanged(userData) {
-    setPhoneNum(userData.phoneNumber)
-    setPhoneUid(userData.uid)
-    firestore()
-    .collection('users')
-    .onSnapshot(docs =>{
-      let users = [];
-      if(docs){
-        docs.forEach(doc =>{
-          if(doc._data.phoneNumber === userData.phoneNumber){
-            setUserId(doc.id) // recording user's id
-            users.push(doc.data())
-          }
-          else{
-            console.log('there is no match with users phonenumber')
-          }
-        })
-      }
-      setUser(users)
-    });
-    userInit() // initializing empty fields
+   function onAuthStateChanged(userData) {
+    if(userData){
+      setPhoneNum(userData.phoneNumber)
+      setPhoneUid(userData.uid)
+       firestore()
+      .collection('users')
+      .onSnapshot(docs =>{
+        let users = [];
+        if(docs){
+          docs.forEach(doc =>{
+            if(doc._data.phoneNumber === userData.phoneNumber){
+              setUserId(doc.id) // recording user's id
+              users.push(doc.data())
+            }
+            else{
+              console.log('there is no match with users phonenumber')
+            }
+          })
+        }
+        setUser(users)
+      });
+      userInit() // initializing empty fields
+    }
   }
 
   const justChecking = () =>{
@@ -92,20 +95,19 @@ export default function MyMoodSettings() {
     .update({
       image: image,
       message: message,
-      sliderValues: sliderValues,
+      sliderValues: tempSliderValues,
       lMessage: leftSideMessage,
       rMessage: rightSideMessage,
       username: mood.moodObj.username
     })
     .then(() => {
-      mood.setMoodObj({
-        image: image,
-        message: message,
-        sliderValues: sliderValues,
-        leftSideMessage: leftSideMessage,
-        rightSideMessage: rightSideMessage,
-        username: mood.moodObj.username
-    })
+    //   mood.setMoodObj({
+    //     image: image,
+    //     message: message,
+    //     leftSideMessage: leftSideMessage,
+    //     rightSideMessage: rightSideMessage,
+    //     username: mood.moodObj.username
+    // })
       console.log('User updated!');
     });
 
@@ -144,20 +146,28 @@ export default function MyMoodSettings() {
     })
   }  
 
+
   const customMarker = () => {
-    return sliderValues == 0 ? <Emoji name="rage" style={{ fontSize: 40 }} />
-      : sliderValues == 1 ? <Emoji name="cry" style={{ fontSize: 40 }} />
-        : sliderValues == 2 ? <Emoji name="disappointed" style={{ fontSize: 40 }} />
-          : sliderValues == 3 ? <Emoji name="worried" style={{ fontSize: 40 }} />
-            : sliderValues == 4 ? <Emoji name="unamused" style={{ fontSize: 40 }} />
-              : sliderValues == 5 ? <Emoji name="neutral_face" style={{ fontSize: 40 }} />
-                : sliderValues == 6 ? <Emoji name="slightly_smiling_face" style={{ fontSize: 40 }} />
-                  : sliderValues == 7 ? <Emoji name="smiley" style={{ fontSize: 40 }} />
-                    : sliderValues == 8 ? <Emoji name="blush" style={{ fontSize: 40 }} />
-                      : sliderValues == 9 ? <Emoji name="heart_eyes" style={{ fontSize: 40 }} />
-                        : sliderValues == 10 ? <Emoji name="star-struck" style={{ fontSize: 40 }} />
-                          : <Emoji name="smiley" style={{ fontSize: 40 }} />
+    return <Image
+    source={{uri: mood.moodObj.image}}
+    style={{borderRadius: 45, height: 90, width: 70 }}>
+    </Image>
   }
+  // const customMarker = () => {
+  //   let sliderValues = mood.moodObj.sliderValues
+  //   return sliderValues == 0 ? <Emoji name="rage" style={{ fontSize: 40 }} />
+  //     : sliderValues == 1 ? <Emoji name="cry" style={{ fontSize: 40 }} />
+  //       : sliderValues == 2 ? <Emoji name="disappointed" style={{ fontSize: 40 }} />
+  //         : sliderValues == 3 ? <Emoji name="worried" style={{ fontSize: 40 }} />
+  //           : sliderValues == 4 ? <Emoji name="unamused" style={{ fontSize: 40 }} />
+  //             : sliderValues == 5 ? <Emoji name="neutral_face" style={{ fontSize: 40 }} />
+  //               : sliderValues == 6 ? <Emoji name="slightly_smiling_face" style={{ fontSize: 40 }} />
+  //                 : sliderValues == 7 ? <Emoji name="smiley" style={{ fontSize: 40 }} />
+  //                   : sliderValues == 8 ? <Emoji name="blush" style={{ fontSize: 40 }} />
+  //                     : sliderValues == 9 ? <Emoji name="heart_eyes" style={{ fontSize: 40 }} />
+  //                       : sliderValues == 10 ? <Emoji name="star-struck" style={{ fontSize: 40 }} />
+  //                         : <Emoji name="smiley" style={{ fontSize: 40 }} />
+  // }
 
   return (
     <>
@@ -172,13 +182,12 @@ export default function MyMoodSettings() {
           alignItems: 'center'
           // height: '100%',
         }}>
-        {/* <Text style={styles.titleText}>My Mood Settings</Text> */}
         <StatusBar backgroundColor='#fff' barStyle="dark-content" />
-        <TouchableOpacity style={{ position: 'absolute', top: 20, }} onPress={logout}>
-          <Text>Logout</Text>
+        <TouchableOpacity  onPress={logout}>
+          <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>Logout</Text>
         </TouchableOpacity>
-        <AvatarImagePicker setImageProp={(image) => setImage(image)} />
 
+        <AvatarImagePicker setImageProp={(image) => setImage(image)} />
 
         {/* mood slider */}
         <View style={styles.container}>
@@ -191,7 +200,7 @@ export default function MyMoodSettings() {
                 unselectedStyle={{
                   backgroundColor: 'transparent',
                 }}
-                values={[5]}
+                values={mood.moodObj.sliderValues}
                 min={0}
                 max={10}
                 step={1}
@@ -217,16 +226,11 @@ export default function MyMoodSettings() {
                 sliderLength={300}
                 // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
                 markerStyle={{ height: 50, width: 50 }}
-                onValuesChangeFinish={(values) =>
-                  // mood.setValues(values)
-                  setSliderValues(values)
-                }
-              />
+                onValuesChangeFinish={(values) => setTempSliderValues(values)}/>
             </ImageBackground>
 
 
             {/* sad and happy indicators */}
-            {/* <Text style={{ color: 'black' }}>{sliderValues}</Text> */}
             <View style={styles.leftAndRightContainer}>
               <View
                 style={{
@@ -234,20 +238,22 @@ export default function MyMoodSettings() {
                   width: 100,
                   height: '100%',
                   alignItems: 'flex-start',
-                  marginLeft: 10
+                  marginLeft: 0,
+                  marginTop: 10
                 }}>
-                <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => setleftSideMessage(value)} />
+                <LeftSideMessageModal leftSideMessage={leftSideMessage} setLeftsideMessageProp={(value) => mood.setLeftSideMessage(value)} />
               </View>
-              <View><Text onPress={justChecking}>something</Text></View>
+              {/* <View><Text onPress={justChecking}>something</Text></View> */}
               <View
                 style={{
                   flex: 1,
                   width: 100,
                   height: '100%',
                   alignItems: 'flex-end',
-                  marginRight: 10
+                  marginTop: 10,
+                  marginRight: 0,
                 }}>
-                <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value) => setrightSideMessage(value)} />
+                <RightSideMessageModal rightSideMessage={rightSideMessage} setRightsideMessageProp={(value) => mood.setRightSideMessage(value)} />
               </View>
             </View>
             {/* end of sad and happy indicators */}
@@ -268,8 +274,8 @@ export default function MyMoodSettings() {
 
         </Animatable.View>
         <View style={{
-          position: "absolute", top: 240, left: mood.moodObj.sliderValues == 10 ? "80%" :
-            mood.moodObj.sliderValues == 0 ? "10%" : mood.moodObj.sliderValues == 9 ? "80%" : (mood.moodObj.sliderValues * 10) + "%"
+          position: "absolute", top: 270, left: tempSliderValues == 10 ? "80%" :
+            tempSliderValues == 0 ? "10%" : tempSliderValues == 9 ? "80%" : (tempSliderValues * 10) + "%"
         }}>
           <SetAvatarMessageModal setMessage={(message) => setMessage(message)} />
         </View>

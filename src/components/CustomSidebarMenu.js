@@ -20,22 +20,22 @@ import {
 } from '@react-navigation/drawer';
 import { MoodContext } from '../../App';
 const CustomSidebarMenu = (props) => {
-      useEffect(() => {
-        // setSelectedUser(user)
-        const subscriber = async() =>
-           await firestore()
-            .collection('users')
-            .onSnapshot(docs =>{
-              let users = [];
-              docs.forEach(doc =>{
-                users.push(doc.data())
-              })
-              setUsers(users)
-        });
+    //   useEffect(() => {
+    //     // setSelectedUser(user)
+    //     const subscriber = async() =>
+    //        await firestore()
+    //         .collection('users')
+    //         .onSnapshot(docs =>{
+    //           let users = [];
+    //           docs.forEach(doc =>{
+    //             users.push(doc.data())
+    //           })
+    //           setUsers(users)
+    //     });
     
-        subscriber();
+    //     subscriber();
     
-    }, [])
+    // }, [])
   const BASE_PATH =
     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
   const proileImage = 'react_logo.png';

@@ -28,12 +28,12 @@ export default class App extends Component {
     };
   }
   
-  componentDidMount(){
+  async componentDidMount(){
     console.log(this.state)
-    firestore()
+    await firestore()
     .collection('users')
-    .onSnapshot(docs =>{
-      docs.forEach(doc =>{
+    .onSnapshot(snapshots =>{
+      snapshots.forEach(doc =>{
           this.setState(prevState =>({
             moodObj:{
               ...prevState.moodObj,
@@ -50,9 +50,6 @@ export default class App extends Component {
     console.log(this.state)
   }
 
-  componentDidUpdate(){
-    
-  }
 
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
@@ -97,6 +94,36 @@ export default class App extends Component {
     }))
   }
 
+  setSliderVal = (newVal) =>{
+(    this.setState(prevState =>({
+      moodObj:{
+        ...prevState.moodObj,
+        sliderValues: newVal
+      }
+    }))
+    
+  )
+  console.log(this.state.moodObj.sliderValues)
+}
+
+setLeftSideMessage = (newVal) =>{
+  this.setState(prevState =>({
+    moodObj:{
+      ...prevState.moodObj,
+      leftSideMessage: newVal
+    }
+  }))
+}
+
+setRightSideMessage = (newVal) =>{
+  this.setState(prevState =>({
+    moodObj:{
+      ...prevState.moodObj,
+      rightSideMessage: newVal
+    }
+  }))
+}
+
 render(){
   return (
     <MoodContext.Provider 
@@ -123,7 +150,11 @@ render(){
           setOtpConfirmation: this.setOtpConfirmed,
 
           user: this.state.moodObj.user,
-          setUser: this.setUser
+          setUser: this.setUser,
+
+          setSliderVal: this.setSliderVal,
+          setLeftSideMessage: this.setLeftSideMessage,
+          setRightSideMessage: this.setRightSideMessage
         }}>
           <Navigation/>
     </MoodContext.Provider>
