@@ -263,7 +263,7 @@ export default function Main({ navigation }) {
             />
           </View>
             <View>{users.map((user,index) => 
-              <View  key={index}><Text onPress={()=> navigation.navigate('OtherMood', {screen: 'OtherMood', params: {user}})}>username: {user.username}, phone number: {user.phoneNumber}</Text></View>
+              <View  key={index}><Text onPress={()=> navigation.navigate('OtherMood', {screen: 'OtherMood', params: {user}})}>username: {user.username}, phone number: {user.user.phoneNumber}</Text></View>
             )}</View>
           {/* {
            this.state.loading === true ?

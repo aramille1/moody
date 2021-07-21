@@ -32,10 +32,10 @@ export default class App extends Component {
   }
   
     componentDidMount(){
-      firestore().collection('users').get().then(data=>{
-        console.log(data.empty)
+      // firestore().collection('users').get().then(data=>{
+      //   console.log(data.empty)
 
-      })
+      // })
     // const subscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     // this.setState(prevState =>({
     //   moodObj:{

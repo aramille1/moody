@@ -51,6 +51,7 @@ export default function MyMoodSettings() {
     firestore()
       .collection('users')
       .onSnapshot((docs) => {
+        console.log(docs)
         docs.forEach((doc) => {
             setUserId(doc.id); // recording user's id
             let users = user.slice();
@@ -190,10 +191,11 @@ export default function MyMoodSettings() {
         <TouchableOpacity onPress={() => setVisible(true)}>
           <Text
             style={{
-              marginTop: 10,
+              // marginTop: 10,
               fontSize: 38,
               fontWeight: 'bold',
               color: '#4f6367',
+              marginBottom: 50
             }}>
             {username}
           </Text>
@@ -341,7 +343,7 @@ export default function MyMoodSettings() {
         <View
           style={{
             position: 'absolute',
-            top: 230,
+            top: 175,
             left:
               tempSliderValues == 10
                 ? '80%'

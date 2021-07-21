@@ -39,14 +39,15 @@ const NavigationDrawerStructure = (props) => {
   };
 
   const logout = () =>{
-    auth()
-    .signOut()
-    .then(() => console.log('User signed out!'))
-    .catch(error => console.log(error))
+    // auth()
+    // .signOut()
+    // .then(() => console.log('User signed out!'))
+    // .catch(error => console.log(error))
+    alert(1)
   }
 
   return (
-    <View style={{ flexDirection: 'row', marginLeft: 5, alignItems:'center', }}>
+    <View style={{ flexDirection: 'row', marginLeft: 5, alignItems:'center',  }}>
       <TouchableOpacity onPress={toggleDrawer}>
         {/*Donute Button Image */}
         {/* <Image
@@ -59,7 +60,11 @@ const NavigationDrawerStructure = (props) => {
         <Icon name="menu-outline" size={30} color="#373737" />
 
       </TouchableOpacity>
-        <TouchableOpacity style={{position:'relative',left: 300, zIndex:100}}  onPress={logout}><Text >Logout</Text></TouchableOpacity>
+        <TouchableOpacity style={{
+          // position:'relative',left: 270,marginHorizontal:10, 
+          width: 320,
+          zIndex:100
+          }}  onPress={logout}><Text style={{textAlign:'right'}}>Logout</Text></TouchableOpacity>
     </View>
   );
 };
@@ -187,7 +192,7 @@ export default () => {
         console.log('user is not signed [in Navigation]')
       }
   })
-
+  
   subscribe()
   }, []);
 
