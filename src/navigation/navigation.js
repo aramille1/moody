@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image,Text } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -24,7 +24,7 @@ const RootStackScreen = ({ navigation }) => (
   <RootStack.Navigator headerMode='none'>
     <RootStack.Screen name="PhoneNumScreen" component={PhoneNumScreen} />
     <RootStack.Screen name="OtpScreen" component={OTPScreen} />
-    <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+    {/* <RootStack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
     <RootStack.Screen name="main" component={AppDrawerScreen} />
     {/* <RootStack.Screen name="SignInScreen" component={SignInScreen}/> */}
 
@@ -38,8 +38,15 @@ const NavigationDrawerStructure = (props) => {
     props.navigationProps.toggleDrawer();
   };
 
+  const logout = () =>{
+    auth()
+    .signOut()
+    .then(() => console.log('User signed out!'))
+    .catch(error => console.log(error))
+  }
+
   return (
-    <View style={{ flexDirection: 'row', marginLeft: 5 }}>
+    <View style={{ flexDirection: 'row', marginLeft: 5, alignItems:'center', }}>
       <TouchableOpacity onPress={toggleDrawer}>
         {/*Donute Button Image */}
         {/* <Image
@@ -52,6 +59,7 @@ const NavigationDrawerStructure = (props) => {
         <Icon name="menu-outline" size={30} color="#373737" />
 
       </TouchableOpacity>
+        <TouchableOpacity style={{position:'relative',left: 300, zIndex:100}}  onPress={logout}><Text >Logout</Text></TouchableOpacity>
     </View>
   );
 };
@@ -132,6 +140,8 @@ const otherMoodScreenStack = ({ route, navigation }) => (
     />
   </otherScreenStack.Navigator>
 )
+
+
 const AppDrawer = createDrawerNavigator();
 
 const AppDrawerScreen = ({route, navigation}) => (

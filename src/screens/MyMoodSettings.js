@@ -162,14 +162,15 @@ export default function MyMoodSettings() {
           flexDirection: 'column',
           flex: 1,
           // resizeMode: 'cover',
-          justifyContent: 'space-around',
+          justifyContent: 'space-evenly',
           alignItems: 'center',
           // height: '100%',
         }}>
         <StatusBar backgroundColor="#fff" barStyle="dark-content" />
 
 
-        <TouchableOpacity onPress={logout}>
+          {/* <View style={{flexDirection:'row',}}> */}
+          {/* <TouchableOpacity onPress={logout}>
           <Text
             style={{
               borderWidth: 1,
@@ -179,9 +180,10 @@ export default function MyMoodSettings() {
             }}>
             Logout
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <AvatarImagePicker setImageProp={(image) => setImage(image)} />
+          {/* </View> */}
 
 
         {/* username */}
@@ -339,7 +341,7 @@ export default function MyMoodSettings() {
         <View
           style={{
             position: 'absolute',
-            top: 270,
+            top: 230,
             left:
               tempSliderValues == 10
                 ? '80%'

@@ -108,43 +108,15 @@ export default function AvatarImagePicker({ setImageProp }) {
                 initialSnap={1}
                 enabledGestureInteraction={true}
             />
-            <View style={styles.container}>
                 <Animated.View style={{
-                    margin: 20,
+                    // margin: 20,
                     opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
                 }}>
-                    <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
-                            <View
-                                style={{
-                                    height: 100,
-                                    width: 100,
-                                    borderRadius: 15,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                {/* <ImageBackground
-                                    source={{
-                                        uri: mood.moodObj.image,
-                                    }}
-                                    style={{ height: 100, width: 100 }}
-                                    imageStyle={{ borderRadius: 15 }}>
-                                    <View
-                                        style={{
-                                            flex: 1,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }}>
-                                        
-                                    </View>
-                                </ImageBackground> */}
                                 <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text>
-                            </View>
                         </TouchableOpacity>
                         
-                    </View>
                 </Animated.View>
-            </View>
         </>
     );
 }
