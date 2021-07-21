@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import AddMessage from '../AddMessage';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,16 +11,20 @@ export default function LeftSideMessageModal({setLeftsideMessageProp, leftSideMe
     const [text, setText] = React.useState('sad')
     // const mood = useContext(MoodContext)
 
-    const addItem = text => {
-        if (!text) {
+    useEffect(() => {
+        setText(leftSideMessage)
+    }, [leftSideMessage])
+
+    const addItem = textData => {
+        if (!textData) {
             Alert.alert(
                 'Write how you feeling',
                 { cancelable: true },
             );
         } else {
             // mood.setleftSideMessage(text);
-            setText(text)
-            setLeftsideMessageProp(text)
+            setText(textData)
+            setLeftsideMessageProp(textData)
         }
     };
     return (

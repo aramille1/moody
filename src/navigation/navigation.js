@@ -166,22 +166,26 @@ export default () => {
   const [user, setUser] = React.useState();
   const mood = React.useContext(MoodContext)
 
-  // Handle user state changes
-  function onAuthStateChanged(userData) {
-    mood.setUser(userData)
-    if (initializing) setInitializing(false);
-  }
+
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    const subscribe = auth().onAuthStateChanged(user =>{
+      console.log(user);
+      if(user){
+        setUser(user)
+      }else{
+        console.log('user is not signed [in Navigation]')
+      }
+  })
+
+  subscribe()
   }, []);
 
 
   return (
     <NavigationContainer>
       {/* <AppDrawerScreen/> */}
-      {mood.user ? <AppDrawerScreen /> : <RootStackScreen />}
+      {user ? <AppDrawerScreen /> : <RootStackScreen />}
     </NavigationContainer>
   )
 }

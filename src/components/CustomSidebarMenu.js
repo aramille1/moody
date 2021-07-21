@@ -20,27 +20,31 @@ import {
 } from '@react-navigation/drawer';
 import { MoodContext } from '../../App';
 const CustomSidebarMenu = (props) => {
-    //   useEffect(() => {
-    //     // setSelectedUser(user)
-    //     const subscriber = async() =>
-    //        await firestore()
-    //         .collection('users')
-    //         .onSnapshot(docs =>{
-    //           let users = [];
-    //           docs.forEach(doc =>{
-    //             users.push(doc.data())
-    //           })
-    //           setUsers(users)
-    //     });
+  const mood = React.useContext(MoodContext)
+  const [user, setUser] = React.useState([])
+  const [image, setImage] = React.useState()
+  const [username, setUsername] = React.useState('username')
+      useEffect(() => {
+        firestore()
+        .collection('users')
+        .onSnapshot(docs =>{
+          docs.forEach(doc =>{
+              console.log(doc.data())
+              let users = user.slice()
+              users.push(doc.data())
+              setUser(users)
+              users.forEach(user=>{
+                setImage(user.image),
+                setUsername(user.username)
+              })
+          })
+        })
     
-    //     subscriber();
-    
-    // }, [])
+    }, [])
   const BASE_PATH =
     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
   const proileImage = 'react_logo.png';
-  mood = React.useContext(MoodContext)
-  const [users, setUsers] = React.useState()
+  let theuser = user[0]
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/*Top Large Image */}
@@ -50,7 +54,7 @@ const CustomSidebarMenu = (props) => {
       /> */}
       <ImageBackground
                             source={{
-                                uri: mood.moodObj.image,
+                                uri: image,
                             }}
                             style={{ height: 100, width: 100, alignSelf: 'center' }}
                             imageStyle={{ borderRadius: 15 }}>
@@ -60,7 +64,7 @@ const CustomSidebarMenu = (props) => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                {!mood.moodObj.image ? <Icon
+                                {!image ? <Icon
                                     name="camera"
                                     size={35}
                                     color="#4f6367"
@@ -76,7 +80,7 @@ const CustomSidebarMenu = (props) => {
                                 /> : null}
                             </View>
                         </ImageBackground>
-      <Text style={{alignSelf:"center", marginVertical: 10}}>{mood.moodObj.username}</Text>
+      <Text style={{alignSelf:"center", marginVertical: 10}}>{username}</Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>

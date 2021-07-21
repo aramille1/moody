@@ -21,35 +21,110 @@ export default class App extends Component {
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
         username: 'username',
-        user:{}
+        user:{
+          uid: '',
+          phoneNumber: null
+        }
       },
       initializing: true,
       
     };
   }
   
-  async componentDidMount(){
-    console.log(this.state)
-    await firestore()
-    .collection('users')
-    .onSnapshot(snapshots =>{
-      snapshots.forEach(doc =>{
-          this.setState(prevState =>({
-            moodObj:{
-              ...prevState.moodObj,
-              image:doc._data.image,
-              message: doc._data.message,
-              sliderValues: doc._data.sliderValues,
-              leftSideMessage: doc._data.lMessage,
-              rightSideMessage: doc._data.rMessage,
-              username: doc._data.username
-            }
-          }))
+    componentDidMount(){
+      firestore().collection('users').get().then(data=>{
+        console.log(data.empty)
+
       })
-    });
+    // const subscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
+    // this.setState(prevState =>({
+    //   moodObj:{
+    //     ...prevState.moodObj,
+    //     user: {
+    //       uid: auth()._user._user.uid,
+    //       phoneNumber: auth()._user._user.phoneNumber
+    //     }
+    //   }
+    // }))
+
+    this.userInit()
+    
+
+    // console.log(auth()._user._user.phoneNumber)
+    //   firestore()
+    // .collection('users')
+    // .onSnapshot(snapshots =>{
+    //   snapshots.forEach(doc =>{
+    //       this.setState(prevState =>({
+    //         moodObj:{
+    //           ...prevState.moodObj,
+    //           image:doc._data.image,
+    //           message: doc._data.message,
+    //           sliderValues: doc._data.sliderValues,
+    //           leftSideMessage: doc._data.lMessage,
+    //           rightSideMessage: doc._data.rMessage,
+    //           username: doc._data.username
+    //         }
+    //       }))
+    //   })
+    // });
     console.log(this.state)
+    // return subscriber; // unsubscribe on unmount
+
   }
 
+
+   userInit = async () => {
+     const subscriber = auth().onAuthStateChanged(user=>{
+       if(user){
+         console.log('user is signed in')
+         firestore().collection('users').get().then(data=>{
+          if(data.empty){
+            firestore().collection('users').add({
+              username: mood.moodObj.username,
+              image: mood.moodObj.image,
+              message: mood.moodObj.message,
+              sliderValues: mood.moodObj.sliderValues,
+              leftSideMessage: mood.moodObj.leftSideMessage,
+              rightSideMessage: mood.moodObj.rightSideMessage,
+              user:{
+                uid: auth()._user._user.uid,
+                phoneNumber: auth()._user._user.phoneNumber
+              }
+            }).then(()=>{
+              console.log('User fields initialized')
+            })
+          }else{
+            console.log('already initialized, no need another one!')
+          }
+        })
+       }else{
+         console.log('user is NOT signed in')
+       }
+     })
+
+     subscriber()
+
+  }  
+
+
+    // Handle user state changes
+    //  onAuthStateChanged = (userData) => {
+    //   console.log(userData);
+    //   console.log(2)
+
+    //   this.setState(prevState =>({
+    //     moodObj:{
+    //       ...prevState.moodObj,
+    //       user:userData
+    //     }
+    //   }))
+    //   if (this.state.initializing) this.setState(prevState =>({
+    //     ...prevState.moodObj,
+    //     initializing: false
+    //   }));
+    // }
+  
 
   setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
 
@@ -125,6 +200,7 @@ setRightSideMessage = (newVal) =>{
 }
 
 render(){
+  if(this.initializing){return null}
   return (
     <MoodContext.Provider 
         value={{

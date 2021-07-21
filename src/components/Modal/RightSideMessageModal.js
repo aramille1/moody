@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import AddMessage from '../AddMessage';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,9 @@ import Modal from 'react-native-modal';
 export default function RightSideMessageModal({rightSideMessage, setRightsideMessageProp}) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [text, setText] = React.useState('happy')
-
+    useEffect(()=>{
+        setText(rightSideMessage)
+    },[rightSideMessage])
     const addItem = text => {
         if (!text) {
             Alert.alert(

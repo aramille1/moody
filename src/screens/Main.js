@@ -60,8 +60,6 @@ export default function Main({ navigation }) {
   //  }
 
   useEffect(() => {
-    // console.log(mood.moodObj)
-    console.log('yooooolooooo' )
     const subscriber = async() =>
        await firestore()
         .collection('users')
@@ -71,7 +69,6 @@ export default function Main({ navigation }) {
             users.push(doc.data())
           })
           setUsers(users)
-          console.log(users)
     });
 
     subscriber();

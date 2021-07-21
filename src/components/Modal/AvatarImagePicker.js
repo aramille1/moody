@@ -2,26 +2,18 @@ import React, { useContext } from 'react';
 import { ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity,ScrollView, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modal';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { MoodContext } from '../../../App';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 export default function AvatarImagePicker({ setImageProp }) {
 
     const [image, setImage] = React.useState();
     const mood = useContext(MoodContext)
-    const [visible, setVisible] = React.useState(false)
     const [username, setUsername] = React.useState('username')
 
 
-    const onSignIn = () => {
-        mood.setUsername(username)
-        setVisible(false)
-      }
     // const cleanupImages = () => {
     //     ImagePicker.clean()
     //         .then(() => {
@@ -149,64 +141,7 @@ export default function AvatarImagePicker({ setImageProp }) {
                                 <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setVisible(true)}>
-                            <Text style={{ marginTop: 10, fontSize: 38, fontWeight: 'bold', color: "#4f6367" }}>
-                                {mood.moodObj.username}
-                            </Text>
-                        </TouchableOpacity>
-                        <Modal
-                            backdropTransitionOutTiming={0}
-                            onBackdropPress={() => setVisible(false)}
-                            isVisible={visible}
-                            style={{ backgroundColor: "white", borderRadius: 20, position: 'absolute', top: '25%' }}>
-
-                            <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30, }}>What's your name?</Text></View>
-                            <View
-                                style={styles.footer}
-                            >
-                                <ScrollView>
-                                    <View style={styles.actionInModal}>
-                                        <FontAwesome
-                                            name="user-o"
-                                            color="#05375a"
-                                            size={20}
-                                        />
-                                        <TextInput
-                                            placeholder="Your Username"
-                                            style={styles.textInputinModal}
-                                            autoCapitalize="none"
-                                            onChangeText={(val) => setUsername(val)}
-                                        />
-                                    </View>
-                                </ScrollView>
-                            </View>
-
-                            <View style={styles.buttonSave}>
-                                <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
-
-                                    <Text style={styles.textSign}>Save</Text>
-
-                                    <MaterialIcons
-                                        name="navigate-next"
-                                        color="#fff"
-                                        size={20}
-                                    />
-
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.btnSkip} onPress={() => setVisible(false)}>
-
-                                    <Text style={{ color: '#4f6367', fontWeight: 'bold', display: 'flex' }}>Skip</Text>
-
-                                    <MaterialIcons
-                                        name="navigate-next"
-                                        color="#4f6367"
-                                        size={20}
-                                    />
-
-                                </TouchableOpacity>
-                            </View>
-
-                        </Modal>
+                        
                     </View>
                 </Animated.View>
             </View>
@@ -312,49 +247,7 @@ const styles = StyleSheet.create({
         color: '#05375a',
     },
 
-    footer: {
-        // flex: Platform.OS === 'ios' ? 3 : 9,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        // marginHorizontal: 15,
-      },
-      actionInModal: {
-        flexDirection: 'row',
-        marginTop: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
-        paddingBottom: 5
-      },
-      textInputinModal: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        paddingLeft: 10,
-        color: '#05375a',
-      },
-      btnSave: {
-        backgroundColor: '#009387',
-        paddingHorizontal: 140,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderRadius: 10,
-        margin: 10
-      },
-      btnSkip: {
-        backgroundColor: '#fff',
-        paddingHorizontal: 140,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderRadius: 10,
-      },
-      textSign: {
-        color: '#fff',
-        fontWeight: 'bold',
-    
-      },
+     
+
+
 });

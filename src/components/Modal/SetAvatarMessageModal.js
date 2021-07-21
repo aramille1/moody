@@ -90,6 +90,10 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
+    openButton:{
+        position: "absolute",
+        top:50,
+    },
     openButton2: {
         position: "absolute",
         top: 0,

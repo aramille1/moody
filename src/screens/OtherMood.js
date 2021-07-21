@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { MoodContext } from '../../App';
-import CustomMarker from '../components/CustomMarker';
+// import CustomMarker from '../components/CustomMarker';
 import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
 import ShowAvatarMessageModal from '../components/Modal/ShowAvatarMessageModal';
@@ -23,7 +23,7 @@ export default function OtherMood({route}) {
     // console.log(" in other Mood: "+ mood.value);
 
     useEffect(() => {
-        console.log('user', user.sliderValues)
+        console.log('user', user)
         // setSelectedUser(user)
         // const subscriber = async() =>
         //    await firestore()
@@ -40,6 +40,15 @@ export default function OtherMood({route}) {
         // subscriber();
     
     }, [])
+
+const CustomMarker = () => {
+    return (     
+        <Image
+            source={{uri: user.image}}
+            style={{borderRadius: 45, height: 90, width: 70 }}>
+        </Image>
+    );
+}
 
     return (
         <>
@@ -126,14 +135,14 @@ export default function OtherMood({route}) {
                             top: -30,
                             left: -160
                         }}>
-                            <Text style={styles.indicatorsMessage}>{user.lMessage}</Text>
+                            <Text style={styles.indicatorsMessage}>{user.leftSideMessage}</Text>
                         </View>
                         <View style={{
                             position: 'absolute',
                             top: -30,
                             right: -150
                         }}>
-                            <Text style={styles.indicatorsMessage}>{user.rMessage}</Text>
+                            <Text style={styles.indicatorsMessage}>{user.rightSideMessage}</Text>
                             {/* <TouchableOpacity onPress={()=>console.log(selectedUser)}><Text>someting</Text></TouchableOpacity> */}
                         </View>
                     </View>
