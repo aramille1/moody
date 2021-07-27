@@ -91,8 +91,8 @@ export default class App extends Component {
                 uid: auth()._user._user.uid,
                 phoneNumber: auth()._user._user.phoneNumber
               }
-            }).then(()=>{
-              console.log('User fields initialized')
+            }).then((data)=>{
+              console.log('User fields initialized', data)
             })
           }else{
             console.log('already initialized, no need another one!')

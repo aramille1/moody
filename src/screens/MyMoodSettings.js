@@ -9,6 +9,8 @@ import {
   Image,
   TextInput,
   ScrollView,
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import auth from '@react-native-firebase/auth';
@@ -29,6 +31,7 @@ import userImg from '../assets/images/user.png';
 import Modal from 'react-native-modal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import storage from '@react-native-firebase/storage';
 
 import CustomLabel from '../components/CustomLabel';
 
@@ -45,26 +48,34 @@ export default function MyMoodSettings() {
   const mood = useContext(MoodContext);
   const [username, setUsername] = React.useState('username');
   const [visible, setVisible] = React.useState(false);
+  const [uploading, setUploading] = React.useState(false)
+  const [transferred, setTransferred] = React.useState(0)
 
   useEffect(() => {
     console.log(auth())
     firestore()
       .collection('users')
       .onSnapshot((docs) => {
-        console.log(docs)
         docs.forEach((doc) => {
+          console.log()
+          if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
             setUserId(doc.id); // recording user's id
             let users = user.slice();
             users.push(doc.data());
             setUser(users);
             users.forEach((user) => {
+              console.log(user)
               setTempSliderValues(user.sliderValues),
                 setUsername(user.username),
                 setImage(user.image),
                 setleftSideMessage(user.leftSideMessage),
                 setrightSideMessage(user.rightSideMessage);
             });
-        });
+          }else{
+            console.log('error, wrong phoneNumber, they dont match')
+          }
+
+      });
       });
     console.log(user);
     // const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -101,8 +112,10 @@ export default function MyMoodSettings() {
     console.log('userData doesnt exists');
   }
 
-  const justChecking = () => {
-    console.log(user);
+  const justChecking = async() => {
+  const reference = await storage().ref(filename).getDownloadURL();
+    // setImage(reference)
+    console.log(reference);
   };
 
   // const updateMoodState = async() =>{
@@ -128,18 +141,52 @@ export default function MyMoodSettings() {
     };
     console.log(userObject);
     firestore().collection('users').doc(userId).update(userObject);
+    uploadImageToCloudStorage()
 
-    showMessage({
-      message: 'Saved!',
-      type: 'success',
+  };
+
+  
+  const uploadImageToCloudStorage = async () =>{
+    const uploadUri = image;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/')+1)
+    console.log(filename, 'filename')
+    console.log(uploadUri, 'uploadUri')
+
+    
+    setUploading(true)
+    setTransferred(0)
+
+    const task = storage().ref(filename).putFile(uploadUri);
+
+    task.on('state_changed', taskSnapshot => {
+      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100
+      )
     });
-  };
+    
+    // task.then(() => {
+    //   console.log('Image uploaded to the bucket!');
+    // });
 
-  const logout = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
-  };
+    try {
+        await task
+        setUploading(false)
+        showMessage({
+          message: 'Saved!',
+          type: 'success',
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+  // const logout = () => {
+  //   auth()
+  //     .signOut()
+  //     .then(() => console.log('User signed out!'));
+  // };
 
   const onSignIn = () => {
     mood.setUsername(username);
@@ -153,6 +200,8 @@ export default function MyMoodSettings() {
         style={{borderRadius: 45, height: 90, width: 70}}></Image>
     );
   };
+
+
 
   return (
     <>
@@ -307,7 +356,7 @@ export default function MyMoodSettings() {
                   setLeftsideMessageProp={(value) => setleftSideMessage(value)}
                 />
               </View>
-              {/* <View><Text onPress={justChecking}>something</Text></View> */}
+              <View><Text onPress={justChecking}>something</Text></View>
               <View
                 style={{
                   flex: 1,
@@ -329,17 +378,30 @@ export default function MyMoodSettings() {
           </Animatable.View>
         </View>
         {/* end of mood slider */}
+
+        
+        {uploading ? (
+          <View>
+            <Text>{transferred}% complted</Text>
+            <ActivityIndicator size="large" color="#0000ff"/>
+          </View>
+        ):(
+          <>
         <FlashMessage position="top" floating />
 
-        <Animatable.View animation="fadeIn">
-          <View style={{borderRadius: 10, backgroundColor: '#009387'}}>
-            <TouchableOpacity
-              style={{paddingHorizontal: 140, paddingVertical: 15}}
-              onPress={submit}>
-              <Text style={{fontSize: 18, color: '#fff'}}>Save</Text>
-            </TouchableOpacity>
-          </View>
-        </Animatable.View>
+            <Animatable.View animation="fadeIn">
+              <View style={{borderRadius: 10, backgroundColor: '#009387'}}>
+                <TouchableOpacity
+                  style={{paddingHorizontal: 140, paddingVertical: 15}}
+                  onPress={submit}>
+                  <Text style={{fontSize: 18, color: '#fff'}}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            </Animatable.View>  
+          </>
+        )
+      }
+
         <View
           style={{
             position: 'absolute',

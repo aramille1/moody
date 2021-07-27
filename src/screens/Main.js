@@ -24,6 +24,7 @@ import { MoodContext } from '../../App';
 import ProfileImagePicker from '../components/Modal/ProfileImagePicker'
 import firestore from '@react-native-firebase/firestore'
 import { firebase } from "@react-native-firebase/auth";
+import auth from '@react-native-firebase/auth';
 
 export default function Main({ navigation }) {
   mood = React.useContext(MoodContext)
@@ -66,9 +67,12 @@ export default function Main({ navigation }) {
         .onSnapshot(docs =>{
           let users = [];
           docs.forEach(doc =>{
+            console.log(doc.data())
             users.push(doc.data())
           })
-          setUsers(users)
+          const result = users.filter(data => data.phoneNumber !== auth()._user._user.phoneNumber)
+          setUsers(result)
+          console.log(users)
     });
 
     subscriber();

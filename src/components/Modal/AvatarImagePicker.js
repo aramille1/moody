@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity,ScrollView, View } from 'react-native';
+import { ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity,ScrollView, View, Platform, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Animated from 'react-native-reanimated';
@@ -12,7 +12,6 @@ export default function AvatarImagePicker({ setImageProp }) {
     const [image, setImage] = React.useState();
     const mood = useContext(MoodContext)
     const [username, setUsername] = React.useState('username')
-
 
     // const cleanupImages = () => {
     //     ImagePicker.clean()
@@ -34,6 +33,8 @@ export default function AvatarImagePicker({ setImageProp }) {
     //         });
     // }
 
+
+
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
             compressImageMaxWidth: 300,
@@ -42,9 +43,9 @@ export default function AvatarImagePicker({ setImageProp }) {
             compressImageQuality: 0.7
         }).then(image => {
             console.log(image);
-            // mood.setImage(image.path);
-            setImage(image.path)
-            setImageProp(image.path)
+            const imageUrl = Platform.OS === 'ios' ? image.sourceURL : image.path
+            setImage(imageUrl)
+            setImageProp(imageUrl)
             sheetRef.current.snapTo(1);
         }).catch(error => {
             alert(error)
@@ -58,10 +59,9 @@ export default function AvatarImagePicker({ setImageProp }) {
             cropping: true,
             compressImageQuality: 0.7
         }).then(image => {
-            // console.log(image);
-            // mood.setImage(image.path);
-            setImage(image.path)
-            setImageProp(image.path)
+            const imageUrl = Platform.OS === 'ios' ? image.sourceURL : image.path
+            setImage(imageUrl)
+            setImageProp(imageUrl)
             sheetRef.current.snapTo(1);
         });
     }

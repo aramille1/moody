@@ -18,12 +18,12 @@ export default function OtherMood({route}) {
     const [users, setUsers] = React.useState()
     const [selectedUser, setSelectedUser] = React.useState()
     const { user } = route.params;
-    const userSliderVal = user.sliderValues[0]
+    // const userSliderVal = user.sliderValues[0]
     // const fall = new Animated.Value(1);
     // console.log(" in other Mood: "+ mood.value);
 
     useEffect(() => {
-        console.log('user', user)
+        // console.log('user', user)
         // setSelectedUser(user)
         // const subscriber = async() =>
         //    await firestore()

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth';
 
 import {
   DrawerContentScrollView,
@@ -29,6 +30,7 @@ const CustomSidebarMenu = (props) => {
         .collection('users')
         .onSnapshot(docs =>{
           docs.forEach(doc =>{
+            if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
               console.log(doc.data())
               let users = user.slice()
               users.push(doc.data())
@@ -37,7 +39,7 @@ const CustomSidebarMenu = (props) => {
                 setImage(user.image),
                 setUsername(user.username)
               })
-          })
+          }})
         })
     
     }, [])
