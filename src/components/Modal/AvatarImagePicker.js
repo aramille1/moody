@@ -7,7 +7,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { MoodContext } from '../../../App';
 
 
-export default function AvatarImagePicker({ setImageProp }) {
+export default function AvatarImagePicker({ setImageProp, imageIsUploaded }) {
 
     const [image, setImage] = React.useState();
     const mood = useContext(MoodContext)

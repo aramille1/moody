@@ -13,7 +13,7 @@ import {
   Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
 import FlashMessage, {showMessage} from 'react-native-flash-message';
@@ -49,6 +49,7 @@ export default function MyMoodSettings() {
   const [username, setUsername] = React.useState('username');
   const [visible, setVisible] = React.useState(false);
   const [uploading, setUploading] = React.useState(false)
+  const [imageIsUploaded, setImageIsUploaded] = React.useState(false)
   const [transferred, setTransferred] = React.useState(0)
 
   useEffect(() => {
@@ -85,73 +86,58 @@ export default function MyMoodSettings() {
 
   // Handle user state changes
   // userData is data from phone OTP registr
-  function onAuthStateChanged(userData) {
-    if (userData) {
-      console.log('user exists', userData);
-      setPhoneNum(userData.phoneNumber);
-      setPhoneUid(userData.uid);
-      firestore()
-        .collection('users')
-        .onSnapshot((docs) => {
-          // console.log(docs)
-          let users = [];
-          if (docs) {
-            docs.forEach((doc) => {
-              // console.log(doc)
-              if (doc._data.user.phoneNumber === userData.phoneNumber) {
-                setUserId(doc.id); // recording user's id
-                users.push(doc.data());
-              } else {
-                console.log('there is no match with users phonenumber');
-              }
-            });
-          }
-          setUser(users);
-        });
-    }
-    console.log('userData doesnt exists');
-  }
-
-  const justChecking = async() => {
-  const reference = await storage().ref(filename).getDownloadURL();
-    // setImage(reference)
-    console.log(reference);
-  };
-
-  // const updateMoodState = async() =>{
-  //   console.log(user)
-  //   // let obj = {
-  //   //   image: user[0].image,
-  //   //   message: user[0].message,
-  //   //   sliderValues: user[0].sliderValues,
-  //   //   leftSideMessage: user[0].lMessage,
-  //   //   rightSideMessage: user[0].rMessage,
-  //   //   username: user[0].username
-  //   // }
-  //   // mood.setMoodObj(obj)
+  // function onAuthStateChanged(userData) {
+  //   if (userData) {
+  //     console.log('user exists', userData);
+  //     setPhoneNum(userData.phoneNumber);
+  //     setPhoneUid(userData.uid);
+  //     firestore()
+  //       .collection('users')
+  //       .onSnapshot((docs) => {
+  //         // console.log(docs)
+  //         let users = [];
+  //         if (docs) {
+  //           docs.forEach((doc) => {
+  //             // console.log(doc)
+  //             if (doc._data.user.phoneNumber === userData.phoneNumber) {
+  //               setUserId(doc.id); // recording user's id
+  //               users.push(doc.data());
+  //             } else {
+  //               console.log('there is no match with users phonenumber');
+  //             }
+  //           });
+  //         }
+  //         setUser(users);
+  //       });
+  //   }
+  //   console.log('userData doesnt exists');
   // }
-  const submit = () => {
-    let userObject = {
-      image: image,
-      message: message,
-      sliderValues: tempSliderValues,
-      leftSideMessage: leftSideMessage,
-      rightSideMessage: rightSideMessage,
-      username: username,
-    };
-    console.log(userObject);
-    firestore().collection('users').doc(userId).update(userObject);
-    uploadImageToCloudStorage()
 
+  const justChecking = () => {}
+
+  const submit = async() => {
+
+    if(imageIsUploaded){
+      uploadImageToCloudStorage()
+      setImageIsUploaded(false)
+    }else{
+      let userObject = {
+        image: image,
+        message: message,
+        sliderValues: tempSliderValues,
+        leftSideMessage: leftSideMessage,
+        rightSideMessage: rightSideMessage,
+        username: username,
+      };
+      console.log(userObject);
+      firestore().collection('users').doc(userId).update(userObject);
+    }
   };
 
   
   const uploadImageToCloudStorage = async () =>{
     const uploadUri = image;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/')+1)
-    console.log(filename, 'filename')
-    console.log(uploadUri, 'uploadUri')
-
     
     setUploading(true)
     setTransferred(0)
@@ -165,10 +151,6 @@ export default function MyMoodSettings() {
         Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100
       )
     });
-    
-    // task.then(() => {
-    //   console.log('Image uploaded to the bucket!');
-    // });
 
     try {
         await task
@@ -180,6 +162,24 @@ export default function MyMoodSettings() {
     } catch (error) {
         console.log(error)
     }
+    
+    let imgRef = firebase.storage().ref(filename)
+
+    imgRef
+      .getDownloadURL()
+      .then((url)=>{
+        console.log(url)
+        setImage(url)
+        let userObject = {
+          image: url,
+          message: message,
+          sliderValues: tempSliderValues,
+          leftSideMessage: leftSideMessage,
+          rightSideMessage: rightSideMessage,
+          username: username,
+        };
+        firestore().collection('users').doc(userId).update(userObject);
+      })
 }
 
   // const logout = () => {
@@ -201,7 +201,10 @@ export default function MyMoodSettings() {
     );
   };
 
-
+  const setImageFunc = (img) =>{
+    setImage(img)
+    setImageIsUploaded(true)
+  }
 
   return (
     <>
@@ -232,7 +235,7 @@ export default function MyMoodSettings() {
           </Text>
         </TouchableOpacity> */}
 
-        <AvatarImagePicker setImageProp={(image) => setImage(image)} />
+        <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
           {/* </View> */}
 
 
