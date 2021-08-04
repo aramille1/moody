@@ -53,12 +53,13 @@ export default function MyMoodSettings() {
   const [transferred, setTransferred] = React.useState(0)
 
   useEffect(() => {
-    console.log(auth())
+    
     firestore()
       .collection('users')
       .onSnapshot((docs) => {
         docs.forEach((doc) => {
-          console.log()
+          console.log(doc.data().user.phoneNumber, '1')
+          console.log(auth()._user._user.phoneNumber, '2')
           if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
             setUserId(doc.id); // recording user's id
             let users = user.slice();

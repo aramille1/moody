@@ -14,6 +14,7 @@ export default class App extends Component {
       modalVisible: false,
       showAvatarMessageModal: false,
       otpConfirmed: false,
+      myAccExists: false,
       moodObj:{
         image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
         message: 'message is empty',
@@ -74,34 +75,42 @@ export default class App extends Component {
   }
 
 
-   userInit = async () => {
-     const subscriber = auth().onAuthStateChanged(user=>{
-       if(user){
+   userInit = () => {
+     const subscriber =  auth().onAuthStateChanged(user=>{
+       if(user._auth._authResult){
          console.log('user is signed in')
-         firestore().collection('users').get().then(data=>{
-          if(data.empty){
-            firestore().collection('users').add({
-              username: mood.moodObj.username,
-              image: mood.moodObj.image,
-              message: mood.moodObj.message,
-              sliderValues: mood.moodObj.sliderValues,
-              leftSideMessage: mood.moodObj.leftSideMessage,
-              rightSideMessage: mood.moodObj.rightSideMessage,
-              user:{
-                uid: auth()._user._user.uid,
-                phoneNumber: auth()._user._user.phoneNumber
+         firestore().collection('users').get().then(data =>{
+          data.docs.forEach(el =>{
+              if(el._data.user.phoneNumber == user.phoneNumber){
+                console.log(el._data.user.phoneNumber == user.phoneNumber)
+                  console.log('already initialized, no need another one!');
+                  this.setState({myAccExists: true})
+              }else if(el._data.user.phoneNumber != user.phoneNumber && !this.state.myAccExists){
+                console.log(el._data.user.phoneNumber != user.phoneNumber)
+                firestore().collection('users').add({
+                  username: this.state.moodObj.username,
+                  image: this.state.moodObj.image,
+                  message: this.state.moodObj.message,
+                  sliderValues: this.state.moodObj.sliderValues,
+                  leftSideMessage: this.state.moodObj.leftSideMessage,
+                  rightSideMessage: this.state.moodObj.rightSideMessage,
+                  user:{
+                    uid: auth()._user._user.uid,
+                    phoneNumber: auth()._user._user.phoneNumber
+                  }
+                }).then((data)=>{
+                  console.log('User fields initialized', data)
+                })
               }
-            }).then((data)=>{
-              console.log('User fields initialized', data)
-            })
-          }else{
-            console.log('already initialized, no need another one!')
-          }
+          })
         })
-       }else{
-         console.log('user is NOT signed in')
-       }
-     })
+
+        
+        
+     }else{
+      console.log('user is NOT signed in')
+    }
+  })
 
      subscriber()
 
