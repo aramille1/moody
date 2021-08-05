@@ -68,13 +68,10 @@ export default function Main({ navigation }) {
         .onSnapshot(docs => {
           let users = [];
           docs.forEach(doc => {
-            console.log(doc.data())
             users.push(doc.data())
           })
           const result = users.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
-          console.log(result)
           setUsers(result)
-          // console.log(users)
         });
 
     subscriber();
@@ -318,6 +315,8 @@ export default function Main({ navigation }) {
              )
          } */}
 
+
+
       <View style={{
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
@@ -325,7 +324,7 @@ export default function Main({ navigation }) {
         marginBottom: 50,
         marginRight: 30
       }}>
-        <Icon onPress={() => navigation.navigate('EditMood')} name="add-circle-outline" size={50} color="#373737" />
+        <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
       </View>
 
 
@@ -406,9 +405,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
 
   },
-  userTouchable:{flexDirection:'row', alignItems:'center', marginLeft: 20},
-  userProfileImage:{ borderRadius: 45, height: 50, width: 50 },
-  userUsername: {marginLeft:20, fontSize: 15}
+  userTouchable: { flexDirection: 'row', alignItems: 'center', marginLeft: 20 },
+  userProfileImage: { borderRadius: 45, height: 50, width: 50 },
+  userUsername: { marginLeft: 20, fontSize: 15 }
 });
 
 const getAvatarInitials = textString => {

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -16,12 +16,12 @@ import * as Animatable from 'react-native-animatable';
 import auth, { firebase } from '@react-native-firebase/auth';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
-import FlashMessage, {showMessage} from 'react-native-flash-message';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 // import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
 import RightSideMessageModal from '../components/Modal/RightSideMessageModal';
-import {MoodContext} from '../../App';
+import { MoodContext } from '../../App';
 import AvatarImagePicker from '../components/Modal/AvatarImagePicker';
 import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
@@ -53,36 +53,26 @@ export default function MyMoodSettings() {
   const [transferred, setTransferred] = React.useState(0)
 
   useEffect(() => {
-    
+
     firestore()
       .collection('users')
       .onSnapshot((docs) => {
         docs.forEach((doc) => {
-          console.log(doc.data().user.phoneNumber, '1')
-          console.log(auth()._user._user.phoneNumber, '2')
-          if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
+          if (doc.data().user.phoneNumber === auth()._user._user.phoneNumber) {
             setUserId(doc.id); // recording user's id
             let users = user.slice();
             users.push(doc.data());
             setUser(users);
             users.forEach((user) => {
-              console.log(user)
               setTempSliderValues(user.sliderValues),
                 setUsername(user.username),
                 setImage(user.image),
                 setleftSideMessage(user.leftSideMessage),
                 setrightSideMessage(user.rightSideMessage);
             });
-          }else{
-            console.log('error, wrong phoneNumber, they dont match')
-          }
-
+          } 
+        });
       });
-      });
-    console.log(user);
-    // const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    // console.log(mood)
-    // return subscriber; // unsubscribe on unmount
   }, []);
 
   // Handle user state changes
@@ -114,14 +104,14 @@ export default function MyMoodSettings() {
   //   console.log('userData doesnt exists');
   // }
 
-  const justChecking = () => {}
+  const justChecking = () => { }
 
-  const submit = async() => {
+  const submit = async () => {
 
-    if(imageIsUploaded){
+    if (imageIsUploaded) {
       uploadImageToCloudStorage()
       setImageIsUploaded(false)
-    }else{
+    } else {
       let userObject = {
         image: image,
         message: message,
@@ -135,11 +125,11 @@ export default function MyMoodSettings() {
     }
   };
 
-  
-  const uploadImageToCloudStorage = async () =>{
+
+  const uploadImageToCloudStorage = async () => {
     const uploadUri = image;
-    let filename = uploadUri.substring(uploadUri.lastIndexOf('/')+1)
-    
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
+
     setUploading(true)
     setTransferred(0)
 
@@ -154,21 +144,21 @@ export default function MyMoodSettings() {
     });
 
     try {
-        await task
-        setUploading(false)
-        showMessage({
-          message: 'Saved!',
-          type: 'success',
-        });
+      await task
+      setUploading(false)
+      showMessage({
+        message: 'Saved!',
+        type: 'success',
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
-    
+
     let imgRef = firebase.storage().ref(filename)
 
     imgRef
       .getDownloadURL()
-      .then((url)=>{
+      .then((url) => {
         console.log(url)
         setImage(url)
         let userObject = {
@@ -181,7 +171,7 @@ export default function MyMoodSettings() {
         };
         firestore().collection('users').doc(userId).update(userObject);
       })
-}
+  }
 
   // const logout = () => {
   //   auth()
@@ -197,12 +187,12 @@ export default function MyMoodSettings() {
   const customMarker = () => {
     return (
       <Image
-        source={{uri: image}}
-        style={{borderRadius: 45, height: 90, width: 70}}></Image>
+        source={{ uri: image }}
+        style={{ borderRadius: 45, height: 90, width: 70 }}></Image>
     );
   };
 
-  const setImageFunc = (img) =>{
+  const setImageFunc = (img) => {
     setImage(img)
     setImageIsUploaded(true)
   }
@@ -223,8 +213,8 @@ export default function MyMoodSettings() {
         <StatusBar backgroundColor="#fff" barStyle="dark-content" />
 
 
-          {/* <View style={{flexDirection:'row',}}> */}
-          {/* <TouchableOpacity onPress={logout}>
+        {/* <View style={{flexDirection:'row',}}> */}
+        {/* <TouchableOpacity onPress={logout}>
           <Text
             style={{
               borderWidth: 1,
@@ -237,7 +227,7 @@ export default function MyMoodSettings() {
         </TouchableOpacity> */}
 
         <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
-          {/* </View> */}
+        {/* </View> */}
 
 
         {/* username */}
@@ -265,8 +255,8 @@ export default function MyMoodSettings() {
             position: 'absolute',
             top: '25%',
           }}>
-          <View style={{marginLeft: 20, marginTop: 30, marginBottom: 0}}>
-            <Text style={{color: '#05375a', fontSize: 30}}>
+          <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}>
+            <Text style={{ color: '#05375a', fontSize: 30 }}>
               What's your name?
             </Text>
           </View>
@@ -294,7 +284,7 @@ export default function MyMoodSettings() {
               style={styles.btnSkip}
               onPress={() => setVisible(false)}>
               <Text
-                style={{color: '#4f6367', fontWeight: 'bold', display: 'flex'}}>
+                style={{ color: '#4f6367', fontWeight: 'bold', display: 'flex' }}>
                 Skip
               </Text>
 
@@ -339,7 +329,7 @@ export default function MyMoodSettings() {
                 customMarker={customMarker}
                 sliderLength={300}
                 // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
-                markerStyle={{height: 50, width: 50}}
+                markerStyle={{ height: 50, width: 50 }}
                 onValuesChangeFinish={(values) => setTempSliderValues(values)}
               />
             </ImageBackground>
@@ -383,28 +373,28 @@ export default function MyMoodSettings() {
         </View>
         {/* end of mood slider */}
 
-        
+
         {uploading ? (
           <View>
             <Text>{transferred}% complted</Text>
-            <ActivityIndicator size="large" color="#0000ff"/>
+            <ActivityIndicator size="large" color="#0000ff" />
           </View>
-        ):(
+        ) : (
           <>
-        <FlashMessage position="top" floating />
+            <FlashMessage position="top" floating />
 
             <Animatable.View animation="fadeIn">
-              <View style={{borderRadius: 10, backgroundColor: '#009387'}}>
+              <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
                 <TouchableOpacity
-                  style={{paddingHorizontal: 140, paddingVertical: 15}}
+                  style={{ paddingHorizontal: 140, paddingVertical: 15 }}
                   onPress={submit}>
-                  <Text style={{fontSize: 18, color: '#fff'}}>Save</Text>
+                  <Text style={{ fontSize: 18, color: '#fff' }}>Save</Text>
                 </TouchableOpacity>
               </View>
-            </Animatable.View>  
+            </Animatable.View>
           </>
         )
-      }
+        }
 
         <View
           style={{
@@ -414,10 +404,10 @@ export default function MyMoodSettings() {
               tempSliderValues == 10
                 ? '80%'
                 : tempSliderValues == 0
-                ? '10%'
-                : tempSliderValues == 9
-                ? '80%'
-                : tempSliderValues * 10 + '%',
+                  ? '10%'
+                  : tempSliderValues == 9
+                    ? '80%'
+                    : tempSliderValues * 10 + '%',
           }}>
           <SetAvatarMessageModal
             setMessage={(message) => setMessage(message)}

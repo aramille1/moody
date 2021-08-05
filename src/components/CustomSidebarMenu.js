@@ -20,6 +20,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { MoodContext } from '../../App';
+
 const CustomSidebarMenu = (props) => {
   const mood = React.useContext(MoodContext)
   const [user, setUser] = React.useState([])
@@ -31,7 +32,6 @@ const CustomSidebarMenu = (props) => {
         .onSnapshot(docs =>{
           docs.forEach(doc =>{
             if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
-              console.log(doc.data())
               let users = user.slice()
               users.push(doc.data())
               setUser(users)

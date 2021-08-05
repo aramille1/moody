@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { ImageBackground, StyleSheet, View, Text,Image, StatusBar } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, StatusBar } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,7 +13,7 @@ import CustomLabel from '../components/CustomLabel';
 import { TouchableOpacity } from 'react-native';
 
 
-export default function OtherMood({route}) {
+export default function OtherMood({ route, navigation }) {
     const mood = useContext(MoodContext)
     const [users, setUsers] = React.useState()
     const [selectedUser, setSelectedUser] = React.useState()
@@ -36,19 +36,19 @@ export default function OtherMood({route}) {
         //       setUsers(users)
         //       console.log(users)
         // });
-    
+
         // subscriber();
-    
+
     }, [])
 
-const CustomMarker = () => {
-    return (     
-        <Image
-            source={{uri: user.image}}
-            style={{borderRadius: 45, height: 90, width: 70 }}>
-        </Image>
-    );
-}
+    const CustomMarker = () => {
+        return (
+            <Image
+                source={{ uri: user.image }}
+                style={{ borderRadius: 45, height: 90, width: 70 }}>
+            </Image>
+        );
+    }
 
     return (
         <>
@@ -69,10 +69,10 @@ const CustomMarker = () => {
                     {/* User image */}
 
 
-                        <Text style={{ marginTop: 10, fontSize: 38, fontWeight: 'bold', color: "#4f6367", textAlign: 'center' }}>
-                            {user.username}
-                        </Text>
-                    
+                    <Text style={{ marginTop: 10, fontSize: 38, fontWeight: 'bold', color: "#4f6367", textAlign: 'center' }}>
+                        {user.username}
+                    </Text>
+
                     {/* end of User image */}
 
                 </View>
@@ -123,7 +123,7 @@ const CustomMarker = () => {
                         position: "absolute", top: 0, left: user.sliderValues == 10 ? "80%" :
                             user.sliderValues == 0 ? "10%" : user.sliderValues == 9 ? "80%" : (user.sliderValues * 10) + "%"
                     }}>
-                        <ShowAvatarMessageModal msg={user.message}/>
+                        <ShowAvatarMessageModal msg={user.message} />
                     </View>
                     {/* end of Users Message */}
 
@@ -150,7 +150,13 @@ const CustomMarker = () => {
 
                 </View>
                 {/* end of mood slider*/}
-
+                <View style={{
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    marginBottom: 50,
+                }}>
+                    <Icon onPress={() => navigation.navigate('main')} name="chevron-back-circle-outline" size={50} color="#373737" />
+                </View>
             </View>
 
 

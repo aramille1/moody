@@ -33,45 +33,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // firestore().collection('users').get().then(data=>{
-    //   console.log(data.empty)
-
-    // })
-    // const subscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
-    // this.setState(prevState =>({
-    //   moodObj:{
-    //     ...prevState.moodObj,
-    //     user: {
-    //       uid: auth()._user._user.uid,
-    //       phoneNumber: auth()._user._user.phoneNumber
-    //     }
-    //   }
-    // }))
-
     this.userInit()
-
-
-    // console.log(auth()._user._user.phoneNumber)
-    //   firestore()
-    // .collection('users')
-    // .onSnapshot(snapshots =>{
-    //   snapshots.forEach(doc =>{
-    //       this.setState(prevState =>({
-    //         moodObj:{
-    //           ...prevState.moodObj,
-    //           image:doc._data.image,
-    //           message: doc._data.message,
-    //           sliderValues: doc._data.sliderValues,
-    //           leftSideMessage: doc._data.lMessage,
-    //           rightSideMessage: doc._data.rMessage,
-    //           username: doc._data.username
-    //         }
-    //       }))
-    //   })
-    // });
-    console.log(this.state)
-    // return subscriber; // unsubscribe on unmount
-
   }
 
 
@@ -80,40 +42,35 @@ export default class App extends Component {
     const subscriber = auth().onAuthStateChanged(user => {
       if (user._auth._authResult) {
         console.log('user is signed in')
-        
+
         firestore().collection('users').get().then(data => {
           data.docs.forEach(el => {
             if (el._data.user.phoneNumber === user.phoneNumber) {
               match++
             }
           })
-          console.log(match)
-                  if (match >= 1) {
-          console.log('already initialized, no need another one!');
-        }
-        else if (match == 0) {
-          console.log(match)
-          firestore().collection('users').add({
-            username: this.state.moodObj.username,
-            image: this.state.moodObj.image,
-            message: this.state.moodObj.message,
-            sliderValues: this.state.moodObj.sliderValues,
-            leftSideMessage: this.state.moodObj.leftSideMessage,
-            rightSideMessage: this.state.moodObj.rightSideMessage,
-            user: {
-              uid: auth()._user._user.uid,
-              phoneNumber: auth()._user._user.phoneNumber
-            }
-          }).then((data) => {
-            console.log('User fields initialized', data)
-          })
-        }
+          console.log(match) // if match = 1 it means that user is logged in and doesnt need re init
+          if (match >= 1) {
+            console.log('already initialized, no need another one!');
+          }
+          else if (match == 0) {
+            console.log(match)
+            firestore().collection('users').add({
+              username: this.state.moodObj.username,
+              image: this.state.moodObj.image,
+              message: this.state.moodObj.message,
+              sliderValues: this.state.moodObj.sliderValues,
+              leftSideMessage: this.state.moodObj.leftSideMessage,
+              rightSideMessage: this.state.moodObj.rightSideMessage,
+              user: {
+                uid: auth()._user._user.uid,
+                phoneNumber: auth()._user._user.phoneNumber
+              }
+            }).then((data) => {
+              console.log('User fields initialized', data)
+            })
+          }
         })
-        
-        
-
-
-
       } else {
         console.log('user is NOT signed in')
       }
@@ -122,25 +79,6 @@ export default class App extends Component {
     subscriber()
 
   }
-
-
-  // Handle user state changes
-  //  onAuthStateChanged = (userData) => {
-  //   console.log(userData);
-  //   console.log(2)
-
-  //   this.setState(prevState =>({
-  //     moodObj:{
-  //       ...prevState.moodObj,
-  //       user:userData
-  //     }
-  //   }))
-  //   if (this.state.initializing) this.setState(prevState =>({
-  //     ...prevState.moodObj,
-  //     initializing: false
-  //   }));
-  // }
-
 
   setImgPickerModal = (newVal) => this.setState({ imgPickerModal: newVal })
 

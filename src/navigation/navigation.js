@@ -185,7 +185,6 @@ export default () => {
 
   useEffect(() => {
     const subscribe = auth().onAuthStateChanged(user =>{
-      console.log(user);
       if(user){
         setUser(user)
       }else{
