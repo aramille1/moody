@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   Button,
+  Image,
   StatusBar,
   ScrollView,
   TouchableOpacity
@@ -61,33 +62,34 @@ export default function Main({ navigation }) {
   //  }
 
   useEffect(() => {
-    const subscriber = async() =>
-       await firestore()
+    const subscriber = async () =>
+      await firestore()
         .collection('users')
-        .onSnapshot(docs =>{
+        .onSnapshot(docs => {
           let users = [];
-          docs.forEach(doc =>{
+          docs.forEach(doc => {
             console.log(doc.data())
             users.push(doc.data())
           })
-          const result = users.filter(data => data.phoneNumber !== auth()._user._user.phoneNumber)
+          const result = users.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
+          console.log(result)
           setUsers(result)
-          console.log(users)
-    });
+          // console.log(users)
+        });
 
     subscriber();
 
-}, [])
+  }, [])
 
-  const getUser = async () =>{
+  const getUser = async () => {
     const userDocument = await firestore().collection("users").doc('TpZwxmTlnmbzQSaeRQk3').get()
     console.log(userDocument)
-  }    
-  const getUsers = async () =>{
+  }
+  const getUsers = async () => {
     const users = await firestore()
-    .collection("users")
-    .where('age', '<', 18)
-    .get()
+      .collection("users")
+      .where('age', '<', 18)
+      .get()
     console.log(users)
   }
 
@@ -174,9 +176,9 @@ export default function Main({ navigation }) {
 
   }
 
-  const onUserPress = (user) =>{
+  const onUserPress = (user) => {
     console.log(user)
-    
+
   }
 
 
@@ -185,91 +187,97 @@ export default function Main({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#fff' barStyle="dark-content" />
 
-        
-        <Modal
-          backdropTransitionOutTiming={0}
-          onBackdropPress={() => setVisible(false)}
-          isVisible={visible}
-          style={{ backgroundColor: "white",  borderRadius: 20, position:'absolute',top: '25%' }}>
 
-          <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30,  }}>What's your name?</Text></View>
-          {/* <ProfileImagePicker setImageProp={(img) => setImage(img)} /> */}
-          <View
-            style={styles.footer}
-          >
-            <ScrollView>
-              <View style={styles.action}>
-                <FontAwesome
-                  name="user-o"
-                  color="#05375a"
-                  size={20}
-                />
-                <TextInput
-                  placeholder="Your Username"
-                  style={styles.textInput}
-                  autoCapitalize="none"
-                  onChangeText={(val) => setUsername(val)}
-                />
-              </View>
-            </ScrollView>
-          </View>
+      <Modal
+        backdropTransitionOutTiming={0}
+        onBackdropPress={() => setVisible(false)}
+        isVisible={visible}
+        style={{ backgroundColor: "white", borderRadius: 20, position: 'absolute', top: '25%' }}>
 
-            <View style={styles.buttonSave}>
-              <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
-
-                <Text style={styles.textSign}>Save</Text>
-
-                <MaterialIcons
-                  name="navigate-next"
-                  color="#fff"
-                  size={20}
-                />
-
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.btnSkip} onPress={()=>setVisible(false)}>
-
-                <Text style={{color: '#4f6367',fontWeight: 'bold', display:'flex'}}>Skip</Text>
-
-                <MaterialIcons
-                  name="navigate-next"
-                  color="#4f6367"
-                  size={20}
-                />
-
-              </TouchableOpacity>
+        <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30, }}>What's your name?</Text></View>
+        {/* <ProfileImagePicker setImageProp={(img) => setImage(img)} /> */}
+        <View
+          style={styles.footer}
+        >
+          <ScrollView>
+            <View style={styles.action}>
+              <FontAwesome
+                name="user-o"
+                color="#05375a"
+                size={20}
+              />
+              <TextInput
+                placeholder="Your Username"
+                style={styles.textInput}
+                autoCapitalize="none"
+                onChangeText={(val) => setUsername(val)}
+              />
             </View>
+          </ScrollView>
+        </View>
 
-        </Modal>
+        <View style={styles.buttonSave}>
+          <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
 
+            <Text style={styles.textSign}>Save</Text>
 
-          <View
-            style={{
-              paddingLeft: 100,
-              paddingRight: 100,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-          </View>
-          <Button title="Add new" onPress={() => addNew()} />
-          <SearchBar
-            searchPlaceholder={searchPlaceholder}
-            onChangeText={search}
-          />
-
-          <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-            <TextInput
-              keyboardType='number-pad'
-              style={styles.inputStyle}
-              placeholder='Enter number to add to contact'
-              onChangeText={text => setTypeText(text)}
-              value={typeText}
+            <MaterialIcons
+              name="navigate-next"
+              color="#fff"
+              size={20}
             />
-          </View>
-            <View>{users.map((user,index) => 
-              <View  key={index}><Text onPress={()=> navigation.navigate('OtherMood', {screen: 'OtherMood', params: {user}})}>username: {user.username}, phone number: {user.user.phoneNumber}</Text></View>
-            )}</View>
-          {/* {
+
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnSkip} onPress={() => setVisible(false)}>
+
+            <Text style={{ color: '#4f6367', fontWeight: 'bold', display: 'flex' }}>Skip</Text>
+
+            <MaterialIcons
+              name="navigate-next"
+              color="#4f6367"
+              size={20}
+            />
+
+          </TouchableOpacity>
+        </View>
+
+      </Modal>
+
+
+      <View
+        style={{
+          paddingLeft: 100,
+          paddingRight: 100,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+      </View>
+      <Button title="Add new" onPress={() => addNew()} />
+      <SearchBar
+        searchPlaceholder={searchPlaceholder}
+        onChangeText={search}
+      />
+
+      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+        <TextInput
+          keyboardType='number-pad'
+          style={styles.inputStyle}
+          placeholder='Enter number to add to contact'
+          onChangeText={text => setTypeText(text)}
+          value={typeText}
+        />
+      </View>
+      <View>{users.map((user, index) =>
+        <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
+          <Image
+            source={{ uri: user.image }}
+            style={styles.userProfileImage}>
+          </Image>
+          <Text style={styles.userUsername}>{user.username}</Text>
+        </TouchableOpacity>
+      )}</View>
+      {/* {
            this.state.loading === true ?
              (
                <View style={styles.spinner}>
@@ -310,15 +318,15 @@ export default function Main({ navigation }) {
              )
          } */}
 
-          <View style={{
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            flex: 1,
-            marginBottom: 50,
-            marginRight: 30
-          }}>
-            <Icon onPress={() => navigation.navigate('EditMood')} name="add-circle-outline" size={50} color="#373737" />
-          </View>
+      <View style={{
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        flex: 1,
+        marginBottom: 50,
+        marginRight: 30
+      }}>
+        <Icon onPress={() => navigation.navigate('EditMood')} name="add-circle-outline" size={50} color="#373737" />
+      </View>
 
 
 
@@ -398,9 +406,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
 
   },
-  buttonSave:{
-    
-  }
+  userTouchable:{flexDirection:'row', alignItems:'center', marginLeft: 20},
+  userProfileImage:{ borderRadius: 45, height: 50, width: 50 },
+  userUsername: {marginLeft:20, fontSize: 15}
 });
 
 const getAvatarInitials = textString => {

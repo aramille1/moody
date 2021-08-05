@@ -14,29 +14,29 @@ export default class App extends Component {
       modalVisible: false,
       showAvatarMessageModal: false,
       otpConfirmed: false,
-      myAccExists: false,
-      moodObj:{
+      match: 0,
+      moodObj: {
         image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
         message: 'message is empty',
         sliderValues: [5],
         leftSideMessage: 'sad',
         rightSideMessage: 'happy',
         username: 'username',
-        user:{
+        user: {
           uid: '',
           phoneNumber: null
         }
       },
       initializing: true,
-      
+
     };
   }
-  
-    componentDidMount(){
-      // firestore().collection('users').get().then(data=>{
-      //   console.log(data.empty)
 
-      // })
+  componentDidMount() {
+    // firestore().collection('users').get().then(data=>{
+    //   console.log(data.empty)
+
+    // })
     // const subscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     // this.setState(prevState =>({
     //   moodObj:{
@@ -49,7 +49,7 @@ export default class App extends Component {
     // }))
 
     this.userInit()
-    
+
 
     // console.log(auth()._user._user.phoneNumber)
     //   firestore()
@@ -75,74 +75,81 @@ export default class App extends Component {
   }
 
 
-   userInit = () => {
-     const subscriber =  auth().onAuthStateChanged(user=>{
-       if(user._auth._authResult){
-         console.log('user is signed in')
-         firestore().collection('users').get().then(data =>{
-          data.docs.forEach(el =>{
-              if(el._data.user.phoneNumber == user.phoneNumber){
-                console.log(el._data.user.phoneNumber == user.phoneNumber)
-                  console.log('already initialized, no need another one!');
-                  this.setState({myAccExists: true})
-              }else if(el._data.user.phoneNumber != user.phoneNumber && !this.state.myAccExists){
-                console.log(el._data.user.phoneNumber != user.phoneNumber)
-                firestore().collection('users').add({
-                  username: this.state.moodObj.username,
-                  image: this.state.moodObj.image,
-                  message: this.state.moodObj.message,
-                  sliderValues: this.state.moodObj.sliderValues,
-                  leftSideMessage: this.state.moodObj.leftSideMessage,
-                  rightSideMessage: this.state.moodObj.rightSideMessage,
-                  user:{
-                    uid: auth()._user._user.uid,
-                    phoneNumber: auth()._user._user.phoneNumber
-                  }
-                }).then((data)=>{
-                  console.log('User fields initialized', data)
-                })
-              }
+  userInit = () => {
+    let match = 0;
+    const subscriber = auth().onAuthStateChanged(user => {
+      if (user._auth._authResult) {
+        console.log('user is signed in')
+        
+        firestore().collection('users').get().then(data => {
+          data.docs.forEach(el => {
+            if (el._data.user.phoneNumber === user.phoneNumber) {
+              match++
+            }
           })
+          console.log(match)
+                  if (match >= 1) {
+          console.log('already initialized, no need another one!');
+        }
+        else if (match == 0) {
+          console.log(match)
+          firestore().collection('users').add({
+            username: this.state.moodObj.username,
+            image: this.state.moodObj.image,
+            message: this.state.moodObj.message,
+            sliderValues: this.state.moodObj.sliderValues,
+            leftSideMessage: this.state.moodObj.leftSideMessage,
+            rightSideMessage: this.state.moodObj.rightSideMessage,
+            user: {
+              uid: auth()._user._user.uid,
+              phoneNumber: auth()._user._user.phoneNumber
+            }
+          }).then((data) => {
+            console.log('User fields initialized', data)
+          })
+        }
         })
-
         
         
-     }else{
-      console.log('user is NOT signed in')
-    }
-  })
-
-     subscriber()
-
-  }  
 
 
-    // Handle user state changes
-    //  onAuthStateChanged = (userData) => {
-    //   console.log(userData);
-    //   console.log(2)
 
-    //   this.setState(prevState =>({
-    //     moodObj:{
-    //       ...prevState.moodObj,
-    //       user:userData
-    //     }
-    //   }))
-    //   if (this.state.initializing) this.setState(prevState =>({
-    //     ...prevState.moodObj,
-    //     initializing: false
-    //   }));
-    // }
-  
+      } else {
+        console.log('user is NOT signed in')
+      }
+    })
 
-  setImgPickerModal = (newVal) => this.setState({imgPickerModal: newVal})
+    subscriber()
 
-  setModalVisible = (newVal) => this.setState({modalVisible: newVal})
+  }
 
-  setShowAvatarMessageModal = (newVal) => this.setState({showAvatarMessageModal: newVal})
 
-  setMoodObj = (obj) => this.setState(prevState =>({
-    moodObj:{
+  // Handle user state changes
+  //  onAuthStateChanged = (userData) => {
+  //   console.log(userData);
+  //   console.log(2)
+
+  //   this.setState(prevState =>({
+  //     moodObj:{
+  //       ...prevState.moodObj,
+  //       user:userData
+  //     }
+  //   }))
+  //   if (this.state.initializing) this.setState(prevState =>({
+  //     ...prevState.moodObj,
+  //     initializing: false
+  //   }));
+  // }
+
+
+  setImgPickerModal = (newVal) => this.setState({ imgPickerModal: newVal })
+
+  setModalVisible = (newVal) => this.setState({ modalVisible: newVal })
+
+  setShowAvatarMessageModal = (newVal) => this.setState({ showAvatarMessageModal: newVal })
+
+  setMoodObj = (obj) => this.setState(prevState => ({
+    moodObj: {
       ...prevState.moodObj,
       image: obj.image,
       message: obj.message,
@@ -152,66 +159,66 @@ export default class App extends Component {
       username: obj.username,
     }
   }))
-  
-  setUsername = (newVal) => this.setState(prevState =>({
-    moodObj:{
+
+  setUsername = (newVal) => this.setState(prevState => ({
+    moodObj: {
       ...prevState.moodObj,
       username: newVal
     }
   }))
 
-  setImg = (newVal) => this.setState(prevState =>({
-    moodObj:{
+  setImg = (newVal) => this.setState(prevState => ({
+    moodObj: {
       ...prevState.moodObj,
       image: newVal
     }
   }))
 
-  setOtpConfirmed = (newVal) => this.setState({otpConfirmed: newVal})
+  setOtpConfirmed = (newVal) => this.setState({ otpConfirmed: newVal })
 
   setUser = (newVal) => {
-    this.setState(prevState =>({
-      moodObj:{
+    this.setState(prevState => ({
+      moodObj: {
         ...prevState.moodObj,
         user: newVal
       }
     }))
   }
 
-  setSliderVal = (newVal) =>{
-(    this.setState(prevState =>({
-      moodObj:{
+  setSliderVal = (newVal) => {
+    (this.setState(prevState => ({
+      moodObj: {
         ...prevState.moodObj,
         sliderValues: newVal
       }
     }))
-    
-  )
-  console.log(this.state.moodObj.sliderValues)
-}
 
-setLeftSideMessage = (newVal) =>{
-  this.setState(prevState =>({
-    moodObj:{
-      ...prevState.moodObj,
-      leftSideMessage: newVal
-    }
-  }))
-}
+    )
+    console.log(this.state.moodObj.sliderValues)
+  }
 
-setRightSideMessage = (newVal) =>{
-  this.setState(prevState =>({
-    moodObj:{
-      ...prevState.moodObj,
-      rightSideMessage: newVal
-    }
-  }))
-}
+  setLeftSideMessage = (newVal) => {
+    this.setState(prevState => ({
+      moodObj: {
+        ...prevState.moodObj,
+        leftSideMessage: newVal
+      }
+    }))
+  }
 
-render(){
-  if(this.initializing){return null}
-  return (
-    <MoodContext.Provider 
+  setRightSideMessage = (newVal) => {
+    this.setState(prevState => ({
+      moodObj: {
+        ...prevState.moodObj,
+        rightSideMessage: newVal
+      }
+    }))
+  }
+
+  render() {
+    if (this.initializing) { return null }
+    return (
+      <MoodContext.Provider
         value={{
 
           imgPickerModal: this.state.imgPickerModal,
@@ -220,7 +227,7 @@ render(){
           modalVisible: this.state.modalVisible,
           setModalVisible: this.setModalVisible,
 
-          showAvatarMessageModal:this.state.showAvatarMessageModal,
+          showAvatarMessageModal: this.state.showAvatarMessageModal,
           setShowAvatarMessageModal: this.setShowAvatarMessageModal,
 
           moodObj: this.state.moodObj,
@@ -230,7 +237,7 @@ render(){
           setUsername: this.setUsername,
 
           setImg: this.setImg,
-          
+
           otpConfirmed: this.state.otpConfirmed,
           setOtpConfirmation: this.setOtpConfirmed,
 
@@ -241,9 +248,9 @@ render(){
           setLeftSideMessage: this.setLeftSideMessage,
           setRightSideMessage: this.setRightSideMessage
         }}>
-          <Navigation/>
-    </MoodContext.Provider>
-  );
-}
+        <Navigation />
+      </MoodContext.Provider>
+    );
+  }
 }
 
