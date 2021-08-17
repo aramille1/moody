@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
-class Avatar extends Component {
+export default class Avatar extends Component {
   static propTypes = {
     img: Image.propTypes.source,
     placeholder: PropTypes.string,
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Avatar;
+// export default Avatar;

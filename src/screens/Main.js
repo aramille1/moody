@@ -9,13 +9,15 @@ import {
   TextInput,
   Button,
   Image,
+  ListItem,
   StatusBar,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import Contacts from "react-native-contacts";
 import * as Animatable from 'react-native-animatable';
-//  import Avatar from "../MyMoodSettings/Avatar";
+ import Avatar from "../components/Avatar/index"
 import SearchBar from '../components/SearchBar/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
@@ -62,6 +64,16 @@ export default function Main({ navigation }) {
   //  }
 
   useEffect(() => {
+         if (Platform.OS === "android") {
+       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+         title: "Contacts",
+         message: "This app would like to view your contacts."
+       }).then(() => {
+         loadContacts();
+       });
+     } else {
+       loadContacts();
+     }
     const subscriber = async () =>
       await firestore()
         .collection('users')
@@ -94,16 +106,41 @@ export default function Main({ navigation }) {
 
 
   const loadContacts = () => {
+    let contactArr = []
     Contacts.getAll()
-      .then(contacts => {
+      .then(allContacts => {
+        console.log(allContacts, '[contacts]')
         // this.setState({ contacts, loading: false });
-        setContacts(contacts);
-        setLoading(false)
+        // setContacts(allContacts);
+        allContacts.forEach(contact =>{
+          // console.log(contact)
+          contact.phoneNumbers.forEach(numberEl=>{
+            let trimmedNumber = numberEl.number.replaceAll(' ','')
+            setLoading(false)
+            firestore()
+            .collection('users')
+            .onSnapshot(docs => {
+              docs.forEach(user => {
+                // console.log(user.data().user.phoneNumber, 'userPhoneNumber')
+                // console.log(trimmedNumber, 'trimmedNumber');
+                if(user.data().user.phoneNumber === trimmedNumber){
+                  console.log('matched! this contact => ', contact)
+                  contactArr.push(contact)
+                  
+                }
+              })
+              })
+            })
+        })
+        // reorderContacts()
       })
       .catch(e => {
         // this.setState({ loading: false });
         setLoading(false)
       });
+
+      setContacts(contactArr)
+
 
     Contacts.getCount().then(count => {
       // this.setState({ searchPlaceholder: `Search ${count} contacts` });
@@ -111,6 +148,11 @@ export default function Main({ navigation }) {
     });
 
     Contacts.checkPermission();
+
+  }
+
+  const reorderContacts = () => {
+
   }
 
   const search = (text) => {
@@ -153,17 +195,17 @@ export default function Main({ navigation }) {
     }
   }
 
-  const addNew = () => {
-    Contacts.openContactForm({}).then(contact => {
-      // Added new contact
-      // this.setState(({ contacts }) => ({
-      //   contacts: [contact, ...contacts],
-      //   loading: false
-      // }));
-      setContacts([contact, ...contacts]),
-        setLoading(false)
-    })
-  }
+  // const addNew = () => {
+  //   Contacts.openContactForm({}).then(contact => {
+  //     // Added new contact
+  //     // this.setState(({ contacts }) => ({
+  //     //   contacts: [contact, ...contacts],
+  //     //   loading: false
+  //     // }));
+  //     setContacts([contact, ...contacts]),
+  //       setLoading(false)
+  //   })
+  // }
 
   const onSignIn = () => {
     mood.setUsername(username)
@@ -178,21 +220,40 @@ export default function Main({ navigation }) {
 
   }
 
+  const getAvatarInitials = textString => {
+    if (!textString) return "";
+  
+    const text = textString.trim();
+  
+    const textSplit = text.split(" ");
+  
+    if (textSplit.length <= 1) return text.charAt(0);
+  
+    const initials =
+      textSplit[0].charAt(0) + textSplit[textSplit.length - 1].charAt(0);
+  
+    return initials;
+  };
 
+  const test =() =>{
+
+    console.log(contacts)
+  }
 
   return (
+      <>
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#fff' barStyle="dark-content" />
 
 
-      <Modal
+      {/* <Modal
         backdropTransitionOutTiming={0}
         onBackdropPress={() => setVisible(false)}
         isVisible={visible}
         style={{ backgroundColor: "white", borderRadius: 20, position: 'absolute', top: '25%' }}>
 
         <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30, }}>What's your name?</Text></View>
-        {/* <ProfileImagePicker setImageProp={(img) => setImage(img)} /> */}
+        <ProfileImagePicker setImageProp={(img) => setImage(img)} />
         <View
           style={styles.footer}
         >
@@ -238,7 +299,7 @@ export default function Main({ navigation }) {
           </TouchableOpacity>
         </View>
 
-      </Modal>
+      </Modal> */}
 
 
       <View
@@ -250,7 +311,9 @@ export default function Main({ navigation }) {
         }}
       >
       </View>
-      <Button title="Add new" onPress={() => addNew()} />
+      {/* <Button title="Add new" onPress={() => addNew()} /> */}
+        
+
       <SearchBar
         searchPlaceholder={searchPlaceholder}
         onChangeText={search}
@@ -265,6 +328,8 @@ export default function Main({ navigation }) {
           value={typeText}
         />
       </View>
+
+      {/* this is my users from FireBase */}
       <View>{users.map((user, index) =>
         <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
           <Image
@@ -274,15 +339,19 @@ export default function Main({ navigation }) {
           <Text style={styles.userUsername}>{user.username}</Text>
         </TouchableOpacity>
       )}</View>
+      {/* this is the end my users from FireBase */}
+
+
+
       {/* {
-           this.state.loading === true ?
+           loading === true ?
              (
                <View style={styles.spinner}>
                  <ActivityIndicator size="large" color="#0000ff" />
                </View>
              ) : (
                <ScrollView style={{ flex: 1 }}>
-                 {this.state.contacts.map(contact => {
+                 {contacts.map(contact => {
                    return (
                      <ListItem
                        leftElement={
@@ -302,10 +371,10 @@ export default function Main({ navigation }) {
                        key={contact.recordID}
                        title={`${contact.givenName} ${contact.familyName}`}
                        description={`${contact.company}`}
-                       onPress={() => this.onPressContact(contact)}
+                       onPress={() => onPressContact(contact)}
                        onDelete={() =>
                          Contacts.deleteContact(contact).then(() => {
-                           this.loadContacts();
+                           loadContacts();
                          })
                        }
                      />
@@ -325,6 +394,7 @@ export default function Main({ navigation }) {
         marginRight: 30
       }}>
         <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
+        <Button title="check" onPress={test}/>
       </View>
 
 
@@ -332,8 +402,9 @@ export default function Main({ navigation }) {
 
 
     </SafeAreaView>
+      </>
   );
-}
+    }
 
 const styles = StyleSheet.create({
   container: {
@@ -407,20 +478,7 @@ const styles = StyleSheet.create({
   },
   userTouchable: { flexDirection: 'row', alignItems: 'center', marginLeft: 20 },
   userProfileImage: { borderRadius: 45, height: 50, width: 50 },
-  userUsername: { marginLeft: 20, fontSize: 15 }
+  userUsername: { marginLeft: 20, fontSize: 15 },
 });
 
-const getAvatarInitials = textString => {
-  if (!textString) return "";
 
-  const text = textString.trim();
-
-  const textSplit = text.split(" ");
-
-  if (textSplit.length <= 1) return text.charAt(0);
-
-  const initials =
-    textSplit[0].charAt(0) + textSplit[textSplit.length - 1].charAt(0);
-
-  return initials;
-};

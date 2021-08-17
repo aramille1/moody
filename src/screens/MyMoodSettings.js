@@ -111,6 +111,7 @@ export default function MyMoodSettings() {
     if (imageIsUploaded) {
       uploadImageToCloudStorage()
       setImageIsUploaded(false)
+
     } else {
       let userObject = {
         image: image,
@@ -122,6 +123,10 @@ export default function MyMoodSettings() {
       };
       console.log(userObject);
       firestore().collection('users').doc(userId).update(userObject);
+      showMessage({
+        message: 'Saved!',
+        type: 'success',
+      });
     }
   };
 
@@ -350,7 +355,7 @@ export default function MyMoodSettings() {
                   setLeftsideMessageProp={(value) => setleftSideMessage(value)}
                 />
               </View>
-              <View><Text onPress={justChecking}>something</Text></View>
+              {/* <View><Text onPress={justChecking}>something</Text></View> */}
               <View
                 style={{
                   flex: 1,
