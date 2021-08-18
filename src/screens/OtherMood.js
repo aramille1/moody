@@ -45,7 +45,7 @@ export default function OtherMood({ route, navigation }) {
         return (
             <Image
                 source={{ uri: user.image }}
-                style={{ borderRadius: 45, height: 90, width: 70 }}>
+                style={{ borderRadius: 45, height: 90, width: 90, borderWidth: 1, borderColor: '#05375a' }}>
             </Image>
         );
     }

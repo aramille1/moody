@@ -16,7 +16,7 @@ export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
         }
     }
     return (
-        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+        <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                     <View>
                         <TextInput
                             style={styles.textInput}
@@ -27,7 +27,7 @@ export default function AddMessage({ addItem, setModalVisible, placeHolder }) {
                     </View>
 
                 < TouchableOpacity style={styles.btn} onPress={onAddingMessage}>
-                    <Text style={{color: '#fff'}}>Add</Text>
+                    <Text style={{color: '#fff', textAlign:'center'}}>Add</Text>
                 </TouchableOpacity>
             </View>
     )
@@ -39,9 +39,10 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         borderRadius: 10,
         // borderColor: "#4f6367",
-        marginLeft: 10,
+        marginTop: 10,
         height: 60,
-        backgroundColor: '#009387'
+        backgroundColor: '#009387',
+        width: 190,
     },
     textInput: {
         width: 190,

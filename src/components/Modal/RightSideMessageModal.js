@@ -40,7 +40,7 @@ export default function RightSideMessageModal({rightSideMessage, setRightsideMes
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text>Add your message here</Text>
+                            <Text style={{width:200}}>Add your mood indicator here</Text>
                             <View style={{ marginTop: 20 }}>
                                 <AddMessage placeHolder="e.g. Ready To Talk!" addItem={addItem} setModalVisible={() => setModalVisible(!modalVisible)} />
                             </View>
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        paddingVertical: 35,
+        paddingHorizontal: 55,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {

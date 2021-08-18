@@ -74,20 +74,6 @@ export default function Main({ navigation }) {
     } else {
       loadContacts();
     }
-    // const subscriber =  () =>
-    //     firestore()
-    //     .collection('users')
-    //     .onSnapshot(docs => {
-    //       let users = [];
-    //       docs.forEach(doc => {
-    //         users.push(doc.data())
-    //       })
-    //       const result = users.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
-    //       setUsers(result)
-    //     });
-
-    // subscriber();
-
   }, [])
 
   const getUser = async () => {
@@ -153,11 +139,6 @@ export default function Main({ navigation }) {
     });
 
     Contacts.checkPermission();
-
-  }
-
-  const reorderContacts = () => {
-
   }
 
   const search = (text) => {
@@ -353,11 +334,6 @@ export default function Main({ navigation }) {
           <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
           <Button title="check" onPress={test} />
         </View>
-
-
-
-
-
       </SafeAreaView>
     </>
   );

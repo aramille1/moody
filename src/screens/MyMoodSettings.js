@@ -193,7 +193,7 @@ export default function MyMoodSettings() {
     return (
       <Image
         source={{ uri: image }}
-        style={{ borderRadius: 45, height: 90, width: 70 }}></Image>
+        style={{ borderRadius: 45, height: 90, width: 90, borderWidth:1, borderColor:'#05375a' }}></Image>
     );
   };
 
@@ -284,16 +284,6 @@ export default function MyMoodSettings() {
               <Text style={styles.textSign}>Save</Text>
 
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnSkip}
-              onPress={() => setVisible(false)}>
-              <Text
-                style={{ color: '#4f6367', fontWeight: 'bold', display: 'flex' }}>
-                Skip
-              </Text>
-
-              <MaterialIcons name="navigate-next" color="#4f6367" size={20} />
             </TouchableOpacity>
           </View>
         </Modal>

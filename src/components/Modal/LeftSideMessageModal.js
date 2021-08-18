@@ -44,7 +44,7 @@ export default function LeftSideMessageModal({setLeftsideMessageProp, leftSideMe
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text>Add your message here</Text>
+                            <Text>Add your mood indicator here</Text>
                             <View style={{ marginTop: 20 }}>
                                 <AddMessage placeHolder="e.g. Not Ready To Talk.." addItem={addItem} setModalVisible={() => setModalVisible(!modalVisible)} />
                             </View>
