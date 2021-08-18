@@ -155,7 +155,7 @@ export default function OtherMood({ route, navigation }) {
                     justifyContent: 'flex-end',
                     marginBottom: 50,
                 }}>
-                    <Icon onPress={() => navigation.navigate('main')} name="chevron-back-circle-outline" size={50} color="#373737" />
+                    <Icon onPress={() => navigation.navigate('main')} name="chevron-back-circle-outline" size={50} color="#4f6367" />
                 </View>
             </View>
 

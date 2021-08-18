@@ -246,7 +246,7 @@ export default function Main({ navigation }) {
           searchPlaceholder={searchPlaceholder}
           onChangeText={search}
         />
-
+        {/* 
         <View style={{ paddingLeft: 10, paddingRight: 10 }}>
           <TextInput
             keyboardType='number-pad'
@@ -255,7 +255,7 @@ export default function Main({ navigation }) {
             onChangeText={text => setTypeText(text)}
             value={typeText}
           />
-        </View>
+        </View> */}
 
         {/* this is my users from FireBase */}
         {
@@ -332,7 +332,7 @@ export default function Main({ navigation }) {
           marginRight: 30
         }}>
           <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
-          <Button title="check" onPress={test} />
+          {/* <Button title="check" onPress={test} /> */}
         </View>
       </SafeAreaView>
     </>
