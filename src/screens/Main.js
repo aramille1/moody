@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import Contacts from "react-native-contacts";
 import * as Animatable from 'react-native-animatable';
- import Avatar from "../components/Avatar/index"
+import Avatar from "../components/Avatar/index"
 import SearchBar from '../components/SearchBar/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
@@ -64,29 +64,29 @@ export default function Main({ navigation }) {
   //  }
 
   useEffect(() => {
-         if (Platform.OS === "android") {
-       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-         title: "Contacts",
-         message: "This app would like to view your contacts."
-       }).then(() => {
-         loadContacts();
-       });
-     } else {
-       loadContacts();
-     }
-    const subscriber = async () =>
-      await firestore()
-        .collection('users')
-        .onSnapshot(docs => {
-          let users = [];
-          docs.forEach(doc => {
-            users.push(doc.data())
-          })
-          const result = users.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
-          setUsers(result)
-        });
+    if (Platform.OS === "android") {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+        title: "Contacts",
+        message: "This app would like to view your contacts."
+      }).then(() => {
+        loadContacts();
+      });
+    } else {
+      loadContacts();
+    }
+    // const subscriber =  () =>
+    //     firestore()
+    //     .collection('users')
+    //     .onSnapshot(docs => {
+    //       let users = [];
+    //       docs.forEach(doc => {
+    //         users.push(doc.data())
+    //       })
+    //       const result = users.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
+    //       setUsers(result)
+    //     });
 
-    subscriber();
+    // subscriber();
 
   }, [])
 
@@ -103,34 +103,40 @@ export default function Main({ navigation }) {
   }
 
 
-
+  // here we compare numbers in phone contant list and in database list
 
   const loadContacts = () => {
     let contactArr = []
+    let tempUsers = []
     Contacts.getAll()
       .then(allContacts => {
         console.log(allContacts, '[contacts]')
         // this.setState({ contacts, loading: false });
         // setContacts(allContacts);
-        allContacts.forEach(contact =>{
+        allContacts.forEach(contact => {
           // console.log(contact)
-          contact.phoneNumbers.forEach(numberEl=>{
-            let trimmedNumber = numberEl.number.replaceAll(' ','')
-            setLoading(false)
+          contact.phoneNumbers.forEach(numberEl => {
+            let trimmedNumber = numberEl.number.replaceAll(' ', '')
             firestore()
-            .collection('users')
-            .onSnapshot(docs => {
-              docs.forEach(user => {
-                // console.log(user.data().user.phoneNumber, 'userPhoneNumber')
-                // console.log(trimmedNumber, 'trimmedNumber');
-                if(user.data().user.phoneNumber === trimmedNumber){
-                  console.log('matched! this contact => ', contact)
-                  contactArr.push(contact)
-                  
-                }
+              .collection('users')
+              .onSnapshot(docs => {
+                docs.forEach(user => {
+                  // console.log(user.data().user.phoneNumber, 'userPhoneNumber')
+                  // console.log(trimmedNumber, 'trimmedNumber');
+                  if (user.data().user.phoneNumber === trimmedNumber) {
+                    console.log('matched! this contact => ', contact)
+                    // store in contacts all the contacts from phone that matched
+                    contactArr.push(contact)
+                    // store in users all the contacts from database that matched
+                    tempUsers.push(user.data())
+                    // filtering through contacts in database and excluding my number
+                    const result = tempUsers.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
+                    setUsers(result)
+                    setLoading(false)
+                  }
+                })
               })
-              })
-            })
+          })
         })
         // reorderContacts()
       })
@@ -139,8 +145,7 @@ export default function Main({ navigation }) {
         setLoading(false)
       });
 
-      setContacts(contactArr)
-
+    setContacts(contactArr)
 
     Contacts.getCount().then(count => {
       // this.setState({ searchPlaceholder: `Search ${count} contacts` });
@@ -222,128 +227,80 @@ export default function Main({ navigation }) {
 
   const getAvatarInitials = textString => {
     if (!textString) return "";
-  
+
     const text = textString.trim();
-  
+
     const textSplit = text.split(" ");
-  
+
     if (textSplit.length <= 1) return text.charAt(0);
-  
+
     const initials =
       textSplit[0].charAt(0) + textSplit[textSplit.length - 1].charAt(0);
-  
+
     return initials;
   };
 
-  const test =() =>{
+  const test = () => {
 
     console.log(contacts)
   }
 
   return (
-      <>
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor='#fff' barStyle="dark-content" />
-
-
-      {/* <Modal
-        backdropTransitionOutTiming={0}
-        onBackdropPress={() => setVisible(false)}
-        isVisible={visible}
-        style={{ backgroundColor: "white", borderRadius: 20, position: 'absolute', top: '25%' }}>
-
-        <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}><Text style={{ color: '#05375a', fontSize: 30, }}>What's your name?</Text></View>
-        <ProfileImagePicker setImageProp={(img) => setImage(img)} />
+    <>
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor='#fff' barStyle="dark-content" />
         <View
-          style={styles.footer}
+          style={{
+            paddingLeft: 100,
+            paddingRight: 100,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
         >
-          <ScrollView>
-            <View style={styles.action}>
-              <FontAwesome
-                name="user-o"
-                color="#05375a"
-                size={20}
-              />
-              <TextInput
-                placeholder="Your Username"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={(val) => setUsername(val)}
-              />
-            </View>
-          </ScrollView>
         </View>
-
-        <View style={styles.buttonSave}>
-          <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
-
-            <Text style={styles.textSign}>Save</Text>
-
-            <MaterialIcons
-              name="navigate-next"
-              color="#fff"
-              size={20}
-            />
-
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSkip} onPress={() => setVisible(false)}>
-
-            <Text style={{ color: '#4f6367', fontWeight: 'bold', display: 'flex' }}>Skip</Text>
-
-            <MaterialIcons
-              name="navigate-next"
-              color="#4f6367"
-              size={20}
-            />
-
-          </TouchableOpacity>
-        </View>
-
-      </Modal> */}
+        {/* <Button title="Add new" onPress={() => addNew()} /> */}
 
 
-      <View
-        style={{
-          paddingLeft: 100,
-          paddingRight: 100,
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-      </View>
-      {/* <Button title="Add new" onPress={() => addNew()} /> */}
-        
-
-      <SearchBar
-        searchPlaceholder={searchPlaceholder}
-        onChangeText={search}
-      />
-
-      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-        <TextInput
-          keyboardType='number-pad'
-          style={styles.inputStyle}
-          placeholder='Enter number to add to contact'
-          onChangeText={text => setTypeText(text)}
-          value={typeText}
+        <SearchBar
+          searchPlaceholder={searchPlaceholder}
+          onChangeText={search}
         />
-      </View>
 
-      {/* this is my users from FireBase */}
-      <View>{users.map((user, index) =>
-        <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
-          <Image
-            source={{ uri: user.image }}
-            style={styles.userProfileImage}>
-          </Image>
-          <Text style={styles.userUsername}>{user.username}</Text>
-        </TouchableOpacity>
-      )}</View>
-      {/* this is the end my users from FireBase */}
+        <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+          <TextInput
+            keyboardType='number-pad'
+            style={styles.inputStyle}
+            placeholder='Enter number to add to contact'
+            onChangeText={text => setTypeText(text)}
+            value={typeText}
+          />
+        </View>
+
+        {/* this is my users from FireBase */}
+        {
+          loading === true ?
+            (
+              <View style={styles.spinner}>
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            ) :
+            (
+              <View>{users.map((user, index) =>
+                <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
+                  <Image
+                    source={{ uri: user.image }}
+                    style={styles.userProfileImage}>
+                  </Image>
+                  <Text style={styles.userUsername}>{user.username}</Text>
+                </TouchableOpacity>
+              )}</View>
+            )
+        }
+        {/* this is the end my users from FireBase */}
 
 
 
-      {/* {
+        {/* {
            loading === true ?
              (
                <View style={styles.spinner}>
@@ -386,25 +343,25 @@ export default function Main({ navigation }) {
 
 
 
-      <View style={{
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        flex: 1,
-        marginBottom: 50,
-        marginRight: 30
-      }}>
-        <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
-        <Button title="check" onPress={test}/>
-      </View>
+        <View style={{
+          alignItems: 'flex-end',
+          justifyContent: 'flex-end',
+          flex: 1,
+          marginBottom: 50,
+          marginRight: 30
+        }}>
+          <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
+          <Button title="check" onPress={test} />
+        </View>
 
 
 
 
 
-    </SafeAreaView>
-      </>
+      </SafeAreaView>
+    </>
   );
-    }
+}
 
 const styles = StyleSheet.create({
   container: {

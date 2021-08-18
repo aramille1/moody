@@ -170,12 +170,11 @@ const AppDrawerScreen = ({route, navigation}) => (
     />
     <AppDrawer.Screen
       name="OtherMood"
-      // options={{ drawerLabel: 'Other Mood' }}
       component={otherMoodScreenStack}
       options={{
         drawerLabel: () => null,
         title: null,
-        drawerIcon: () => null
+        drawerIcon: () => null,
       }}
     />
   </AppDrawer.Navigator>
