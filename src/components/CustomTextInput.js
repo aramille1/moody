@@ -20,7 +20,7 @@ const CustomTextInput = function(props) {
       {LeftComponent}
       <TextInput
         {...remainingProps}
-        style={[styles.textInputStyle, Styles.fill, style]}
+        style={[styles.textInputStyle, Styles.fill, localStyles.input]}
         ref={refCallback}
       />
       {RightComponent}
@@ -54,4 +54,11 @@ CustomTextInput.propTypes = {
   refCallback: PropTypes.func,
 };
 
+
 export default CustomTextInput;
+
+const localStyles = StyleSheet.create({
+  input: {
+    color: '#fff',fontSize: 18,width: '100%',textAlign: 'center'
+  },
+});

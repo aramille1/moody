@@ -41,7 +41,9 @@ const NavigationDrawerStructure = (props) => {
   const logout = () =>{
     auth()
     .signOut()
-    .then(() => console.log('User signed out!'))
+    .then(() => {
+      console.log('User signed out!')
+    })
     .catch(error => console.log(error))
     // alert(1)
   }

@@ -9,13 +9,14 @@ import {
   TextInput,
   Button,
   Image,
-  ListItem,
+  // ListItem,
   StatusBar,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
 import Contacts from "react-native-contacts";
+import ListItem from "../components/ListItem/index"
 import * as Animatable from 'react-native-animatable';
 import Avatar from "../components/Avatar/index"
 import SearchBar from '../components/SearchBar/index';
@@ -43,6 +44,8 @@ export default function Main({ navigation }) {
   const [username, setUsername] = React.useState('username')
 
   const [users, setUsers] = React.useState([])
+  const [usersToRender, setUsersToRender] = React.useState([])
+
   // if you want to read/write the contact note field on iOS, this method has to be called
   // WARNING: by enabling notes on iOS, a valid entitlement file containing the note entitlement as well as a separate
   //          permission has to be granted in order to release your app to the AppStore. Please check the README.md
@@ -64,82 +67,83 @@ export default function Main({ navigation }) {
   //  }
 
   useEffect(() => {
+
+    // getUsers()
+    // alert(1)
+
     if (Platform.OS === "android") {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: "Contacts",
         message: "This app would like to view your contacts."
       }).then(() => {
-        loadContacts();
+        getUsers2();
+        
       });
     } else {
+      alert(2/3)
+
       loadContacts();
     }
   }, [])
 
-  const getUser = async () => {
-    const userDocument = await firestore().collection("users").doc('TpZwxmTlnmbzQSaeRQk3').get()
-    console.log(userDocument)
-  }
-  const getUsers = async () => {
-    const users = await firestore()
-      .collection("users")
-      .where('age', '<', 18)
-      .get()
-    console.log(users)
-  }
+  // const getUser = () => {
+  //   // const userDocument = await firestore().collection("users").doc('TpZwxmTlnmbzQSaeRQk3').get()
+  //   // console.log(userDocument)
+  //   let tempUsers = []
+  //   firestore()
+  //   .collection('users')
+  //   .onSnapshot(docs => {
+  //     docs.forEach(user => {
+  //         tempUsers.push(user.data())
+  //       })
+  //     })
+  //     setUsers(tempUsers)
+  // }
+  const getUsers = () => {
+
+}
+
+const getUsers2 = () => {
+  let numbers = []
+  Contacts.getAll()
+  .then(contacts => {
+    console.log(contacts)
+    contacts.forEach(contact =>{
+      contact.phoneNumbers.forEach(num =>{
+        let trimmedNum = num.number.replace(/\s/g, "");
+        numbers.push(trimmedNum)
+      })
+    })
+    setContacts(numbers)
+    let tempUsers = []
+    firestore()
+    .collection('users')
+    .onSnapshot(docs => {
+      
+      docs.forEach(user => {
+        if(numbers.includes(user.data().user.phoneNumber)){
+          tempUsers.push(user.data())
+          console.log('includes!')
+        }
+    })
+      setUsers(tempUsers)
+      setLoading(false)
+    })
+  })
+  .catch(e => {
+    setLoading(false)
+  });
+
+Contacts.getCount().then(count => {
+  setSearchPlaceholder(`Search ${count} contacts`)
+});
+Contacts.checkPermission();
+}
 
 
   // here we compare numbers in phone contant list and in database list
 
-  const loadContacts = () => {
-    let contactArr = []
-    let tempUsers = []
-    Contacts.getAll()
-      .then(allContacts => {
-        console.log(allContacts, '[contacts]')
-        // this.setState({ contacts, loading: false });
-        // setContacts(allContacts);
-        allContacts.forEach(contact => {
-          // console.log(contact)
-          contact.phoneNumbers.forEach(numberEl => {
-            let trimmedNumber = numberEl.number.replaceAll(' ', '')
-            firestore()
-              .collection('users')
-              .onSnapshot(docs => {
-                docs.forEach(user => {
-                  // console.log(user.data().user.phoneNumber, 'userPhoneNumber')
-                  // console.log(trimmedNumber, 'trimmedNumber');
-                  if (user.data().user.phoneNumber === trimmedNumber) {
-                    console.log('matched! this contact => ', contact)
-                    // store in contacts all the contacts from phone that matched
-                    contactArr.push(contact)
-                    // store in users all the contacts from database that matched
-                    tempUsers.push(user.data())
-                    // filtering through contacts in database and excluding my number
-                    const result = tempUsers.filter(data => data.user.phoneNumber != auth()._user._user.phoneNumber)
-                    setUsers(result)
-                    setLoading(false)
-                  }
-                })
-              })
-          })
-        })
-        // reorderContacts()
-      })
-      .catch(e => {
-        // this.setState({ loading: false });
-        setLoading(false)
-      });
 
-    setContacts(contactArr)
-
-    Contacts.getCount().then(count => {
-      // this.setState({ searchPlaceholder: `Search ${count} contacts` });
-      setSearchPlaceholder(`Search ${count} contacts`)
-    });
-
-    Contacts.checkPermission();
-  }
 
   const search = (text) => {
     const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
@@ -222,8 +226,7 @@ export default function Main({ navigation }) {
   };
 
   const test = () => {
-
-    console.log(contacts)
+    // getUsers()
   }
 
   return (
@@ -242,10 +245,10 @@ export default function Main({ navigation }) {
         {/* <Button title="Add new" onPress={() => addNew()} /> */}
 
 
-        <SearchBar
+        {/* <SearchBar
           searchPlaceholder={searchPlaceholder}
           onChangeText={search}
-        />
+        /> */}
         {/* 
         <View style={{ paddingLeft: 10, paddingRight: 10 }}>
           <TextInput
@@ -266,7 +269,7 @@ export default function Main({ navigation }) {
               </View>
             ) :
             (
-              <View>{users.map((user, index) =>
+              <ScrollView>{users.map((user, index) =>
                 <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
                   <Image
                     source={{ uri: user.image }}
@@ -274,14 +277,14 @@ export default function Main({ navigation }) {
                   </Image>
                   <Text style={styles.userUsername}>{user.username}</Text>
                 </TouchableOpacity>
-              )}</View>
+              )}</ScrollView>
             )
         }
         {/* this is the end my users from FireBase */}
 
 
 
-        {/* {
+          {/* {
            loading === true ?
              (
                <View style={styles.spinner}>
@@ -320,7 +323,7 @@ export default function Main({ navigation }) {
                  })}
                </ScrollView>
              )
-         } */}
+            } */}
 
 
 
@@ -332,7 +335,7 @@ export default function Main({ navigation }) {
           marginRight: 30
         }}>
           <Icon onPress={() => navigation.navigate('EditMood')} name="create-outline" size={50} color="#373737" />
-          {/* <Button title="check" onPress={test} /> */}
+          <Button title="check" onPress={test} />
         </View>
       </SafeAreaView>
     </>
@@ -409,7 +412,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
 
   },
-  userTouchable: { flexDirection: 'row', alignItems: 'center', marginLeft: 20 },
+  userTouchable: { flexDirection: 'row', alignItems: 'center', marginLeft: 20, marginTop: 20},
   userProfileImage: { borderRadius: 45, height: 50, width: 50 },
   userUsername: { marginLeft: 20, fontSize: 15 },
 });
