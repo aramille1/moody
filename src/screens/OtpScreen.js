@@ -50,16 +50,13 @@ const mood = useContext(MoodContext)
     try{
     const code = otpArray.join("");
     const response = await confirm.confirm(code);
-    console.log(response)
     if(response){
       navigation.navigate('main');
       // mood.setOtpConfirmation(true)
     }
     } catch(e){
       // alert(JSON.stringify(e));
-      // alert('code is wrong!')
-      navigation.navigate('main');
-
+      alert('code is wrong!')
     }
   }
   const onOtpChange = index => {
@@ -136,7 +133,7 @@ const mood = useContext(MoodContext)
               onChangeText={onOtpChange(index)}
               keyboardType={'numeric'}
               maxLength={1}
-              // style={{color: '#fff',fontSize: 18,width: '100%',textAlign: 'center'}}
+              style={[styles.otpText, Styles.centerAlignedText]}
               autoFocus={index === 0 ? true : undefined}
               refCallback={refCallback(textInputRef)}
               key={index}

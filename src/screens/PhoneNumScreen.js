@@ -70,7 +70,7 @@ const PhoneNumScreen = ({ navigation }) => {
 
                     <TouchableOpacity style={styles.btn} onPress={GetOTP}>
  
-                            <Text style={styles.textSign}>Get SMS!</Text>
+                            <Text style={styles.textSign}>Get OTP!</Text>
                             <MaterialIcons
                                 name="navigate-next"
                                 color="#4f6367"

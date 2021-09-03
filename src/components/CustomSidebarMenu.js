@@ -31,8 +31,7 @@ const CustomSidebarMenu = (props) => {
         .collection('users')
         .onSnapshot(docs =>{
           docs.forEach(doc =>{
-
-            if(doc.data().user.phoneNumber === auth().currentUser.phoneNumber){
+            if(doc.data().user.phoneNumber === auth()._user._user.phoneNumber){
               let users = user.slice()
               users.push(doc.data())
               setUser(users)
