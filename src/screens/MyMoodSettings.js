@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -10,18 +10,18 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
-  Alert
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import Emoji from 'react-native-emoji';
-import FlashMessage, { showMessage } from 'react-native-flash-message';
+import FlashMessage, {showMessage} from 'react-native-flash-message';
 // import CustomMarker from './CustomMarker/CustomMarker.js';
 import SetAvatarMessageModal from '../components/Modal/SetAvatarMessageModal';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
 import RightSideMessageModal from '../components/Modal/RightSideMessageModal';
-import { MoodContext } from '../../App';
+import {MoodContext} from '../../App';
 import AvatarImagePicker from '../components/Modal/AvatarImagePicker';
 import gradient from '../assets/images/gradient.png';
 import bg from '../assets/images/css-gradient.png';
@@ -48,12 +48,12 @@ export default function MyMoodSettings() {
   const mood = useContext(MoodContext);
   const [username, setUsername] = React.useState('username');
   const [visible, setVisible] = React.useState(false);
-  const [uploading, setUploading] = React.useState(false)
-  const [imageIsUploaded, setImageIsUploaded] = React.useState(false)
-  const [transferred, setTransferred] = React.useState(0)
-
+  const [uploading, setUploading] = React.useState(false);
+  const [imageIsUploaded, setImageIsUploaded] = React.useState(false);
+  const [transferred, setTransferred] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
+  
   useEffect(() => {
-
     firestore()
       .collection('users')
       .onSnapshot((docs) => {
@@ -69,8 +69,9 @@ export default function MyMoodSettings() {
                 setImage(user.image),
                 setleftSideMessage(user.leftSideMessage),
                 setrightSideMessage(user.rightSideMessage);
+              setIsLoading(false);
             });
-          } 
+          }
         });
       });
   }, []);
@@ -104,14 +105,12 @@ export default function MyMoodSettings() {
   //   console.log('userData doesnt exists');
   // }
 
-  const justChecking = () => { }
+  const justChecking = () => {};
 
   const submit = async () => {
-
     if (imageIsUploaded) {
-      uploadImageToCloudStorage()
-      setImageIsUploaded(false)
-
+      uploadImageToCloudStorage();
+      setImageIsUploaded(false);
     } else {
       let userObject = {
         image: image,
@@ -130,53 +129,53 @@ export default function MyMoodSettings() {
     }
   };
 
-
   const uploadImageToCloudStorage = async () => {
     const uploadUri = image;
-    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
-    setUploading(true)
-    setTransferred(0)
+    setUploading(true);
+    setTransferred(0);
 
     const task = storage().ref(filename).putFile(uploadUri);
 
-    task.on('state_changed', taskSnapshot => {
-      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+    task.on('state_changed', (taskSnapshot) => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
 
       setTransferred(
-        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100
-      )
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+          100,
+      );
     });
 
     try {
-      await task
-      setUploading(false)
+      await task;
+      setUploading(false);
       showMessage({
         message: 'Saved!',
         type: 'success',
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-    let imgRef = firebase.storage().ref(filename)
+    let imgRef = firebase.storage().ref(filename);
 
-    imgRef
-      .getDownloadURL()
-      .then((url) => {
-        console.log(url)
-        setImage(url)
-        let userObject = {
-          image: url,
-          message: message,
-          sliderValues: tempSliderValues,
-          leftSideMessage: leftSideMessage,
-          rightSideMessage: rightSideMessage,
-          username: username,
-        };
-        firestore().collection('users').doc(userId).update(userObject);
-      })
-  }
+    imgRef.getDownloadURL().then((url) => {
+      console.log(url);
+      setImage(url);
+      let userObject = {
+        image: url,
+        message: message,
+        sliderValues: tempSliderValues,
+        leftSideMessage: leftSideMessage,
+        rightSideMessage: rightSideMessage,
+        username: username,
+      };
+      firestore().collection('users').doc(userId).update(userObject);
+    });
+  };
 
   // const logout = () => {
   //   auth()
@@ -192,15 +191,21 @@ export default function MyMoodSettings() {
   const customMarker = () => {
     return (
       <Image
-        source={{ uri: image }}
-        style={{ borderRadius: 45, height: 90, width: 90, borderWidth:1, borderColor:'#05375a' }}></Image>
+        source={{uri: image}}
+        style={{
+          borderRadius: 45,
+          height: 90,
+          width: 90,
+          borderWidth: 1,
+          borderColor: '#05375a',
+        }}></Image>
     );
   };
 
   const setImageFunc = (img) => {
-    setImage(img)
-    setImageIsUploaded(true)
-  }
+    setImage(img);
+    setImageIsUploaded(true);
+  };
 
   return (
     <>
@@ -217,39 +222,6 @@ export default function MyMoodSettings() {
         }}>
         <StatusBar backgroundColor="#fff" barStyle="dark-content" />
 
-
-        {/* <View style={{flexDirection:'row',}}> */}
-        {/* <TouchableOpacity onPress={logout}>
-          <Text
-            style={{
-              borderWidth: 1,
-              borderColor: 'grey',
-              borderRadius: 10,
-              padding: 7,
-            }}>
-            Logout
-          </Text>
-        </TouchableOpacity> */}
-
-        <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
-        {/* </View> */}
-
-
-        {/* username */}
-        <TouchableOpacity onPress={() => setVisible(true)}>
-          <Text
-            style={{
-              // marginTop: 10,
-              fontSize: 38,
-              fontWeight: 'bold',
-              color: '#4f6367',
-              marginBottom: 50
-            }}>
-            {username}
-          </Text>
-        </TouchableOpacity>
-        {/* username */}
-
         <Modal
           backdropTransitionOutTiming={0}
           onBackdropPress={() => setVisible(false)}
@@ -260,8 +232,8 @@ export default function MyMoodSettings() {
             position: 'absolute',
             top: '25%',
           }}>
-          <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 0 }}>
-            <Text style={{ color: '#05375a', fontSize: 30 }}>
+          <View style={{marginLeft: 20, marginTop: 30, marginBottom: 0}}>
+            <Text style={{color: '#05375a', fontSize: 30}}>
               What's your name?
             </Text>
           </View>
@@ -288,86 +260,127 @@ export default function MyMoodSettings() {
           </View>
         </Modal>
 
-        {/* mood slider */}
-        <View style={styles.container}>
-          <Animatable.View animation="fadeIn">
-            <ImageBackground source={gradient} style={styles.trackBgImage}>
-              <MultiSlider
-                selectedStyle={{
-                  backgroundColor: 'transparent',
-                }}
-                unselectedStyle={{
-                  backgroundColor: 'transparent',
-                }}
-                values={tempSliderValues}
-                min={0}
-                max={10}
-                step={1}
-                containerStyle={{
-                  height: 30,
-                  borderColor: 'black',
-                  borderWidth: 1,
-                }}
-                trackStyle={{
-                  height: 50,
-                  backgroundColor: 'red',
-                }}
-                touchDimensions={{
-                  height: 100,
-                  width: 100,
-                  borderRadius: 20,
-                  slipDisplacement: 200,
-                }}
-                markerOffsetY={20}
-                markerSize={0}
-                customLabel={CustomLabel}
-                customMarker={customMarker}
-                sliderLength={300}
-                // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
-                markerStyle={{ height: 50, width: 50 }}
-                onValuesChangeFinish={(values) => setTempSliderValues(values)}
-              />
-            </ImageBackground>
+        {isLoading ? (
+          <View style={styles.spinner}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        ) : (
+          <>
+            {/* <View style={{flexDirection:'row',}}> */}
+            {/* <TouchableOpacity onPress={logout}>
+          <Text
+            style={{
+              borderWidth: 1,
+              borderColor: 'grey',
+              borderRadius: 10,
+              padding: 7,
+            }}>
+            Logout
+          </Text>
+        </TouchableOpacity> */}
 
-            {/* sad and happy indicators */}
-            <View style={styles.leftAndRightContainer}>
-              <View
+            <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
+            {/* </View> */}
+
+            {/* username */}
+            <TouchableOpacity onPress={() => setVisible(true)}>
+              <Text
                 style={{
-                  flex: 1,
-                  width: 100,
-                  height: '100%',
-                  alignItems: 'flex-start',
-                  marginLeft: 0,
-                  marginTop: 10,
+                  // marginTop: 10,
+                  fontSize: 38,
+                  fontWeight: 'bold',
+                  color: '#4f6367',
+                  marginBottom: 50,
                 }}>
-                <LeftSideMessageModal
-                  leftSideMessage={leftSideMessage}
-                  setLeftsideMessageProp={(value) => setleftSideMessage(value)}
-                />
-              </View>
-              {/* <View><Text onPress={justChecking}>something</Text></View> */}
-              <View
-                style={{
-                  flex: 1,
-                  width: 100,
-                  height: '100%',
-                  alignItems: 'flex-end',
-                  marginTop: 10,
-                  marginRight: 0,
-                }}>
-                <RightSideMessageModal
-                  rightSideMessage={rightSideMessage}
-                  setRightsideMessageProp={(value) =>
-                    setrightSideMessage(value)
-                  }
-                />
-              </View>
+                {username}
+              </Text>
+            </TouchableOpacity>
+            {/* username */}
+
+            <View style={styles.container}>
+              <Animatable.View animation="fadeIn">
+                <ImageBackground source={gradient} style={styles.trackBgImage}>
+                  <MultiSlider
+                    selectedStyle={{
+                      backgroundColor: 'transparent',
+                    }}
+                    unselectedStyle={{
+                      backgroundColor: 'transparent',
+                    }}
+                    values={tempSliderValues}
+                    min={0}
+                    max={10}
+                    step={1}
+                    containerStyle={{
+                      height: 30,
+                      borderColor: 'black',
+                      borderWidth: 1,
+                    }}
+                    trackStyle={{
+                      height: 50,
+                      backgroundColor: 'red',
+                    }}
+                    touchDimensions={{
+                      height: 100,
+                      width: 100,
+                      borderRadius: 20,
+                      slipDisplacement: 200,
+                    }}
+                    markerOffsetY={20}
+                    markerSize={0}
+                    customLabel={CustomLabel}
+                    customMarker={customMarker}
+                    sliderLength={300}
+                    // pressedMarkerStyle={{backgroundColor:'#D3D3D3'}}
+                    markerStyle={{height: 50, width: 50}}
+                    onValuesChangeFinish={(values) =>
+                      setTempSliderValues(values)
+                    }
+                  />
+                </ImageBackground>
+
+                {/* sad and happy indicators */}
+                <View style={styles.leftAndRightContainer}>
+                  <View
+                    style={{
+                      flex: 1,
+                      width: 100,
+                      height: '100%',
+                      alignItems: 'flex-start',
+                      marginLeft: 0,
+                      marginTop: 10,
+                    }}>
+                    <LeftSideMessageModal
+                      leftSideMessage={leftSideMessage}
+                      setLeftsideMessageProp={(value) =>
+                        setleftSideMessage(value)
+                      }
+                    />
+                  </View>
+                  {/* <View><Text onPress={justChecking}>something</Text></View> */}
+                  <View
+                    style={{
+                      flex: 1,
+                      width: 100,
+                      height: '100%',
+                      alignItems: 'flex-end',
+                      marginTop: 10,
+                      marginRight: 0,
+                    }}>
+                    <RightSideMessageModal
+                      rightSideMessage={rightSideMessage}
+                      setRightsideMessageProp={(value) =>
+                        setrightSideMessage(value)
+                      }
+                    />
+                  </View>
+                </View>
+                {/* end of sad and happy indicators */}
+              </Animatable.View>
             </View>
-            {/* end of sad and happy indicators */}
-          </Animatable.View>
-        </View>
+          </>
+        )}
         {/* end of mood slider */}
-
 
         {uploading ? (
           <View>
@@ -379,17 +392,16 @@ export default function MyMoodSettings() {
             <FlashMessage position="top" floating />
 
             <Animatable.View animation="fadeIn">
-              <View style={{ borderRadius: 10, backgroundColor: '#009387' }}>
+              <View style={{borderRadius: 10, backgroundColor: '#009387'}}>
                 <TouchableOpacity
-                  style={{ paddingHorizontal: 140, paddingVertical: 15 }}
+                  style={{paddingHorizontal: 140, paddingVertical: 15}}
                   onPress={submit}>
-                  <Text style={{ fontSize: 18, color: '#fff' }}>Save</Text>
+                  <Text style={{fontSize: 18, color: '#fff'}}>Save</Text>
                 </TouchableOpacity>
               </View>
             </Animatable.View>
           </>
-        )
-        }
+        )}
 
         <View
           style={{
@@ -399,10 +411,10 @@ export default function MyMoodSettings() {
               tempSliderValues == 10
                 ? '80%'
                 : tempSliderValues == 0
-                  ? '10%'
-                  : tempSliderValues == 9
-                    ? '80%'
-                    : tempSliderValues * 10 + '%',
+                ? '10%'
+                : tempSliderValues == 9
+                ? '80%'
+                : tempSliderValues * 10 + '%',
           }}>
           <SetAvatarMessageModal
             setMessage={(message) => setMessage(message)}
@@ -466,6 +478,12 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
     color: '#05375a',
+  },
+  spinner: {
+    flex: 1,
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   btnSave: {
     backgroundColor: '#009387',

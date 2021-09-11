@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, TouchableOpacity, Image,Text } from 'react-native';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -38,16 +38,16 @@ const NavigationDrawerStructure = (props) => {
     props.navigationProps.toggleDrawer();
   };
 
-  const logout = () =>{
+  const logout = () => {
     auth()
-    .signOut()
-    .then(() => console.log('User signed out!'))
-    .catch(error => console.log(error))
+      .signOut()
+      .then(() => console.log('User signed out!'))
+      .catch(error => console.log(error))
     // alert(1)
   }
 
   return (
-    <View style={{ flexDirection: 'row', marginLeft: 5, alignItems:'center',  }}>
+    <View style={{ flexDirection: 'row', marginLeft: 5, alignItems: 'center', }}>
       <TouchableOpacity onPress={toggleDrawer}>
         {/*Donute Button Image */}
         {/* <Image
@@ -60,11 +60,12 @@ const NavigationDrawerStructure = (props) => {
         <Icon name="menu-outline" size={30} color="#373737" />
 
       </TouchableOpacity>
-        <TouchableOpacity style={{
-          // position:'relative',left: 270,marginHorizontal:10, 
-          width: 320,
-          zIndex:100
-          }}  onPress={logout}><Text style={{textAlign:'right'}}>Logout</Text></TouchableOpacity>
+      {/* <TouchableOpacity style={{
+        // position:'relative',left: 270,marginHorizontal:10, 
+        width: 320,
+        zIndex: 100
+      }} onPress={logout}><Text style={{ textAlign: 'right' }}>Logout</Text>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -127,9 +128,9 @@ const otherMoodScreenStack = ({ route, navigation }) => (
   <otherScreenStack.Navigator initialRouteName="OtherMood">
     <otherScreenStack.Screen
       name="OtherMood"
-      initialParams={{ params: route.params }} 
+      initialParams={{ params: route.params }}
       component={OtherMood}
-      options={ ({ route }) => ({
+      options={({ route }) => ({
         title: '', //Set Header Title
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
@@ -149,7 +150,7 @@ const otherMoodScreenStack = ({ route, navigation }) => (
 
 const AppDrawer = createDrawerNavigator();
 
-const AppDrawerScreen = ({route, navigation}) => (
+const AppDrawerScreen = ({ route, navigation }) => (
   <AppDrawer.Navigator
     drawerContentOptions={{
       activeTintColor: '#2596BE',
@@ -157,11 +158,11 @@ const AppDrawerScreen = ({route, navigation}) => (
       itemStyle: { marginVertical: 5 }, //item style in the drawer
     }}
     drawerContent={(props) => <CustomSidebarMenu {...props} />}>
-      <AppDrawer.Screen
-        name="EditMood"
-        options={{ drawerLabel: 'My Mood Settings', }}
-        component={moodScreenStack}
-      />
+    <AppDrawer.Screen
+      name="EditMood"
+      options={{ drawerLabel: 'My Mood Settings', }}
+      component={moodScreenStack}
+    />
 
     <AppDrawer.Screen
       name="main"
@@ -188,15 +189,15 @@ export default () => {
 
 
   useEffect(() => {
-    const subscribe = auth().onAuthStateChanged(user =>{
-      if(user){
+    const subscribe = auth().onAuthStateChanged(user => {
+      if (user) {
         setUser(user)
-      }else{
+      } else {
         console.log('user is not signed [in Navigation]')
       }
-  })
-  
-  subscribe()
+    })
+
+    subscribe()
   }, []);
 
 

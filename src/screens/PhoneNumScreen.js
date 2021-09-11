@@ -16,7 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const PhoneNumScreen = ({ navigation }) => {
     const { colors } = useTheme();
-    const [phoneNumber, addPhoneNumber] = React.useState('+1012345678');
+    const [phoneNumber, addPhoneNumber] = React.useState('+49');
 
     const GetOTP = () => {
         console.log(phoneNumber)
@@ -47,6 +47,11 @@ const PhoneNumScreen = ({ navigation }) => {
                     style={styles.title}
                 >Sign in with your phone number.
                 </Text>
+                <Text
+                    style={styles.title2}
+                >
+                (with country code)
+                </Text>
 
                 <View style={styles.action}>
 
@@ -70,7 +75,7 @@ const PhoneNumScreen = ({ navigation }) => {
 
                     <TouchableOpacity style={styles.btn} onPress={GetOTP}>
  
-                            <Text style={styles.textSign}>Get OTP!</Text>
+                            <Text style={styles.textSign}>Get SMS!</Text>
                             <MaterialIcons
                                 name="navigate-next"
                                 color="#4f6367"
@@ -146,6 +151,12 @@ const styles = StyleSheet.create({
     title: {
         color: '#fff',
         fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 10
+    },
+    title2: {
+        color: '#fff',
+        fontSize: 15,
         textAlign: 'center',
         marginBottom: 10
     },
