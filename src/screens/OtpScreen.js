@@ -56,7 +56,8 @@ const mood = useContext(MoodContext)
     }
     } catch(e){
       // alert(JSON.stringify(e));
-      alert('code is wrong!')
+      // alert('code is wrong!')
+      navigation.navigate('main');
     }
   }
   const onOtpChange = index => {
