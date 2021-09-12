@@ -72,7 +72,7 @@ export default function Main({navigation}) {
         getUsers();
       });
     } else {
-      loadContacts();
+      getUsers();
     }
   }, []);
 
