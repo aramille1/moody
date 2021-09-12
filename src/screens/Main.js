@@ -70,6 +70,8 @@ export default function Main({navigation}) {
   //  }
 
   useEffect(() => {
+    console.log(users)
+    setUsers([])
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
@@ -110,15 +112,15 @@ export default function Main({navigation}) {
             setUsers(tempUsers);
             setLoading(false);
           });
-      })
+        })
       .catch((e) => {
         setLoading(false);
       });
 
-    Contacts.getCount().then((count) => {
-      setSearchPlaceholder(`Search ${count} contacts`);
-    });
-    Contacts.checkPermission();
+    // Contacts.getCount().then((count) => {
+    //   setSearchPlaceholder(`Search ${count} contacts`);
+    // });
+    // Contacts.checkPermission();
   };
 
   const search = (text) => {
@@ -203,6 +205,10 @@ export default function Main({navigation}) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const test =()=>{
+    console.log(users)
+  }
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -238,9 +244,7 @@ export default function Main({navigation}) {
           </View>
         ) : (
           <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+            >
             {users.map((user, index) => {
               return (
                 <ListItem

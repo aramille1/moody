@@ -67,6 +67,7 @@ export default function MyMoodSettings() {
               setTempSliderValues(user.sliderValues),
                 setUsername(user.username),
                 setImage(user.image),
+                setMessage(user.message)
                 setleftSideMessage(user.leftSideMessage),
                 setrightSideMessage(user.rightSideMessage);
               setIsLoading(false);
@@ -75,37 +76,6 @@ export default function MyMoodSettings() {
         });
       });
   }, []);
-
-  // Handle user state changes
-  // userData is data from phone OTP registr
-  // function onAuthStateChanged(userData) {
-  //   if (userData) {
-  //     console.log('user exists', userData);
-  //     setPhoneNum(userData.phoneNumber);
-  //     setPhoneUid(userData.uid);
-  //     firestore()
-  //       .collection('users')
-  //       .onSnapshot((docs) => {
-  //         // console.log(docs)
-  //         let users = [];
-  //         if (docs) {
-  //           docs.forEach((doc) => {
-  //             // console.log(doc)
-  //             if (doc._data.user.phoneNumber === userData.phoneNumber) {
-  //               setUserId(doc.id); // recording user's id
-  //               users.push(doc.data());
-  //             } else {
-  //               console.log('there is no match with users phonenumber');
-  //             }
-  //           });
-  //         }
-  //         setUser(users);
-  //       });
-  //   }
-  //   console.log('userData doesnt exists');
-  // }
-
-  const justChecking = () => {};
 
   const submit = async () => {
     if (imageIsUploaded) {
@@ -426,18 +396,10 @@ export default function MyMoodSettings() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // flexDirection: 'column',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // marginTop: 200,
-  },
+
   leftAndRightContainer: {
-    // marginBottom: 320,
     flexDirection: 'row',
     height: 80,
-    // paddingHorizontal: 30,
   },
   trackBgImage: {
     resizeMode: 'cover',
@@ -464,7 +426,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    // marginHorizontal: 15,
   },
   actionInModal: {
     flexDirection: 'row',
