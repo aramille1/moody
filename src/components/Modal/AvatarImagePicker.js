@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity,ScrollView, View, Platform, Alert } from 'react-native';
+import { ImageBackground,Image, TextInput, StyleSheet, Text, TouchableOpacity,ScrollView, View, Platform, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { MoodContext } from '../../../App';
-
+import uploadImg from '../../assets/images/camera-icon.png';
 
 export default function AvatarImagePicker({ setImageProp, imageIsUploaded }) {
 
@@ -113,7 +113,11 @@ export default function AvatarImagePicker({ setImageProp, imageIsUploaded }) {
                     opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
                 }}>
                         <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
-                                <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text>
+                        <Image
+                        style={{width:55,height:55}}
+          source={uploadImg}
+        />
+                                {/* <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text> */}
                         </TouchableOpacity>
                         
                 </Animated.View>
