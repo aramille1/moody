@@ -14,6 +14,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
 import ListItem from '../components/ListItem/index';
@@ -30,6 +31,10 @@ import firestore from '@react-native-firebase/firestore';
 import {firebase} from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function Main({navigation}) {
   mood = React.useContext(MoodContext);
 
@@ -43,6 +48,7 @@ export default function Main({navigation}) {
 
   const [users, setUsers] = React.useState([]);
   const [usersToRender, setUsersToRender] = React.useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   // if you want to read/write the contact note field on iOS, this method has to be called
   // WARNING: by enabling notes on iOS, a valid entitlement file containing the note entitlement as well as a separate
@@ -192,9 +198,10 @@ export default function Main({navigation}) {
     return initials;
   };
 
-  const test = () => {
-    // getUsers()
-  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   return (
     <>
@@ -230,7 +237,10 @@ export default function Main({navigation}) {
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
             {users.map((user, index) => {
               return (
                 <ListItem
