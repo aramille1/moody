@@ -269,63 +269,26 @@ Contacts.checkPermission();
               </View>
             ) :
             (
-              <ScrollView>{users.map((user, index) =>
-                <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
-                  <Image
-                    source={{ uri: user.image }}
-                    style={styles.userProfileImage}>
-                  </Image>
-                  <Text style={styles.userUsername}>{user.username}</Text>
-                </TouchableOpacity>
-              )}</ScrollView>
+              <ScrollView >
+              {users.map((user,index) => {
+                return (
+                  <ListItem
+                    leftElement={
+                     <Image
+                       source={{ uri: user.image }}
+                       style={styles.userProfileImage}>
+                     </Image>
+                    }
+                    key={index}
+                    title={user.username}
+                   onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}
+                  />
+                );
+              })}
+            </ScrollView>
             )
         }
         {/* this is the end my users from FireBase */}
-
-
-
-          {/* {
-           loading === true ?
-             (
-               <View style={styles.spinner}>
-                 <ActivityIndicator size="large" color="#0000ff" />
-               </View>
-             ) : (
-               <ScrollView style={{ flex: 1 }}>
-                 {contacts.map(contact => {
-                   return (
-                     <ListItem
-                       leftElement={
-                         <Avatar
-                           img={
-                             contact.hasThumbnail
-                               ? { uri: contact.thumbnailPath }
-                               : undefined
-                           }
-                           placeholder={getAvatarInitials(
-                             `${contact.givenName} ${contact.familyName}`
-                           )}
-                           width={40}
-                           height={40}
-                         />
-                       }
-                       key={contact.recordID}
-                       title={`${contact.givenName} ${contact.familyName}`}
-                       description={`${contact.company}`}
-                       onPress={() => onPressContact(contact)}
-                       onDelete={() =>
-                         Contacts.deleteContact(contact).then(() => {
-                           loadContacts();
-                         })
-                       }
-                     />
-                   );
-                 })}
-               </ScrollView>
-             )
-            } */}
-
-
 
         <View style={{
           alignItems: 'flex-end',
