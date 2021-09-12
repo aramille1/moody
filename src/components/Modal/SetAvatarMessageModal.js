@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 import AddMessage from '../AddMessage';
 import { MoodContext } from '../../../App';
@@ -10,6 +12,19 @@ import { MoodContext } from '../../../App';
 
 export default function AvatarMessageModal({setMessage}) {
     const mood = useContext(MoodContext)
+    const [msg, setMsg] = React.useState('')
+    useEffect(() => {
+        firestore()
+          .collection('users')
+          .onSnapshot((docs) => {
+            docs.forEach((user) => {
+                if(user.data().user.phoneNumber === auth()._user._user.phoneNumber){
+                    setMsg(user.data().message)
+                }
+            });
+
+          });
+    },[])
 
     const addItem = text => {
         if (!text) {
@@ -44,7 +59,8 @@ export default function AvatarMessageModal({setMessage}) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={{color: '#4f6367'}}>Add your message here</Text>
+                            <Text style={{color: '#4f6367'}}>Your current message is:</Text>
+                            <Text style={{margin:10}}> {msg}</Text>
                             <View style={{ marginTop: 20 }}>
                                 {/* add button */}
                                 <AddMessage placeHolder="e.g.: Feeling like an Icecream :)" addItem={addItem} setModalVisible={() => mood.setModalVisible(!mood.modalVisible)} />
