@@ -87,6 +87,8 @@ export default function Main({navigation}) {
 
   const getUsers = () => {
     let numbers = [];
+    let tempUsers = [];
+
     Contacts.getAll()
       .then((contacts) => {
         console.log(contacts);
@@ -97,10 +99,10 @@ export default function Main({navigation}) {
           });
         });
         setContacts(numbers);
-        let tempUsers = [];
         firestore()
           .collection('users')
-          .onSnapshot((docs) => {
+          .get()
+          .then((docs) => {
             docs.forEach((user) => {
               if (
                 numbers.includes(user.data().user.phoneNumber) &&

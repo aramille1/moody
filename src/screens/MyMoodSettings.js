@@ -77,7 +77,7 @@ export default function MyMoodSettings() {
       });
   }, []);
 
-  const submit = async () => {
+  const submit = () => {
     if (imageIsUploaded) {
       uploadImageToCloudStorage();
       setImageIsUploaded(false);
