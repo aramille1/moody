@@ -83,7 +83,7 @@ export default function Main({navigation}) {
     } else {
       getUsers();
     }
-  }, []);
+  }, [refreshing]);
 
   const getUsers = () => {
     let numbers = [];
@@ -246,7 +246,14 @@ export default function Main({navigation}) {
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
-          <ScrollView>{users.map((user, index) =>
+          <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+          >{users.map((user, index) =>
             <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
               <Image
                 source={{ uri: user.image }}
