@@ -72,6 +72,7 @@ export default function Main({navigation}) {
   useEffect(() => {
     console.log(users)
     setUsers([])
+    setContacts([])
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
@@ -243,29 +244,17 @@ export default function Main({navigation}) {
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
-          <ScrollView
-            >
-            {users.map((user, index) => {
-              return (
-                <ListItem
-                  leftElement={
-                    <Image
-                      source={{uri: user.image}}
-                      style={styles.userProfileImage}></Image>
-                  }
-                  key={index}
-                  title={user.username}
-                  onPress={() =>
-                    navigation.navigate('OtherMood', {
-                      screen: 'OtherMood',
-                      params: {user},
-                    })
-                  }
-                />
-              );
-            })}
-          </ScrollView>
-        )}
+          <ScrollView>{users.map((user, index) =>
+            <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
+              <Image
+                source={{ uri: user.image }}
+                style={styles.userProfileImage}>
+              </Image>
+              <Text style={styles.userUsername}>{user.username}</Text>
+            </TouchableOpacity>
+          )}</ScrollView>
+        )
+        }
 
         <View
           style={{
@@ -281,7 +270,7 @@ export default function Main({navigation}) {
             size={50}
             color="#373737"
           />
-          {/* <Button title="check" onPress={test} /> */}
+          <Button title="check" onPress={test} />
         </View>
       </SafeAreaView>
     </>
@@ -360,8 +349,11 @@ const styles = StyleSheet.create({
   userTouchable: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 20,
-    marginTop: 20,
+    paddingLeft: 20,
+    marginTop: 10,
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    borderColor: '#d3dbd4'
   },
   userProfileImage: {borderRadius: 45, height: 50, width: 50},
   userUsername: {marginLeft: 20, fontSize: 15},
