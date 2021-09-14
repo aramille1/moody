@@ -279,7 +279,7 @@ export default function Main({navigation}) {
             size={50}
             color="#373737"
           />
-          <Button title="check" onPress={test} />
+          {/* <Button title="check" onPress={test} /> */}
         </View>
       </SafeAreaView>
     </>
