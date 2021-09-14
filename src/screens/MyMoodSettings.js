@@ -348,8 +348,7 @@ export default function MyMoodSettings() {
                 {/* end of sad and happy indicators */}
               </Animatable.View>
             </View>
-          </>
-        )}
+
         {/* end of mood slider */}
 
         {uploading ? (
@@ -390,6 +389,8 @@ export default function MyMoodSettings() {
             setMessage={(message) => setMessage(message)}
           />
         </View>
+        </>
+        )}
       </View>
     </>
   );
