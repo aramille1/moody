@@ -1,8 +1,10 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text, Keyboard } from 'react-native';
 import auth from '@react-native-firebase/auth'; 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
+import RNOtpVerify from 'react-native-otp-verify';
+import OTPInputView from '@twotalltotems/react-native-otp-input'
 
 import { Styles } from '../styles/Styles';
 import ErrorBoundary from '../components/ErrorBoundry';
@@ -20,7 +22,7 @@ const mood = useContext(MoodContext)
   const [submittingOtp, setSubmittingOtp] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [confirm, setConfirm] = useState(null);
-
+  const [otp, setOtp] = useState('')
   const firstTextInputRef = useRef(null);
   const secondTextInputRef = useRef(null);
   const thirdTextInputRef = useRef(null);
@@ -34,7 +36,25 @@ const mood = useContext(MoodContext)
 
   useEffect(() => {
     signInWithPhoneNumber();
+
+    RNOtpVerify.getHash()
+    .then(console.log)
+    .catch(console.log);
+
+    RNOtpVerify.getOtp()
+    .then(p => RNOtpVerify.addListener(otpHandler))
+    .catch(p => console.log(p));
+
+    return () => RNOtpVerify.removeListener();
+
   }, [])
+
+  otpHandler = (message) => {
+    const otp = /(\d{6})/g.exec(message)[1];
+    setOtp(otp);
+    RNOtpVerify.removeListener();
+    Keyboard.dismiss();
+}
 
   async function signInWithPhoneNumber() {
    try{
@@ -49,7 +69,7 @@ const mood = useContext(MoodContext)
   async function confirmCode() {
     try{
     const code = otpArray.join("");
-    const response = await confirm.confirm(code);
+    const response = await confirm.confirm(otp);
     if(response){
       navigation.navigate('main');
       // mood.setOtpConfirmation(true)
@@ -109,76 +129,108 @@ const mood = useContext(MoodContext)
   };
 
   return (
-    <ErrorBoundary screenName={'OTPScreen'}>
+    <View style={{backgroundColor:'#009387', height: '100%', paddingTop:100}}>
 
-      <View style={{backgroundColor:'#009387', flex:1}}>
-      <View style={styles.container}>
-      <Animatable.View animation="fadeInUp">
-
-        <Text style={{fontSize:18, textAlign: 'center', color: '#fff'}}>
+              <Text style={{fontSize:18, textAlign: 'center', color: '#fff'}}>
           Enter SMS sent to your number: {' ' + phoneNumber}
         </Text>
-        <View style={[Styles.row, Styles.mt12]}>
-          {[
-            firstTextInputRef,
-            secondTextInputRef,
-            thirdTextInputRef,
-            fourthTextInputRef,
-            fivthTextInputRef,
-            sixthTextInputRef,
-          ].map((textInputRef, index) => (
-            <CustomTextInput
-              containerStyle={[Styles.fill, Styles.mr12]}
-              value={otpArray[index]}
-              onKeyPress={onOtpKeyPress(index)}
-              onChangeText={onOtpChange(index)}
-              keyboardType={'numeric'}
-              maxLength={1}
-              style={[styles.otpText, Styles.centerAlignedText]}
-              autoFocus={index === 0 ? true : undefined}
-              refCallback={refCallback(textInputRef)}
-              key={index}
-            />
-          ))}
-        </View>
-        {errorMessage ? (
-          <CustomText
-            style={[
-              Styles.negativeText,
-              Styles.mt12,
-              Styles.centerAlignedText,
-            ]}>
-            {errorMessage}
-          </CustomText>
-        ) : null}
+    <OTPInputView
+    style={{width: '80%', height: 200, marginLeft:40, backgroundColor:'transparent'}}
+    pinCount={6}
+    code={otp} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+    onCodeChanged = {code => setOtp(code)}
+    autoFocusOnLoad
+    codeInputFieldStyle={styles.underlineStyleBase}
+    codeInputHighlightStyle={styles.underlineStyleHighLighted}
+    onCodeFilled = {(code => {
+        console.log(`Code is ${code}, you are good to go!`)
+    })}
+/>
 
-        {/* <FullButtonComponent
-          type={'fill'}
-          text={'Submit'}
-          textStyle={styles.submitButtonText}
-          buttonStyle={Styles.mt24}
-          onPress={() => confirmCode()}
-          disabled={submittingOtp}
-        /> */}
+       <Animatable.View animation="fadeInUp">
 
-      </Animatable.View>
-
-      </View>
-      <Animatable.View animation="fadeInUp">
-
-            <TouchableOpacity style={styles.btn} disabled={submittingOtp} onPress={() => confirmCode()}>
+             <TouchableOpacity style={styles.btn} onPress={() => confirmCode()}>
  
-            <Text style={styles.textSign}>Submit</Text>
-            <MaterialIcons
-                name="navigate-next"
-                color="#4f6367"
-                size={20}
-            />
-            </TouchableOpacity>
-      </Animatable.View>
+             <Text style={styles.textSign}>Submit</Text>
+             <MaterialIcons
+                 name="navigate-next"
+                 color="#4f6367"
+                 size={20}
+             />
+             </TouchableOpacity>
+       </Animatable.View>
 
-      </View>
-    </ErrorBoundary>
+    </View>
+    // <ErrorBoundary screenName={'OTPScreen'}>
+
+    //   <View style={{backgroundColor:'#009387', flex:1}}>
+    //   <View style={styles.container}>
+    //   <Animatable.View animation="fadeInUp">
+
+    //     <Text style={{fontSize:18, textAlign: 'center', color: '#fff'}}>
+    //       Enter SMS sent to your number: {' ' + phoneNumber}
+    //     </Text>
+    //     <View style={[Styles.row, Styles.mt12]}>
+    //       {[
+    //         firstTextInputRef,
+    //         secondTextInputRef,
+    //         thirdTextInputRef,
+    //         fourthTextInputRef,
+    //         fivthTextInputRef,
+    //         sixthTextInputRef,
+    //       ].map((textInputRef, index) => (
+    //         <CustomTextInput
+    //           containerStyle={[Styles.fill, Styles.mr12]}
+    //           value={otpArray[index]}
+    //           onKeyPress={onOtpKeyPress(index)}
+    //           onChangeText={onOtpChange(index)}
+    //           keyboardType={'numeric'}
+    //           maxLength={1}
+    //           style={[styles.otpText, Styles.centerAlignedText]}
+    //           autoFocus={index === 0 ? true : undefined}
+    //           refCallback={refCallback(textInputRef)}
+    //           key={index}
+    //         />
+    //       ))}
+    //     </View>
+    //     {errorMessage ? (
+    //       <CustomText
+    //         style={[
+    //           Styles.negativeText,
+    //           Styles.mt12,
+    //           Styles.centerAlignedText,
+    //         ]}>
+    //         {errorMessage}
+    //       </CustomText>
+    //     ) : null}
+
+    //     {/* <FullButtonComponent
+    //       type={'fill'}
+    //       text={'Submit'}
+    //       textStyle={styles.submitButtonText}
+    //       buttonStyle={Styles.mt24}
+    //       onPress={() => confirmCode()}
+    //       disabled={submittingOtp}
+    //     /> */}
+
+    //   </Animatable.View>
+
+    //   </View>
+    //   <Animatable.View animation="fadeInUp">
+
+    //         <TouchableOpacity style={styles.btn} disabled={submittingOtp} onPress={() => confirmCode()}>
+ 
+    //         <Text style={styles.textSign}>Submit</Text>
+    //         <MaterialIcons
+    //             name="navigate-next"
+    //             color="#4f6367"
+    //             size={20}
+    //         />
+    //         </TouchableOpacity>
+    //   </Animatable.View>
+
+    //   </View>
+    // </ErrorBoundary>
   );
 };
 
@@ -227,6 +279,27 @@ btn:{
 textSign: {
   color: '#4f6367',
   fontWeight: 'bold'
+},
+
+
+borderStyleBase: {
+  width: 20,
+  height: 45
+},
+
+borderStyleHighLighted: {
+  borderColor: "#03DAC6",
+},
+
+underlineStyleBase: {
+  width: 30,
+  height: 45,
+  borderWidth: 0,
+  borderBottomWidth: 1,
+},
+
+underlineStyleHighLighted: {
+  borderColor: "#03DAC6",
 },
 });
 
