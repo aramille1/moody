@@ -147,11 +147,11 @@ export default function MyMoodSettings() {
     });
   };
 
-  // const logout = () => {
-  //   auth()
-  //     .signOut()
-  //     .then(() => console.log('User signed out!'));
-  // };
+  const logout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
 
   const onSignIn = () => {
     mood.setUsername(username);
@@ -236,8 +236,7 @@ export default function MyMoodSettings() {
           </View>
         ) : (
           <>
-            {/* <View style={{flexDirection:'row',}}> */}
-            {/* <TouchableOpacity onPress={logout}>
+             {/* <TouchableOpacity onPress={logout}>
           <Text
             style={{
               borderWidth: 1,
