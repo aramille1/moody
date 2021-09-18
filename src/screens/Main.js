@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   PermissionsAndroid,
   Platform,
@@ -6,10 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  Button,
   Image,
-  // ListItem,
   StatusBar,
   ScrollView,
   TouchableOpacity,
@@ -17,18 +14,10 @@ import {
   RefreshControl,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
-import ListItem from '../components/ListItem/index';
-import * as Animatable from 'react-native-animatable';
-import Avatar from '../components/Avatar/index';
-import SearchBar from '../components/SearchBar/index';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modal';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {MoodContext} from '../../App';
-import ProfileImagePicker from '../components/Modal/ProfileImagePicker';
 import firestore from '@react-native-firebase/firestore';
-import {firebase} from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 
 const wait = (timeout) => {
@@ -38,39 +27,13 @@ const wait = (timeout) => {
 export default function Main({navigation}) {
   mood = React.useContext(MoodContext);
 
-  const [profileImg, setProfileImg] = React.useState();
   const [contacts, setContacts] = React.useState([]);
-  const [searchPlaceholder, setSearchPlaceholder] = React.useState('Search');
-  const [typeText, setTypeText] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [visible, setVisible] = React.useState(false);
   const [username, setUsername] = React.useState('username');
-
   const [users, setUsers] = React.useState([]);
-  const [usersToRender, setUsersToRender] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
-  // if you want to read/write the contact note field on iOS, this method has to be called
-  // WARNING: by enabling notes on iOS, a valid entitlement file containing the note entitlement as well as a separate
-  //          permission has to be granted in order to release your app to the AppStore. Please check the README.md
-  //          for further information.
-  // Contacts.iosEnableNotesUsage(false);
-
-  //  async componentDidMount() {
-  //    if (Platform.OS === "android") {
-  //      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-  //        title: "Contacts",
-  //        message: "This app would like to view your contacts."
-  //      }).then(() => {
-  //        this.loadContacts();
-  //      });
-  //    } else {
-  //      this.loadContacts();
-  //    }
-  //  }
-
   useEffect(() => {
-    console.log(users)
     setUsers([])
     setContacts([])
     if (Platform.OS === 'android') {
@@ -91,7 +54,6 @@ export default function Main({navigation}) {
 
     Contacts.getAll()
       .then((contacts) => {
-        console.log(contacts);
         contacts.forEach((contact) => {
           contact.phoneNumbers.forEach((num) => {
             let trimmedNum = num.number.replace(/\s/g, '');
@@ -120,62 +82,9 @@ export default function Main({navigation}) {
         setLoading(false);
       });
 
-    // Contacts.getCount().then((count) => {
-    //   setSearchPlaceholder(`Search ${count} contacts`);
-    // });
     // Contacts.checkPermission();
   };
 
-  const search = (text) => {
-    const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
-    const emailAddressRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (text === '' || text === null) {
-      this.loadContacts();
-    } else if (phoneNumberRegex.test(text)) {
-      Contacts.getContactsByPhoneNumber(text).then((contacts) => {
-        // this.setState({ contacts });
-        setContacts(contacts);
-      });
-    } else if (emailAddressRegex.test(text)) {
-      Contacts.getContactsByEmailAddress(text).then((contacts) => {
-        // this.setState({ contacts });
-        setContacts(contacts);
-      });
-    } else {
-      Contacts.getContactsMatchingString(text).then((contacts) => {
-        // this.setState({ contacts });
-        setContacts(contacts);
-      });
-    }
-  };
-
-  const onPressContact = (contact) => {
-    var text = typeText;
-    // this.setState({ typeText: null });
-    setTypeText(null);
-    if (text === null || text === '') Contacts.openExistingContact(contact);
-    else {
-      var newPerson = {
-        recordID: contact.recordID,
-        phoneNumbers: [{label: 'mobile', number: text}],
-      };
-      Contacts.editExistingContact(newPerson).then((contact) => {
-        //contact updated
-      });
-    }
-  };
-
-  // const addNew = () => {
-  //   Contacts.openContactForm({}).then(contact => {
-  //     // Added new contact
-  //     // this.setState(({ contacts }) => ({
-  //     //   contacts: [contact, ...contacts],
-  //     //   loading: false
-  //     // }));
-  //     setContacts([contact, ...contacts]),
-  //       setLoading(false)
-  //   })
-  // }
 
   const onSignIn = () => {
     mood.setUsername(username);
@@ -184,9 +93,6 @@ export default function Main({navigation}) {
     setVisible(false);
   };
 
-  const onUserPress = (user) => {
-    console.log(user);
-  };
 
   const getAvatarInitials = (textString) => {
     if (!textString) return '';
@@ -208,37 +114,12 @@ export default function Main({navigation}) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  const test =()=>{
-    console.log(users)
-  }
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <View
-          style={{
-            paddingLeft: 100,
-            paddingRight: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}></View>
-        {/* <Button title="Add new" onPress={() => addNew()} /> */}
-
-        {/* <SearchBar
-          searchPlaceholder={searchPlaceholder}
-          onChangeText={search}
-        /> */}
-        {/* 
-        <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-          <TextInput
-            keyboardType='number-pad'
-            style={styles.inputStyle}
-            placeholder='Enter number to add to contact'
-            onChangeText={text => setTypeText(text)}
-            value={typeText}
-          />
-        </View> */}
+        <View style={styles.viewContainer}></View>
 
         {/* this is my users from FireBase */}
         {loading === true ? (
@@ -262,24 +143,14 @@ export default function Main({navigation}) {
               <Text style={styles.userUsername}>{user.username}</Text>
             </TouchableOpacity>
           )}</ScrollView>
-        )
-        }
+        )}
 
-        <View
-          style={{
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            flex: 1,
-            marginBottom: 50,
-            marginRight: 30,
-          }}>
+        <View style={styles.editMoodView}>
           <Icon
             onPress={() => navigation.navigate('EditMood')}
             name="create-outline"
             size={50}
-            color="#373737"
-          />
-          {/* <Button title="check" onPress={test} /> */}
+            color="#373737"/>
         </View>
       </SafeAreaView>
     </>
@@ -363,6 +234,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     borderColor: '#d3dbd4'
+  },
+  viewContainer: {
+    paddingLeft: 100,
+    paddingRight: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  editMoodView:{
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    flex: 1,
+    marginBottom: 50,
+    marginRight: 30,
   },
   userProfileImage: {borderRadius: 45, height: 50, width: 50},
   userUsername: {marginLeft: 20, fontSize: 15},
