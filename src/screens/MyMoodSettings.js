@@ -46,7 +46,7 @@ export default function MyMoodSettings() {
   const [updated, setUpdated] = React.useState(false)
 
   useEffect(() => {
-    firestore()
+    const subscriber = firestore()
       .collection('users')
       .onSnapshot((docs) => {
         docs.forEach((doc) => {
@@ -68,9 +68,7 @@ export default function MyMoodSettings() {
           }
         });
       });
-      return () =>{
-        setUser([])
-      }
+      return() => subscriber();
   }, []);
 
   const submit = () => {
