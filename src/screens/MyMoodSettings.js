@@ -43,6 +43,7 @@ export default function MyMoodSettings() {
   const [imageIsUploaded, setImageIsUploaded] = React.useState(false);
   const [transferred, setTransferred] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [updated, setUpdated] = React.useState(false)
 
   useEffect(() => {
     firestore()
@@ -61,7 +62,8 @@ export default function MyMoodSettings() {
               setMessage(user.message);
               setleftSideMessage(user.leftSideMessage),
               setrightSideMessage(user.rightSideMessage);
-              setIsLoading(false);
+              setIsLoading(false)
+              setUpdated(user.updated)
             });
           }
         });
@@ -83,6 +85,7 @@ export default function MyMoodSettings() {
         leftSideMessage: leftSideMessage,
         rightSideMessage: rightSideMessage,
         username: username,
+        updated: true
       };
       firestore().collection('users').doc(userId).update(userObject);
       showMessage({
@@ -135,6 +138,7 @@ export default function MyMoodSettings() {
         leftSideMessage: leftSideMessage,
         rightSideMessage: rightSideMessage,
         username: username,
+        updated: true
       };
       firestore().collection('users').doc(userId).update(userObject);
     });
@@ -220,7 +224,12 @@ export default function MyMoodSettings() {
                 </TouchableOpacity> */}
 
             <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
-
+                {/* {updated ? (
+                  <Text>true</Text>
+                ): (
+                  <Text>false</Text>
+                )} */}
+                
             {/* username */}
             <TouchableOpacity onPress={() => setVisible(true)}>
               <Text style={styles.username}>{username}</Text>

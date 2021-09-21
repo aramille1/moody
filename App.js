@@ -25,7 +25,8 @@ export default class App extends Component {
         user: {
           uid: '',
           phoneNumber: null
-        }
+        },
+        updated: false
       },
       initializing: true,
 
@@ -65,7 +66,8 @@ export default class App extends Component {
               user: {
                 uid: auth()._user._user.uid,
                 phoneNumber: auth()._user._user.phoneNumber
-              }
+              },
+              updated: this.state.moodObj.updated
             }).then((data) => {
               console.log('User fields initialized', data)
             })
@@ -95,6 +97,7 @@ export default class App extends Component {
       leftSideMessage: obj.leftSideMessage,
       rightSideMessage: obj.rightSideMessage,
       username: obj.username,
+      updated:obj.updated
     }
   }))
 

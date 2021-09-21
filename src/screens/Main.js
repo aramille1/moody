@@ -16,7 +16,7 @@ import {
 import Contacts from 'react-native-contacts';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import {MoodContext} from '../../App';
+// import {MoodContext} from '../../App';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -25,17 +25,17 @@ const wait = (timeout) => {
 };
 
 export default function Main({navigation}) {
-  mood = React.useContext(MoodContext);
+  // const mood = React.useContext(MoodContext);
 
   const [contacts, setContacts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [username, setUsername] = React.useState('username');
   const [users, setUsers] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [userId, setUserId] = React.useState()
 
   useEffect(() => {
-    setUsers([])
-    setContacts([])
+
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
@@ -45,6 +45,10 @@ export default function Main({navigation}) {
       });
     } else {
       getUsers();
+    }
+    return () =>{
+      setUsers([])
+      setContacts([])
     }
   }, [refreshing]);
 
@@ -66,6 +70,9 @@ export default function Main({navigation}) {
           .get()
           .then((docs) => {
             docs.forEach((user) => {
+              if (user.data().user.phoneNumber === auth()._user._user.phoneNumber){
+                setUserId(user.id);
+              }
               if (
                 numbers.includes(user.data().user.phoneNumber) &&
                 user.data().user.phoneNumber != auth()._user._user.phoneNumber
@@ -135,12 +142,23 @@ export default function Main({navigation}) {
             />
           }
           >{users.map((user, index) =>
-            <TouchableOpacity style={styles.userTouchable} key={index} onPress={() => navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })}>
+            <TouchableOpacity style={user.updated ? styles.userTouchableUpdated : styles.userTouchable} key={index} onPress={() => {
+              navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })
+              firestore().collection('users').doc(userId).update({
+                updated:false
+              });
+              user.updated = false
+            }}>
               <Image
                 source={{ uri: user.image }}
                 style={styles.userProfileImage}>
               </Image>
               <Text style={styles.userUsername}>{user.username}</Text>
+              {user.updated ? (
+                <Text style={{color: '#e84f4f91', position:'relative', left:140}}> new mood!</Text>
+              ):(
+                <></>
+              )}
             </TouchableOpacity>
           )}</ScrollView>
         )}
@@ -230,10 +248,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 20,
-    marginTop: 10,
+    paddingTop: 10,
     borderBottomWidth: 1,
     paddingBottom: 10,
-    borderColor: '#d3dbd4'
+    borderColor: '#d3dbd4',
+  },
+  userTouchableUpdated:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 20,
+    paddingTop: 10,
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    borderColor: '#d3dbd4',
+    backgroundColor:'#efa9a926'
   },
   viewContainer: {
     paddingLeft: 100,
