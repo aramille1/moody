@@ -65,10 +65,9 @@ export default function Main({navigation}) {
           });
         });
         setContacts(numbers);
-        firestore()
+        const subscriber = firestore()
           .collection('users')
-          .get()
-          .then((docs) => {
+          .onSnapshot(docs =>{
             docs.forEach((user) => {
               if (user.data().user.phoneNumber === auth()._user._user.phoneNumber){
                 setUserId(user.id);
@@ -83,13 +82,14 @@ export default function Main({navigation}) {
             });
             setUsers(tempUsers);
             setLoading(false);
-          });
+          })
+          return () => subscriber()
         })
       .catch((e) => {
         setLoading(false);
       });
 
-    // Contacts.checkPermission();
+    Contacts.checkPermission();
   };
 
 
