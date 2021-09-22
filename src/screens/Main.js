@@ -32,33 +32,26 @@ export default function Main({navigation}) {
   const [username, setUsername] = React.useState('username');
   const [users, setUsers] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
-  const [userId, setUserId] = React.useState()
+  const [userId, setUserId] = React.useState();
+  const [usersWithId, setUsersWithId] = React.useState([]);
 
   useEffect(() => {
-
+    
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
         message: 'This app would like to view your contacts.',
-      }).then(() => {
-        getUsers();
-      });
+      }).then(() => getUsers());
     } else {
       getUsers();
-    }
-    return () =>{
-      setUsers([])
-      setContacts([])
     }
   }, [refreshing]);
 
   const getUsers = () => {
     let numbers = [];
-    let tempUsers = [];
-
     Contacts.getAll()
-      .then((contacts) => {
-        contacts.forEach((contact) => {
+      .then((kontakts) => {
+        kontakts.forEach((contact) => {
           contact.phoneNumbers.forEach((num) => {
             let trimmedNum = num.number.replace(/\s/g, '');
             numbers.push(trimmedNum);
@@ -67,31 +60,38 @@ export default function Main({navigation}) {
         setContacts(numbers);
         const subscriber = firestore()
           .collection('users')
-          .onSnapshot(docs =>{
+          .onSnapshot((docs) => {
+            let tempUsers = [];
+            let tempUsersWithId = [];
             docs.forEach((user) => {
-              if (user.data().user.phoneNumber === auth()._user._user.phoneNumber){
+              tempUsersWithId.push(user);
+              if (
+                user.data().user.phoneNumber ===
+                auth()._user._user.phoneNumber
+              ) {
                 setUserId(user.id);
               }
               if (
                 numbers.includes(user.data().user.phoneNumber) &&
-                user.data().user.phoneNumber != auth()._user._user.phoneNumber
+                user.data().user.phoneNumber !=
+                  auth()._user._user.phoneNumber
               ) {
                 tempUsers.push(user.data());
-                console.log('includes!');
+                console.log('includes!', user.id);
               }
             });
+            setUsersWithId(tempUsersWithId);
             setUsers(tempUsers);
             setLoading(false);
-          })
-          return () => subscriber()
-        })
+          });
+        return () => subscriber();
+      })
       .catch((e) => {
         setLoading(false);
       });
 
-    Contacts.checkPermission();
+    // Contacts.checkPermission();
   };
-
 
   const onSignIn = () => {
     mood.setUsername(username);
@@ -99,7 +99,6 @@ export default function Main({navigation}) {
     console.log(mood.moodObj, 'moodObj');
     setVisible(false);
   };
-
 
   const getAvatarInitials = (textString) => {
     if (!textString) return '';
@@ -121,6 +120,16 @@ export default function Main({navigation}) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const updateMood = (user) => {
+    usersWithId.forEach((u) => {
+      if (user.user.phoneNumber === u.data().user.phoneNumber) {
+        const subscribe = firestore().collection('users').doc(u.id).update({
+          updated: false,
+        });
+        return () => subscribe();
+      }
+    });
+  };
 
   return (
     <>
@@ -135,32 +144,44 @@ export default function Main({navigation}) {
           </View>
         ) : (
           <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-          >{users.map((user, index) =>
-            <TouchableOpacity style={user.updated ? styles.userTouchableUpdated : styles.userTouchable} key={index} onPress={() => {
-              navigation.navigate('OtherMood', { screen: 'OtherMood', params: { user } })
-              firestore().collection('users').doc(userId).update({
-                updated:false
-              });
-              user.updated = false
-            }}>
-              <Image
-                source={{ uri: user.image }}
-                style={styles.userProfileImage}>
-              </Image>
-              <Text style={styles.userUsername}>{user.username}</Text>
-              {user.updated ? (
-                <Text style={{color: '#e84f4f91', position:'relative', left:140}}> new mood!</Text>
-              ):(
-                <></>
-              )}
-            </TouchableOpacity>
-          )}</ScrollView>
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+            {users.map((user, index) => (
+              <TouchableOpacity
+                style={
+                  user.updated
+                    ? styles.userTouchableUpdated
+                    : styles.userTouchable
+                }
+                key={index}
+                onPress={() => {
+                  navigation.navigate('OtherMood', {
+                    screen: 'OtherMood',
+                    params: {user},
+                  });
+                  updateMood(user);
+                }}>
+                <Image
+                  source={{uri: user.image}}
+                  style={styles.userProfileImage}></Image>
+                <Text style={styles.userUsername}>{user.username}</Text>
+                {user.updated ? (
+                  <Text
+                    style={{
+                      color: '#e84f4f91',
+                      position: 'relative',
+                      marginLeft: 10
+                    }}>
+                    {' '}
+                    new mood!
+                  </Text>
+                ) : (
+                  <></>
+                )}
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         )}
 
         <View style={styles.editMoodView}>
@@ -168,7 +189,8 @@ export default function Main({navigation}) {
             onPress={() => navigation.navigate('EditMood')}
             name="create-outline"
             size={50}
-            color="#373737"/>
+            color="#373737"
+          />
         </View>
       </SafeAreaView>
     </>
@@ -253,7 +275,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderColor: '#d3dbd4',
   },
-  userTouchableUpdated:{
+  userTouchableUpdated: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 20,
@@ -261,7 +283,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     borderColor: '#d3dbd4',
-    backgroundColor:'#efa9a926'
+    backgroundColor: '#efa9a926',
   },
   viewContainer: {
     paddingLeft: 100,
@@ -269,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  editMoodView:{
+  editMoodView: {
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     flex: 1,
