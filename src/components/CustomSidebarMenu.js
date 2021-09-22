@@ -48,7 +48,7 @@ const CustomSidebarMenu = (props) => {
   const proileImage = 'react_logo.png';
   let theuser = user[0]
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:'#16376b' }}>
       {/*Top Large Image */}
       {/* <Image
         source={{ uri: BASE_PATH + proileImage }}
@@ -58,7 +58,7 @@ const CustomSidebarMenu = (props) => {
                             source={{
                                 uri: image,
                             }}
-                            style={{ height: 100, width: 100, alignSelf: 'center' }}
+                            style={{ height: 100, width: 100, alignSelf: 'center', marginTop: 30 }}
                             imageStyle={{ borderRadius: 15 }}>
                             <View
                                 style={{
@@ -82,7 +82,7 @@ const CustomSidebarMenu = (props) => {
                                 /> : null}
                             </View>
                         </ImageBackground>
-      <Text style={{alignSelf:"center", marginVertical: 10}}>{username}</Text>
+      <Text style={{alignSelf:"center", marginVertical: 10, color:'white', fontSize: 25}}>{username}</Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>

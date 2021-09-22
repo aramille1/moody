@@ -153,21 +153,23 @@ const AppDrawer = createDrawerNavigator();
 const AppDrawerScreen = ({ route, navigation }) => (
   <AppDrawer.Navigator
     drawerContentOptions={{
-      activeTintColor: '#2596BE',
-      inactiveTintColor: 'black',
-      itemStyle: { marginVertical: 5 }, //item style in the drawer
+      activeTintColor: 'white',
+      inactiveTintColor: 'white',
+      backgroundColor: '#16376b',
+      
+      itemStyle: { marginVertical: 5, }, //item style in the drawer
     }}
     drawerContent={(props) => <CustomSidebarMenu {...props} />}>
-    <AppDrawer.Screen
-      name="EditMood"
-      options={{ drawerLabel: 'My Mood Settings', }}
-      component={moodScreenStack}
-    />
-
+      
     <AppDrawer.Screen
       name="main"
       options={{ drawerLabel: 'Main' }}
       component={mainScreenStack}
+    />
+    <AppDrawer.Screen
+      name="EditMood"
+      options={{ drawerLabel: 'My Mood Settings', }}
+      component={moodScreenStack}
     />
     <AppDrawer.Screen
       name="OtherMood"

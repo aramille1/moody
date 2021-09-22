@@ -248,8 +248,8 @@ export default function MyMoodSettings() {
                     step={1}
                     containerStyle={{
                       height: 30,
-                      borderColor: 'black',
-                      borderWidth: 1,
+                      // borderColor: 'black',
+                      // borderWidth: 1,
                     }}
                     trackStyle={{
                       height: 50,
