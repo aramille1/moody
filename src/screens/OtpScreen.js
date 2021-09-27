@@ -20,7 +20,7 @@ import {isAndroid} from '../components/HelperFunctions';
 import CustomText from '../components/CustomText';
 import CustomTextInput from '../components/CustomTextInput';
 import FullButtonComponent from '../components/FullButtonComponent';
-import {MoodContext} from '../../App';
+// import {MoodContext} from '../../App';
 const RESEND_OTP_TIME_LIMIT = 90;
 const OTPScreen = function ({
   route: {
@@ -28,7 +28,7 @@ const OTPScreen = function ({
   },
   navigation,
 }) {
-  const mood = useContext(MoodContext);
+  // const mood = useContext(MoodContext);
   
   const [otpArray, setOtpArray] = useState(['', '', '', '']);
   const [submittingOtp, setSubmittingOtp] = useState(true);

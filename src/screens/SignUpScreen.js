@@ -15,10 +15,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import Feather from 'react-native-vector-icons/Feather';
 // import AvatarImagePicker from '../MyMoodSettings/Modal/AvatarImagePicker';
-import { MoodContext } from '../../App';
 
 const SignUnScreen = ({navigation}) => {
-    const mood = useContext(MoodContext)
 
     const [username, setUsername] = React.useState('')
 

@@ -114,7 +114,7 @@ export default function AvatarImagePicker({setImageProp, imageIsUploaded}) {
     <>
       <BottomSheet
         ref={sheetRef}
-        snapPoints={[420, -200]}
+        snapPoints={[335, -200]}
         renderContent={renderInner}
         renderHeader={renderHeader}
         callbackNode={fall}
@@ -123,11 +123,15 @@ export default function AvatarImagePicker({setImageProp, imageIsUploaded}) {
       />
       <Animated.View
         style={{
-          // margin: 20,
+          // marginBottom: 40,
+          alignSelf:'flex-end',
+          marginTop: 11,
+          marginRight: 20,
           opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
         }}>
         <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
-          <Image style={{width: 55, height: 55}} source={uploadImg} />
+          <Icon name="camera-outline" size={30} />
+          {/* <Image style={{width: 40, height: 40}} source={uploadImg} /> */}
           {/* <Text style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10,padding: 7,}}>upload photo</Text> */}
         </TouchableOpacity>
       </Animated.View>

@@ -27,6 +27,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import storage from '@react-native-firebase/storage';
 import CustomLabel from '../components/CustomLabel';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AddMessage from '../components/AddMessage';
 
 export default function MyMoodSettings() {
   const [image, setImage] = React.useState();
@@ -44,6 +46,7 @@ export default function MyMoodSettings() {
   const [transferred, setTransferred] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [updated, setUpdated] = React.useState(false)
+  const [msg, setMsg] = React.useState('')
 
   useEffect(() => {
     const subscriber = firestore()
@@ -51,6 +54,7 @@ export default function MyMoodSettings() {
       .onSnapshot((docs) => {
         docs.forEach((doc) => {
           if (doc.data().user.phoneNumber === auth()._user._user.phoneNumber) {
+            setMessage(doc.data().message)
             setUserId(doc.id); // recording user's id
             let users = user.slice();
             users.push(doc.data());
@@ -150,6 +154,7 @@ export default function MyMoodSettings() {
 
   const onSignIn = () => {
     mood.setUsername(username);
+
     setVisible(false);
   };
 
@@ -177,25 +182,45 @@ export default function MyMoodSettings() {
           isVisible={visible}
           style={styles.modalStyles}>
           <View style={{marginLeft: 20, marginTop: 30, marginBottom: 0}}>
-            <Text style={{color: '#05375a', fontSize: 30}}>
-              What's your name?
+            <Text style={{color: '#05375a', fontSize: 30, paddingLeft:5}}>
+              Edit Profile
             </Text>
           </View>
           <View style={styles.footer}>
             <ScrollView>
               <View style={styles.actionInModal}>
-                <FontAwesome name="user-o" color="#05375a" size={20} />
+                {/* <FontAwesome name="user-o" color="#05375a" size={20} /> */}
                 <TextInput
                   placeholder="Your Username"
                   style={styles.textInputinModal}
-                  autoCapitalize="none"
+                  // autoCapitalize="none"
                   onChangeText={(val) => setUsername(val)}
                 />
+              </View>
+              <View style={styles.actionInModal2}>
+                <TextInput 
+                  placeholder="Your mood message"
+                  style={styles.textInputinModal}
+                  onChangeText={(val) => setMessage(val)}
+                  />
               </View>
             </ScrollView>
           </View>
 
-            <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
+
+            
+
+          <TouchableOpacity
+                                style={{ ...styles.openButton2, marginTop: 10 }}
+                                onPress={() => setVisible(false)}
+                            >
+                                <Icon name="close-outline" size={30} color="#373737" />
+                            </TouchableOpacity>
+
+
+
+
+                    <TouchableOpacity style={styles.btnSave} onPress={onSignIn}>
               <Text style={styles.textSign}>Save</Text>
 
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
@@ -221,17 +246,21 @@ export default function MyMoodSettings() {
                   </Text>
                 </TouchableOpacity> */}
 
-            <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
-                {/* {updated ? (
-                  <Text>true</Text>
-                ): (
-                  <Text>false</Text>
-                )} */}
-                
-            {/* username */}
-            <TouchableOpacity onPress={() => setVisible(true)}>
-              <Text style={styles.username}>{username}</Text>
+            <TouchableOpacity onPress={() => setVisible(true)} style={{position:'absolute', top:'2%',right: '20%'}}>
+              <Icon name="create-outline" size={30}/>
             </TouchableOpacity>
+            <AvatarImagePicker setImageProp={(image) => setImageFunc(image)} />
+                
+
+            <View>
+            {/* username */}
+            < >
+              <Text style={styles.username}>{username}</Text>
+            </>
+            <View style={{width:300,height: 100, padding: 10, borderRadius: 10,  }}>
+            <Text style={{textAlign:'center'}}>{message}</Text>
+            </View>
+            </View>
 
               <Animatable.View animation="fadeIn">
                 <ImageBackground source={gradient} style={styles.trackBgImage}>
@@ -300,7 +329,7 @@ export default function MyMoodSettings() {
               <>
                 <FlashMessage position="top" floating />
                 <Animatable.View animation="fadeIn">
-                  <View style={{borderRadius: 10, backgroundColor: '#009387'}}>
+                  <View style={{borderRadius: 10, backgroundColor: '#009387', marginBottom:70}}>
                     <TouchableOpacity
                       style={{paddingHorizontal: 140, paddingVertical: 15}}
                       onPress={submit}>
@@ -312,7 +341,7 @@ export default function MyMoodSettings() {
             )}
 
 
-            <View
+            {/* <View
               style={{
                 position: 'absolute',
                 top: 175,
@@ -328,7 +357,7 @@ export default function MyMoodSettings() {
               <SetAvatarMessageModal
                 setMessage={(message) => setMessage(message)}
               />
-            </View>
+            </View> */}
           </>
         )}
       </View>
@@ -341,7 +370,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   modalStyles: {
@@ -387,6 +416,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     paddingBottom: 5,
   },
+  actionInModal2: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 5,
+  },
   textInputinModal: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
@@ -424,10 +460,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   username:{
-    fontSize: 38,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#4f6367',
-    marginBottom: 50,
+    color: '#000',
+    textAlign: 'center',
+    paddingBottom: 10
   },
   leftsideMsg:{
     flex: 1,
@@ -451,5 +488,33 @@ const styles = StyleSheet.create({
     width: 90,
     borderWidth: 1,
     borderColor: '#05375a',
-  }
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    marginHorizontal: 22,
+},
+modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+},
+openButton2: {
+    position: "absolute",
+    top: 0,
+    right: 10
+},
 });

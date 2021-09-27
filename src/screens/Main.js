@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+// import React, {useEffect} from 'react';
+import * as React from 'react';
 import {
   PermissionsAndroid,
   Platform,
@@ -19,6 +20,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 // import {MoodContext} from '../../App';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import OtherMood from './OtherMood';
+import MyMoodSettings from './MyMoodSettings';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -35,8 +38,8 @@ export default function Main({navigation}) {
   const [userId, setUserId] = React.useState();
   const [usersWithId, setUsersWithId] = React.useState([]);
 
-  useEffect(() => {
-    
+  React.useEffect(() => {
+    console.log(auth())
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
@@ -144,6 +147,7 @@ export default function Main({navigation}) {
           </View>
         ) : (
           <ScrollView
+            style={{backgroundColor:'#fff'}}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
@@ -156,7 +160,7 @@ export default function Main({navigation}) {
                 }
                 key={index}
                 onPress={() => {
-                  navigation.navigate('OtherMood', {
+                  navigation.navigate('home', {
                     screen: 'OtherMood',
                     params: {user},
                   });
@@ -183,15 +187,15 @@ export default function Main({navigation}) {
             ))}
           </ScrollView>
         )}
-
+{/* 
         <View style={styles.editMoodView}>
           <Icon
-            onPress={() => navigation.navigate('EditMood')}
+            onPress={() => navigation.navigate('Settings')}
             name="create-outline"
             size={50}
             color="#373737"
           />
-        </View>
+        </View> */}
       </SafeAreaView>
     </>
   );

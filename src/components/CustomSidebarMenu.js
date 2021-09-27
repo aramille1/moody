@@ -19,10 +19,8 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import { MoodContext } from '../../App';
 
 const CustomSidebarMenu = (props) => {
-  const mood = React.useContext(MoodContext)
   const [user, setUser] = React.useState([])
   const [image, setImage] = React.useState()
   const [username, setUsername] = React.useState('username')
