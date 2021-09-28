@@ -21,8 +21,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import OTPScreen from '../screens/OtpScreen';
 import { MoodContext } from '../../App';
 
-const RootStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+
 
 // function HomeScreen({ navigation }) {
 //   return (
@@ -96,16 +95,6 @@ const MyTransition = {
 
 
 
-const RootStackScreen = ({ navigation }) => (
-  <RootStack.Navigator screenOptions={{ headerShown: false }}>
-    <RootStack.Screen name="PhoneNumScreen" component={PhoneNumScreen} />
-    <RootStack.Screen name="OtpScreen" component={OTPScreen} />
-    {/* <RootStack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
-    <RootStack.Screen name="main" component={Main} />
-    {/* <RootStack.Screen name="SignInScreen" component={SignInScreen}/> */}
-
-  </RootStack.Navigator>
-);
 
 // //Structure for the navigatin Drawer
 // const NavigationDrawerStructure = (props) => {
@@ -223,14 +212,6 @@ const RootStackScreen = ({ navigation }) => (
 //   </otherScreenStack.Navigator>
 // )
 
-const mainTabNav = createBottomTabNavigator();
-const HomeStack = createStackNavigator();
-
-// const MainTabNavScreen = ({route, navigation}) => (
-
-// )
-
-
 // const AppDrawer = createDrawerNavigator();
 
 // const AppDrawerScreen = ({ route, navigation }) => (
@@ -272,6 +253,35 @@ const forFade = ({ next }) => ({
   },
 });
 
+
+
+const RootStack = createStackNavigator();
+const RootStackScreen = ({ navigation }) => (
+  <RootStack.Navigator screenOptions={{ headerShown: false }}>
+    <RootStack.Screen name="PhoneNumScreen" component={PhoneNumScreen} />
+    <RootStack.Screen name="OtpScreen" component={OTPScreen} />
+    {/* <RootStack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
+    <RootStack.Screen name="main" component={MainTabNavScreen} />
+    {/* <RootStack.Screen name="SignInScreen" component={SignInScreen}/> */}
+  </RootStack.Navigator>
+);
+const Tab = createBottomTabNavigator();
+
+const HomeStack = createStackNavigator();
+const MainTabNavScreen = ({route, navigation}) => (
+  <Tab.Navigator screenOptions={{ headerShown: false,  tabBarLabel:() => {return null}}}>
+      <Tab.Screen name="home" options={{tabBarIcon:({focused})=>(<Icon name={focused ? "home" : "home-outline"} size={30}/>)}}> 
+        {() => (
+          <HomeStack.Navigator >
+            <HomeStack.Screen name="Moody" component={Main} options={{headerLeft: ()=> null}}/>
+            <HomeStack.Screen name="OtherMood" component={OtherMood}  options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,  }}/>
+          </HomeStack.Navigator>
+        )}
+      </Tab.Screen>  
+      <Tab.Screen name="Settings" component={MyMoodSettings} options={{tabBarIcon: ({focused }) => (<Icon name={focused ? "settings" : "settings-outline"} size={30}/> )}}/>
+  </Tab.Navigator>
+)
+
 export default () => {
   // const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState();
@@ -294,25 +304,7 @@ export default () => {
 
   return (
     <NavigationContainer>
-      {user ? (
-          <mainTabNav.Navigator screenOptions={{ headerShown: false,  tabBarLabel:() => {return null}}}>
-          <mainTabNav.Screen name="home" options={{tabBarIcon:({focused})=>(
-            <Icon name={focused ? "home" : "home-outline"} size={30}/>
-          )}}> 
-        {() => (
-            <HomeStack.Navigator >
-            <HomeStack.Screen name="Moody" component={Main}/>
-            <HomeStack.Screen name="OtherMood" component={OtherMood}  options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,  }}/>
-          </HomeStack.Navigator>
-          )}
-        </mainTabNav.Screen>
-        <mainTabNav.Screen name="Settings" component={MyMoodSettings} options={{tabBarIcon: ({focused }) => (
-                    <Icon name={focused ? "settings" : "settings-outline"} size={30}/>
-                  )}}/>
-        
-        
-          </mainTabNav.Navigator>
-      ): <RootStackScreen/>}
+      {user ? <MainTabNavScreen/> : <RootStackScreen/>}
     </NavigationContainer>
             
 )

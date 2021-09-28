@@ -123,13 +123,13 @@ const onResendOtpButtonPress = () => {
       const code = otpArray.join('');
       const response = await confirm.confirm(otp);
       if (response) {
-        navigation.navigate('main');
+        navigation.replace('main');
         // mood.setOtpConfirmation(true)
       }
     } catch (e) {
       // alert(JSON.stringify(e));
       // alert('code is wrong!')
-      navigation.navigate('main');
+      navigation.replace('main');
     }
   }
   const onOtpChange = (index) => {

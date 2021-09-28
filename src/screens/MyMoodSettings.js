@@ -10,6 +10,7 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
+  BackHandler
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import auth, {firebase} from '@react-native-firebase/auth';
@@ -30,7 +31,7 @@ import CustomLabel from '../components/CustomLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AddMessage from '../components/AddMessage';
 
-export default function MyMoodSettings() {
+export default function MyMoodSettings({navigation}) {
   const [image, setImage] = React.useState();
   const [message, setMessage] = React.useState('empty message');
   const [tempSliderValues, setTempSliderValues] = React.useState([8]);
@@ -46,9 +47,10 @@ export default function MyMoodSettings() {
   const [transferred, setTransferred] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [updated, setUpdated] = React.useState(false)
-  const [msg, setMsg] = React.useState('')
+  const [logedout, setLogedout] = React.useState(false)
 
   useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
     const subscriber = firestore()
       .collection('users')
       .onSnapshot((docs) => {
@@ -72,7 +74,10 @@ export default function MyMoodSettings() {
           }
         });
       });
-      return() => subscriber();
+      return() => {
+        subscriber();
+        backHandler.remove()
+      }
   }, []);
 
   const submit = () => {
@@ -150,6 +155,7 @@ export default function MyMoodSettings() {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
+      navigation.navigate('PhoneNumScreen');
   };
 
   const onSignIn = () => {

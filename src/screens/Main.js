@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  BackHandler
 } from 'react-native';
 import Contacts from 'react-native-contacts';
 
@@ -39,15 +40,18 @@ export default function Main({navigation}) {
   const [usersWithId, setUsersWithId] = React.useState([]);
 
   React.useEffect(() => {
-    console.log(auth())
-    if (Platform.OS === 'android') {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-        title: 'Contacts',
-        message: 'This app would like to view your contacts.',
-      }).then(() => getUsers());
-    } else {
-      getUsers();
-    }
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+    setTimeout(function(){
+      if (Platform.OS === 'android') {
+        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+          title: 'Contacts',
+          message: 'This app would like to view your contacts.',
+        }).then(() => getUsers());
+      } else {
+        getUsers();
+      }
+    }, 1000)
+    return () => backHandler.remove()
   }, [refreshing]);
 
   const getUsers = () => {

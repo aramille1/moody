@@ -150,13 +150,13 @@ export default function OtherMood({ route, navigation }) {
 
                 </View>
                 {/* end of mood slider*/}
-                <View style={{
+                {/* <View style={{
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
                     marginBottom: 50,
                 }}>
                     <Icon onPress={() => navigation.navigate('main')} name="chevron-back-circle-outline" size={50} color="#4f6367" />
-                </View>
+                </View> */}
             </View>
 
 

@@ -16,7 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const PhoneNumScreen = ({ navigation }) => {
     const { colors } = useTheme();
-    const [phoneNumber, addPhoneNumber] = React.useState('+49');
+    const [phoneNumber, addPhoneNumber] = React.useState('+10123456789');
 
     const GetOTP = () => {
         console.log(phoneNumber)
