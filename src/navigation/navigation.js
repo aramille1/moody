@@ -274,7 +274,7 @@ const MainTabNavScreen = ({route, navigation}) => (
         {() => (
           <HomeStack.Navigator >
             <HomeStack.Screen name="Moody" component={Main} options={{headerLeft: ()=> null}}/>
-            <HomeStack.Screen name="OtherMood" component={OtherMood}  options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,  }}/>
+            <HomeStack.Screen name="OtherMood" component={OtherMood} options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, headerTitle:() => null }}/>
           </HomeStack.Navigator>
         )}
       </Tab.Screen>  
