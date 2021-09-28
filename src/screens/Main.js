@@ -40,8 +40,8 @@ export default function Main({navigation}) {
   const [usersWithId, setUsersWithId] = React.useState([]);
 
   React.useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
-    setTimeout(function(){
+    // const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+    // setTimeout(function(){
       if (Platform.OS === 'android') {
         PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
           title: 'Contacts',
@@ -50,8 +50,8 @@ export default function Main({navigation}) {
       } else {
         getUsers();
       }
-    }, 1000)
-    return () => backHandler.remove()
+    // }, 1000)
+    // return () => backHandler.remove()
   }, [refreshing]);
 
   const getUsers = () => {
@@ -79,9 +79,10 @@ export default function Main({navigation}) {
                 setUserId(user.id);
               }
               if (
-                numbers.includes(user.data().user.phoneNumber) &&
-                user.data().user.phoneNumber !=
-                  auth()._user._user.phoneNumber
+                numbers.includes(user.data().user.phoneNumber) 
+                // &&
+                // user.data().user.phoneNumber !=
+                //   auth()._user._user.phoneNumber
               ) {
                 tempUsers.push(user.data());
                 console.log('includes!', user.id);
@@ -177,7 +178,7 @@ export default function Main({navigation}) {
                 {user.updated ? (
                   <Text
                     style={{
-                      color: '#e84f4f91',
+                      color: '#ff2121',
                       position: 'relative',
                       marginLeft: 10
                     }}>
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     borderColor: '#d3dbd4',
-    backgroundColor: '#efa9a926',
+    backgroundColor: '#f3f3f3',
   },
   viewContainer: {
     paddingLeft: 100,

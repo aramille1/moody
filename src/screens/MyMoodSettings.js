@@ -155,7 +155,7 @@ export default function MyMoodSettings({navigation}) {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
-      navigation.navigate('PhoneNumScreen');
+      
   };
 
   const onSignIn = () => {
@@ -240,17 +240,9 @@ export default function MyMoodSettings({navigation}) {
           </View>
         ) : (
           <>
-            {/* <TouchableOpacity onPress={logout}>
-                  <Text
-                    style={{
-                      borderWidth: 1,
-                      borderColor: 'grey',
-                      borderRadius: 10,
-                      padding: 7,
-                    }}>
-                    Logout
-                  </Text>
-                </TouchableOpacity> */}
+            <TouchableOpacity onPress={logout} style={{position: 'absolute', top:'2.5%', right: '35%'}}>
+            <Icon name="log-out-outline" size={30}/>
+                </TouchableOpacity>
 
             <TouchableOpacity onPress={() => setVisible(true)} style={{position:'absolute', top:'2%',right: '20%'}}>
               <Icon name="create-outline" size={30}/>
