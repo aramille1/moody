@@ -260,9 +260,7 @@ export default function MyMoodSettings({navigation}) {
 
             <View>
             {/* username */}
-            < >
               <Text style={styles.username}>{username}</Text>
-            </>
             <View style={{width:300,height: 100, padding: 10, borderRadius: 10,  }}>
             <Text style={{textAlign:'center'}}>{message}</Text>
             </View>
@@ -335,7 +333,7 @@ export default function MyMoodSettings({navigation}) {
               <>
                 <FlashMessage position="top" floating />
                 <Animatable.View animation="fadeIn">
-                  <View style={{borderRadius: 10, backgroundColor: '#009387', marginBottom:70}}>
+                  <View style={{borderRadius: 10, backgroundColor: '#009387', marginBottom:40}}>
                     <TouchableOpacity
                       style={{paddingHorizontal: 140, paddingVertical: 15}}
                       onPress={submit}>
