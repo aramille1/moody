@@ -80,9 +80,9 @@ export default function Main({navigation}) {
               }
               if (
                 numbers.includes(user.data().user.phoneNumber) 
-                // &&
-                // user.data().user.phoneNumber !=
-                //   auth()._user._user.phoneNumber
+                &&
+                user.data().user.phoneNumber !=
+                  auth()._user._user.phoneNumber
               ) {
                 tempUsers.push(user.data());
                 console.log('includes!', user.id);

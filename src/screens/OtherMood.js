@@ -90,9 +90,11 @@ export default function OtherMood({route, navigation}) {
             {user.username}
           </Text>
           <View
-            style={{width: 300, height: 100, padding: 10, borderRadius: 10, marginTop: 10}}>
+            style={{width: 300,  padding: 10, borderRadius: 10, marginTop: 10}}>
             <Text style={{textAlign: 'center'}}>{user.message}</Text>
           </View>
+
+          {user.gif ? <Image style={styles.gifonMoodSettings} source={{uri: user.gif}} /> : null}
 
           {/* end of User image */}
         </View>
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100,
+    marginBottom: 60,
   },
   leftAndRightContainer: {
     flexDirection: 'row',
@@ -226,5 +228,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 10,
     textAlign: 'center',
+  },
+  gifonMoodSettings: {
+    width: 200,
+    height: 100,
+    alignSelf:'center',
+    marginTop:20
   },
 });
