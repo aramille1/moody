@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import auth, {firebase} from '@react-native-firebase/auth';
+import PushNotification from "react-native-push-notification";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import FlashMessage, {showMessage} from 'react-native-flash-message';
 import LeftSideMessageModal from '../components/Modal/LeftSideMessageModal';
@@ -205,6 +206,14 @@ export default function MyMoodSettings({navigation}) {
   const onGifLongPress = (gif_url, gif_object) => {
     alert(gif_url);
   };
+
+  const handleNotifications = () =>{
+    PushNotification.localNotification({
+      channelId:"test-channel",
+      title:"You got notification from " + auth()._user._user.phoneNumber,
+      message: 'user updated the mood'
+    })
+  }
 
   return (
     <>
@@ -429,6 +438,9 @@ export default function MyMoodSettings({navigation}) {
                       onPress={submit}>
                       <Text style={{fontSize: 18, color: '#fff'}}>Save</Text>
                     </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={handleNotifications}>
+                      <Text>Send Notification</Text>
+                    </TouchableOpacity> */}
                   </View>
                 </Animatable.View>
               </>

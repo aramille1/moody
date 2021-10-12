@@ -16,6 +16,7 @@ import {
   BackHandler
 } from 'react-native';
 import Contacts from 'react-native-contacts';
+import PushNotification from "react-native-push-notification";
 
 import Icon from 'react-native-vector-icons/Ionicons';
 // import {MoodContext} from '../../App';
@@ -23,6 +24,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import OtherMood from './OtherMood';
 import MyMoodSettings from './MyMoodSettings';
+import messaging from '@react-native-firebase/messaging';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -38,8 +40,54 @@ export default function Main({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [userId, setUserId] = React.useState();
   const [usersWithId, setUsersWithId] = React.useState([]);
+  const [notification, setNotification] = React.useState({
+    title: undefined,
+    body: undefined,
+    image: undefined,
+  });
+
+  const getToken = async () => {
+    const token = await messaging().getToken();
+    console.log('.........................: ', token);
+  };
 
   React.useEffect(() => {
+    // createChannels()
+    getToken();
+    messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      setNotification({
+        title: remoteMessage.notification.title,
+        body: remoteMessage.notification.body,
+        image: remoteMessage.notification.android.imageUrl,
+      });
+    });
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log('onNotificationOpenedApp: ', JSON.stringify(remoteMessage));
+      setNotification({
+        title: remoteMessage.notification.title,
+        body: remoteMessage.notification.body,
+        image: remoteMessage.notification.android.imageUrl,
+      });
+    });
+
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            JSON.stringify(remoteMessage),
+          );
+          setNotification({
+            title: remoteMessage.notification.title,
+            body: remoteMessage.notification.body,
+            image: remoteMessage.notification.android.imageUrl,
+          });
+        }
+      });
+
     // const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
     // setTimeout(function(){
       if (Platform.OS === 'android') {
@@ -73,8 +121,9 @@ export default function Main({navigation}) {
             docs.forEach((user) => {
               tempUsersWithId.push(user);
               if (
-                user.data().user.phoneNumber ===
-                auth()._user._user.phoneNumber
+                user.data().user.phoneNumber 
+                // ===
+                // auth()._user._user.phoneNumber
               ) {
                 setUserId(user.id);
               }
@@ -100,6 +149,8 @@ export default function Main({navigation}) {
 
     // Contacts.checkPermission();
   };
+
+
 
   const onSignIn = () => {
     mood.setUsername(username);
@@ -138,6 +189,13 @@ export default function Main({navigation}) {
       }
     });
   };
+
+  const createChannels = () =>{
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel'
+    })
+  }
 
   return (
     <>

@@ -16,6 +16,8 @@ target 'moodyapp' do
 
   pod 'ReactNativeCameraKit', :path => '../node_modules/react-native-camera-kit'
 
+  pod 'RNFBMessaging', :path => '../node_modules/@react-native-firebase/messaging'
+
   target 'moodyappTests' do
     inherit! :complete
     # Pods for testing
